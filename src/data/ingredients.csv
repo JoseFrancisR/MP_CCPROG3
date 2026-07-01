@@ -1,0 +1,14 @@
+STRAWBERRY, true, 125, 25
+ORANGE, true, 80, 40
+LEMON, true, 50, 25
+BANANA, true, 75, 50
+MANGO, true, 90, 30
+PINEAPPLE, true, 240, 120
+KIWI, true, 200, 80
+BLUEBERRY, true, 120, 20
+COCONUT, true, 180, 90
+SYRUP BASE, false, 50, 10
+BUBBLE BASE, false, 80, 20
+PERFUME BASE, false, 250, 50
+MILK BASE, false, 60, 15
+LOTION BASE, false, 150, 25

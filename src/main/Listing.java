@@ -49,7 +49,23 @@ public class Listing {
      * @return true when the transaction succeeds
      */
     public boolean purchase(Player player) {
-        // code here
+        if (available) {
+            if (isCauldron) {
+                if (player.getCrystals() >= unitPrice) {
+                    player.getInventory().addCauldron();
+                    player.spendCrystals(unitPrice);
+                    markSold();
+                    return true;
+                }
+            } else {
+                if (player.getCrystals() >= unitPrice * quantity) {
+                    player.getInventory().addIngredient(ingredient, quantity);
+                    player.spendCrystals(unitPrice * quantity);
+                    markSold();
+                    return true;
+                }
+            }
+        }
         return false;
     }
 

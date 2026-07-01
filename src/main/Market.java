@@ -49,7 +49,7 @@ public class Market {
     /** Replaces the existing listings when a refresh condition is met. */
     public void refresh() {
         listings.clear();
-        generateListings(ingredients);
+        generateListings(Ingredient.loadIngredients());
     }
 
     /**
@@ -60,7 +60,8 @@ public class Market {
      */
     public void buyMultiple(Player player, ArrayList<Integer> slotNumbers) {
         for (Integer slot : slotNumbers) {
-
+            Listing listing = listings.get(slot);
+            listing.purchase(player);
         }
     }
 
@@ -92,7 +93,7 @@ public class Market {
     public ArrayList<Listing> getAvailableListings() {
         int i;
         ArrayList<Listing> availListing = new ArrayList<>();
-        for (Listing listing : listing) {
+        for (Listing listing : listings) {
             if (listing.isAvailable()) {
                 availListing.add(listing);
             }

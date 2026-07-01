@@ -1,7 +1,7 @@
 package src.main;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -22,12 +22,12 @@ public class Save {
         File targetFile = new File(curDirectory.getParentFile(), "data/saves/" + name);
 
         try {
-            File actuaFile = targetFile.getCanonicalFile;
-            if (actualFile.isFile() && actualFile.exists) {
+            File actualFile = targetFile.getCanonicalFile();
+            if (actualFile.isFile() && actualFile.exists()) {
                 System.out.println("Save exists");
                 return true;
             }
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             System.out.println("ERROR: in finding the file due to " + e.getMessage());
         }
         System.out.println("Save doesn't exists");
@@ -48,6 +48,7 @@ public class Save {
     /**
      * Loads a player from the formatted text save file.
      *
+     * @param scanner save-file scanner
      * @param name player/save name
      * @return loaded player, or null when loading fails
      */
@@ -56,18 +57,26 @@ public class Save {
         File targetFile = new File(curDirectory.getParentFile(), "data/saves/" + name);
         String playerName;
         int playerCrystal;
-        Inventory = new Inventory();
+        Inventory inventory = new Inventory();
         RecipeBook recipe = new RecipeBook();
 
         try {
-            File actuaFile = targetFile.getCanonicalFile;
-            if (actualFile.isFile() && actualFile.exists) {
+            File actualFile = targetFile.getCanonicalFile();
+            if (actualFile.isFile() && actualFile.exists()) {
                 while (scanner.hasNextLine()) {
-
+                    String line = scanner.nextLine();
+                    if (line.startsWith("NAME = ")) {
+                        playerName = line.substring(7);
+                    } else if (line.startsWith("CRYSTALS = ")) {
+                        playerCrystal = Integer.parseInt(line.substring(11));
+                    }
+                    // code for reading player name and crystals
+                    readInventory(scanner, inventory);
+                    recipe.loadUnlockedRecipeIds(readUnlockedRecipeIds(scanner));
                 }
-                return player();
+                return new Player(playerName, playerCrystal, inventory, recipe);
             }
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             System.out.println("ERROR: in finding the file due to " + e.getMessage());
         }
         return null;
@@ -83,16 +92,16 @@ public class Save {
         boolean inputCheck = true;
         int input;
         File curDirectory = new File(".").getAbsoluteFile();
-        File targetFile = new File(curDirectory.getParentFile(), "data/saves/" + name);
+        File targetFile = new File(curDirectory.getParentFile(), "data/saves/" + player.getName());
         try {
-            File actuaFile = targetFile.getCanonicalFile;
+            File actualFile = targetFile.getCanonicalFile();
 
             if (saveExists(player.getName())) {
                 do {
                     inputCheck = true;
                     System.out.println("Do you want to overwrite the save(0-NO / 1-YES)");
                     input = scanner.nextInt();
-                    if (input != 0 || input != 1) {
+                    if (input != 0 && input != 1) {
                         System.out.println("INPUT ONLY 1 or 0");
                         inputCheck = false;
                     }
@@ -105,8 +114,7 @@ public class Save {
                 // writeInventory(PrintWriter writer, Inventory inventory) NOT DONEEE
                 // void writeRecipebook(PrintWriter writer, RecipeBook recipeBook
             }
-
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             System.out.println("ERROR: in writing the file due to " + e.getMessage());
         }
         return false;
@@ -119,7 +127,7 @@ public class Save {
      * @param inventory inventory being populated
      */
     private void readInventory(Scanner scanner, Inventory inventory) {
-
+        // code here
     }
 
     /**
@@ -129,6 +137,7 @@ public class Save {
      * @return unlocked recipe IDs
      */
     private ArrayList<Integer> readUnlockedRecipeIds(Scanner scanner) {
+        // code here
         return new ArrayList<>();
     }
 

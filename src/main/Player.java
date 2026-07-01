@@ -44,10 +44,8 @@ public class Player {
     public Player(String name) {
         this.name = name;
         this.crystals = 5000; // Default starting crystals
-        this.inventory = new Inventory(3,3); 
+        this.inventory = new Inventory(); 
         this.recipes = new RecipeBook();
-        
-        // setup default inventory and recipes if needed
     }
 
     /**

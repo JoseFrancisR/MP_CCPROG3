@@ -36,7 +36,7 @@ public class Brew {
             return false;
         }
         Recipe checkRecipe = player.getRecipebook().findRecipe(base, fruits);
-        if(checkRecipe == NULL) {
+        if(checkRecipe == null) {
             damageCauldron(player);
             return false;
         }

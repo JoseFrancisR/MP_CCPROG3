@@ -28,6 +28,13 @@ public class Inventory {
         this.usableCauldrons = usableCauldrons;
     }
 
+    /** Creates an inventory */
+    public Inventory() {
+        ingredientStacks = new ArrayList<>();
+        this.totalCauldrons = -1;
+        this.usableCauldrons = -1;
+    }
+
     /**
      * Adds an ingredient quantity.
      *
