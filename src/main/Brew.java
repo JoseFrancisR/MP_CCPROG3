@@ -15,21 +15,36 @@ public class Brew {
      * @return true when brewing succeeds
      */
     public boolean brewRecipe(Player player, Recipe recipe) {
-        // code here
-        return false;
+        if(!hasEnoughIngredients(player, recipe)) {
+            return false;
+        }
+        consumeIngredients(player, recipe);
+        sellConcoction(player, recipe);
+        return true;
     }
 
     /**
      * Attempts to discover and brew a creative-mode recipe.
      *
      * @param player active player
-     * @param base selected concoction base
+     * @param base   selected concoction base
      * @param fruits one to three selected fruits
      * @return true when the mixture matches a valid recipe
      */
     public boolean brewCreative(Player player, Ingredient base, ArrayList<Ingredient> fruits) {
-        // code here
-        return false;
+        if(!validateUniqueFruits(fruits)) {
+            return false;
+        }
+        Recipe checkRecipe = player.getRecipebook().findRecipe(base, fruits);
+        if(checkRecipe == NULL) {
+            damageCauldron(player);
+            return false;
+        }
+        if(!hasEnoughIngredients(player, checkRecipe)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -39,8 +54,20 @@ public class Brew {
      * @return true when the selection is valid
      */
     private boolean validateUniqueFruits(ArrayList<Ingredient> fruits) {
-        // code here
-        return false;
+        int i, j;
+        if(fruits.size() < 1 || fruits.size() > 3) {
+            return false;
+        }
+
+        for(i = 0; i < fruits.size(); i++) {
+            for(j = i + 1; j < fruits.size(); j++) {
+                if(fruits.get(i).equals(fruits.get(j))) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -51,8 +78,7 @@ public class Brew {
      * @return true when enough ingredients are available
      */
     private boolean hasEnoughIngredients(Player player, Recipe recipe) {
-        // code here
-        return false;
+        return player.getInventory().hasIngredients(recipe);
     }
 
     /**
@@ -62,7 +88,11 @@ public class Brew {
      * @param recipe brewed recipe
      */
     private void consumeIngredients(Player player, Recipe recipe) {
-        // code here
+        Inventory inventory = player.getInventory();
+
+        for(Ingredient item : recipe.getRequiredIngredients()) {
+            inventory.removeIngredient(item, recipe.getRequiredQuantity(item));
+        }
     }
 
     /**
@@ -72,7 +102,7 @@ public class Brew {
      * @param recipe brewed recipe
      */
     private void sellConcoction(Player player, Recipe recipe) {
-        // code here
+        player.addCrystals(recipe.getSaleValue());
     }
 
     /**
@@ -81,6 +111,6 @@ public class Brew {
      * @param player active player
      */
     private void damageCauldron(Player player) {
-        // code here
+        player.getInventory().damageCauldron();
     }
 }
