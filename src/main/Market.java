@@ -1,6 +1,7 @@
 package src.main;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Manages market generation, buying, and selling.
@@ -25,32 +26,62 @@ public class Market {
      * @param ingredients complete list of fruits and bases
      */
     public void generateListings(ArrayList<Ingredient> ingredients) {
-        // code here
+        listings.clear();
+        Random rand = new Random();
+        int i, qty, price;
+        boolean cauldronExists = false;
+        for (i = 0; i < 8; i++) {
+            if (rand.nextInt(8) == 0 && !cauldronExists) { // Randomly generates a cauldron
+                Listing listing = new Listing(i, null, 1, 3000, true);
+                cauldronExists = true;
+                listings.add(listing);
+            } else {
+                Ingredient ingredient = ingredients.get(rand.nextInt(ingredients.size()));
+                qty = rand.nextInt(5) + 1;
+                price = ingredient.getBuyingPrice();
+                Listing listing = new Listing(i, ingredient, qty, price, false);
+                listings.add(listing);
+            }
+        }
+        generatedThisSession = true;
     }
 
     /** Replaces the existing listings when a refresh condition is met. */
     public void refresh() {
-        // code here
+        listings.clear();
+        generateListings(ingredients);
     }
 
     /**
      * Buys several selected market slots in one procedure.
      *
-     * @param player purchasing player
+     * @param player      purchasing player
      * @param slotNumbers selected slot numbers
      */
     public void buyMultiple(Player player, ArrayList<Integer> slotNumbers) {
-        // code here
+        for (Integer slot : slotNumbers) {
+
+        }
     }
 
     /**
      * Sells several selected ingredient stacks in one procedure.
      *
      * @param player selling player
-     * @param items selected ingredients and quantities
+     * @param items  selected ingredients and quantities
      */
     public void sellMultiple(Player player, ArrayList<ItemStack> items) {
-        // code here
+        Inventory inventory = player.getInventory();
+        for (ItemStack stack : items) {
+            Ingredient ingredient = stack.getIngredient();
+            int quantity = stack.getQuantity();
+
+            if (inventory.getQuantity(ingredient) >= quantity) {
+                inventory.removeIngredient(ingredient, quantity);
+                int total = ingredient.getSellingPrice() * quantity;
+                player.addCrystals(total);
+            }
+        }
     }
 
     /**
@@ -59,7 +90,13 @@ public class Market {
      * @return available listings
      */
     public ArrayList<Listing> getAvailableListings() {
-        // code here
-        return null;
+        int i;
+        ArrayList<Listing> availListing = new ArrayList<>();
+        for (Listing listing : listing) {
+            if (listing.isAvailable()) {
+                availListing.add(listing);
+            }
+        }
+        return availListing;
     }
 }
