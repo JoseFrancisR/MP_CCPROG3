@@ -208,7 +208,7 @@ public class Save {
      * @param inventory the inventory to get the random item stack from
      * @return a random item stack from the inventory
      */
-    private ItemStack randItem(Inventory inventory) {
+    public ItemStack randItem(Inventory inventory) {
         ArrayList<Ingredient> ingredients = Ingredient.loadIngredients();
         ArrayList<Ingredient> inventoryIngredients = new ArrayList<>();
         for (ItemStack stack : inventory.getIngredientStacks()) {

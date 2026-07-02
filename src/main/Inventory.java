@@ -166,4 +166,12 @@ public class Inventory {
         }
         return null;
     }
+
+    /** Displays the current inventory. */
+    public void displayInventory() {
+        System.out.println("Current Inventory:");
+        for (ItemStack stack : ingredientStacks) {
+            System.out.println("- " + stack.getQuantity() + "x " + stack.getIngredient().getName());
+        }
+    }
 }

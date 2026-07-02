@@ -1,5 +1,7 @@
 package src.main;
 
+import java.util.Scanner;
+
 /**
  * Coordinates menus, session-only values, and the major game services.
  */
@@ -22,6 +24,9 @@ public class MainMenu {
 
     /** Number of successful brews since the market counter last reset. */
     private int brewsSinceMarketVisit;
+
+    /** Scanner for user input. */
+    private Scanner scanner = new Scanner(System.in);
 
     /** Creates the game's coordinating objects. */
     public MainMenu() {
@@ -57,8 +62,8 @@ public class MainMenu {
      * @return true when a valid save is loaded
      */
     public boolean loadGame(String name) {
-        // code here
-        return false;
+        currentPlayer = save.loadPlayer(scanner, name);
+        return currentPlayer != null;
     }
 
     /** Displays the main menu and current crystal balance. */
@@ -73,12 +78,12 @@ public class MainMenu {
 
     /** Displays all ingredient quantities and cauldron counts. */
     public void checkInventory() {
-        // code here
+        currentPlayer.getInventory().displayInventory();
     }
 
     /** Displays all recipes currently unlocked by the player. */
     public void checkSpellbook() {
-        // code here
+        currentPlayer.getRecipeBook().displayUnlockedRecipes();
     }
 
     /** Handles market refresh checks, buying, selling, and exit. */
@@ -95,8 +100,9 @@ public class MainMenu {
         if (currentPlayer.getCrystals() >= 1000 && (currentPlayer.getInventory().countUsableCauldrons() < currentPlayer.getInventory().countTotalCauldrons())) {
             currentPlayer.spendCrystals(1000);
             currentPlayer.getInventory().blessCauldron();
+            System.out.print("Cauldron blessed! You now have " + currentPlayer.getInventory().countUsableCauldrons() + " usable cauldrons.");
+            System.out.println("You have " + currentPlayer.getCrystals() + " crystals remaining.");
             return true;
-            System.out.println("Cauldron blessed! You now have " + currentPlayer.getInventory().countUsableCauldrons() + " usable cauldrons.");
         }
         return false;
     }
@@ -107,12 +113,19 @@ public class MainMenu {
      * @return true when the bonus is claimed
      */
     public boolean claimLoginBonus() {
-        // code here
+        if (!loginBonusClaimed) {
+            currentPlayer.getInventory().addItemStack(save.randItem(currentPlayer.getInventory()).getIngredient(), 1);
+            loginBonusClaimed = true;
+            System.out.println("Login bonus claimed! You received 1 random ingredient.");
+            return true;
+        }
         return false;
     }
 
     /** Saves the current player and exits normally. */
     public void exitGame() {
-        // code here
+        save.savePlayer(scanner, currentPlayer);
+        System.out.println("Game saved. Goodbye!");
+        System.exit(0);
     }
 }
