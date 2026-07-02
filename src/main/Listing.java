@@ -59,7 +59,7 @@ public class Listing {
                 }
             } else {
                 if (player.getCrystals() >= unitPrice * quantity) {
-                    player.getInventory().addIngredient(ingredient, quantity);
+                    player.getInventory().addItemStack(ingredient, quantity);
                     player.spendCrystals(unitPrice * quantity);
                     markSold();
                     return true;

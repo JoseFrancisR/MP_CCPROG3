@@ -35,7 +35,7 @@ public class Brew {
         if(!validateUniqueFruits(fruits)) {
             return false;
         }
-        Recipe checkRecipe = player.getRecipebook().findRecipe(base, fruits);
+        Recipe checkRecipe = player.getRecipeBook().findRecipe(base, fruits);
         if(checkRecipe == null) {
             damageCauldron(player);
             return false;

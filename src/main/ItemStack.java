@@ -54,11 +54,11 @@ public class ItemStack {
 
     /** @return current quantity */
     public int getQuantity() {
-        return quantity;
+        return this.quantity;
     }
 
     /** @return ingredient stored by this stack */
     public Ingredient getIngredient() {
-        return ingredient;
+        return this.ingredient;
     }
 }

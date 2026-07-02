@@ -41,9 +41,21 @@ public class Save {
      * @return new player
      */
     public Player createDefaultPlayer(String name) {
+        int i;
         Player newPlayer = new Player(name);
-        
-        
+        // random starting inventory and recipebook
+        for (i = 0; i < 5; i++) {
+            ItemStack randomStack = randItem(newPlayer.getInventory());
+            if (randomStack != null) {
+                newPlayer.getInventory().addItemStack(randomStack.getIngredient(), randomStack.getQuantity());
+            }
+        }
+        for (i = 0; i < 5; i++) {
+            int randomRecipeId = (int) (Math.random() * 130) + 1; // Random recipe ID between 1 and 130
+            if (!newPlayer.getRecipeBook().getUnlockedRecipeIds().contains(randomRecipeId)) {
+                newPlayer.getRecipeBook().getUnlockedRecipeIds().add(randomRecipeId);
+            }
+        }
         return newPlayer;
     }
 
@@ -185,5 +197,26 @@ public class Save {
                 writer.print(",");
             }
         }
+    }
+
+    /**
+     * Returns a random item stack no duplicates in inventory loaded from list of ingredients at a random quantity between 1 and 5.
+     * @param inventory the inventory to get the random item stack from
+     * @return a random item stack from the inventory
+     */
+    private ItemStack randItem(Inventory inventory) {
+        ArrayList<Ingredient> ingredients = Ingredient.loadIngredients();
+        ArrayList<Ingredient> inventoryIngredients = new ArrayList<>();
+        for (ItemStack stack : inventory.getIngredientStacks()) {
+            inventoryIngredients.add(stack.getIngredient());
+        }
+        ingredients.removeAll(inventoryIngredients);
+        if (ingredients.isEmpty()) {
+            return null; // No more ingredients to add
+        }
+        int randomIndex = (int) (Math.random() * ingredients.size());
+        Ingredient randomIngredient = ingredients.get(randomIndex);
+        int randomQuantity = (int) (Math.random() * 5) + 1; // Random quantity between 1 and 5
+        return new ItemStack(randomIngredient, randomQuantity);
     }
 }
