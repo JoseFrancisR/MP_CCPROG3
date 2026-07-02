@@ -36,6 +36,9 @@ public class MainMenu {
     /** Starts the new-game/load-game menu and main program loop. */
     public void start() {
         // code here
+        // check if there is save file, if yes, load it, if no, create new player
+        // start new game or load game, then display main menu
+        // loop until exit game
     }
 
     /**
@@ -88,8 +91,13 @@ public class MainMenu {
      *
      * @return true when the transaction succeeds
      */
-    public boolean blessCauldron() {
-        // code here
+    public boolean blessCauldronPay() {
+        if (currentPlayer.getCrystals() >= 1000 && (currentPlayer.getInventory().countUsableCauldrons() < currentPlayer.getInventory().countTotalCauldrons())) {
+            currentPlayer.spendCrystals(1000);
+            currentPlayer.getInventory().blessCauldron();
+            return true;
+            System.out.println("Cauldron blessed! You now have " + currentPlayer.getInventory().countUsableCauldrons() + " usable cauldrons.");
+        }
         return false;
     }
 
