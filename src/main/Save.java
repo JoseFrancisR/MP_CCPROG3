@@ -41,8 +41,10 @@ public class Save {
      * @return new player
      */
     public Player createDefaultPlayer(String name) {
-        // code here
-        return new Player(name);
+        Player newPlayer = new Player(name);
+        
+        
+        return newPlayer;
     }
 
     /**
@@ -55,11 +57,16 @@ public class Save {
     public Player loadPlayer(Scanner scanner, String name) {
         File curDirectory = new File(".").getAbsoluteFile();
         File targetFile = new File(curDirectory.getParentFile(), "data/saves/" + name);
-        String playerName;
-        int playerCrystal;
+        String playerName = null;
+        int playerCrystal = -1;
         Inventory inventory = new Inventory();
         RecipeBook recipe = new RecipeBook();
-
+        
+        ArrayList<Integer> unlockedRecipes = new ArrayList<>();
+        Ingredient ingredient;
+        String section = null;
+        String ingredientName;
+        int quantity;
         try {
             File actualFile = targetFile.getCanonicalFile();
             if (actualFile.isFile() && actualFile.exists()) {
@@ -69,11 +76,39 @@ public class Save {
                         playerName = line.substring(7);
                     } else if (line.startsWith("CRYSTALS = ")) {
                         playerCrystal = Integer.parseInt(line.substring(11));
+                    } else if (line.startsWith("[INVENTORY]")) {
+                        section = "INVENTORY"; // since it needs to move another line to read the next line, we need to set the section to INVENTORY
+                    } else if (line.startsWith("[SPELLBOOK]")) {
+                        section = "SPELLBOOK";
+                    } else if (line.isEmpty() || section == null){
+                        // do nothing
+                    } else if (section.equals("INVENTORY")) {
+                        // split the line into ingredient name and quantity
+                        String[] parts = line.split("=");
+
+                        if (parts.length == 2) {
+                            ingredientName = parts[0].trim();
+                            quantity = Integer.parseInt(parts[1].trim());
+
+                            if (ingredientName.equals("TOTAL_CAULDRONS")) {
+                                inventory.setTotalCauldrons(quantity);
+                            } else if (ingredientName.equals("USABLE_CAULDRONS")) {
+                                inventory.setUsableCauldrons(quantity);
+                            } else {
+                                ingredient = Ingredient.findIngredient(ingredientName);
+                                inventory.addItemStack(ingredient, quantity);
+                            }
+                        }
+                    } else if (section.equals("SPELLBOOK")) {
+                        // split the nums into own string and parse into array list of int
+                        String[] recipeIds = line.split(",");
+
+                        for (String id : recipeIds) {
+                            unlockedRecipes.add(Integer.parseInt(id.trim()));
+                        }
                     }
-                    // code for reading player name and crystals
-                    readInventory(scanner, inventory);
-                    recipe.loadUnlockedRecipeIds(readUnlockedRecipeIds(scanner));
                 }
+                recipe.loadUnlockedRecipeIds(unlockedRecipes);
                 return new Player(playerName, playerCrystal, inventory, recipe);
             }
         } catch (IOException e) {
@@ -111,34 +146,13 @@ public class Save {
             try (PrintWriter saveFile = new PrintWriter(player.getName())) {
                 saveFile.println("NAME = " + player.getName() + "\n");
                 saveFile.println("CRYSTALS = " + player.getCrystals() + "\n");
-                // writeInventory(PrintWriter writer, Inventory inventory) NOT DONEEE
-                // void writeRecipebook(PrintWriter writer, RecipeBook recipeBook
+                writeInventory(saveFile, player.getInventory());
+                writeRecipebook(saveFile, player.getRecipeBook());
             }
         } catch (IOException e) {
             System.out.println("ERROR: in writing the file due to " + e.getMessage());
         }
         return false;
-    }
-
-    /**
-     * Reads ingredient and cauldron values under the INVENTORY section.
-     *
-     * @param scanner   save-file scanner
-     * @param inventory inventory being populated
-     */
-    private void readInventory(Scanner scanner, Inventory inventory) {
-        // code here
-    }
-
-    /**
-     * Reads comma-separated recipe IDs under the SPELLBOOK section.
-     *
-     * @param scanner save-file scanner
-     * @return unlocked recipe IDs
-     */
-    private ArrayList<Integer> readUnlockedRecipeIds(Scanner scanner) {
-        // code here
-        return new ArrayList<>();
     }
 
     /**
@@ -148,7 +162,12 @@ public class Save {
      * @param inventory player inventory
      */
     private void writeInventory(PrintWriter writer, Inventory inventory) {
-        // code here
+        writer.println("[INVENTORY]");
+        for (ItemStack stack : inventory.getIngredientStacks()) {
+            writer.println(stack.getIngredient().getName() + " = " + stack.getQuantity());
+        }
+        writer.println("TOTAL_CAULDRONS = " + inventory.countTotalCauldrons());
+        writer.println("USABLE_CAULDRONS = " + inventory.countUsableCauldrons() + "\n");
     }
 
     /**
@@ -158,6 +177,13 @@ public class Save {
      * @param recipebook player recipebook
      */
     private void writeRecipebook(PrintWriter writer, RecipeBook recipeBook) {
-        // code here
+        writer.println("[SPELLBOOK]");
+        ArrayList<Integer> unlockedRecipeIds = recipeBook.getUnlockedRecipeIds();
+        for (int i = 0; i < unlockedRecipeIds.size(); i++) {
+            writer.print(unlockedRecipeIds.get(i));
+            if (i < unlockedRecipeIds.size() - 1) {
+                writer.print(",");
+            }
+        }
     }
 }

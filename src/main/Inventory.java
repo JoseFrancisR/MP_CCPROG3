@@ -41,7 +41,7 @@ public class Inventory {
      * @param item ingredient to add
      * @param qty number of units
      */
-    public void addIngredient(Ingredient item, int qty) {
+    public void addItemStack(Ingredient item, int qty) {
         this.ingredientStacks.add(new ItemStack(item, qty));
     }
 
@@ -139,6 +139,22 @@ public class Inventory {
     /** @return copy of ingredient stacks */
     public ArrayList<ItemStack> getIngredientStacks() {
         return new ArrayList<>(ingredientStacks);
+    }
+
+    /**
+     * Sets the total number of cauldrons.
+     * @param totalCauldrons total number of cauldrons to be set
+     */
+    public void setTotalCauldrons(int totalCauldrons) {
+        this.totalCauldrons = totalCauldrons;
+    }
+
+    /**
+     * Sets the number of usable cauldrons.
+     * @param usableCauldrons number of usable cauldrons to be set
+     */
+    public void setUsableCauldrons(int usableCauldrons) {
+        this.usableCauldrons = usableCauldrons;
     }
 
     /** @return the ingredient needed null if not found */

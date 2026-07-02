@@ -109,4 +109,20 @@ public class Ingredient {
 
         return ingredients;
     }
+
+    /** 
+     * find an ingredient from the ingredients.csv file by its name
+     * 
+     * @param name the name of the ingredient to be found
+     * @return the ingredient from the arraylist needed to be loaded from the ingredients.csv file
+     */
+    public static Ingredient findIngredient(String name) {
+        ArrayList<Ingredient> ingredients = loadIngredients();
+        for (Ingredient ingredient : ingredients) {
+            if (ingredient.getName().equals(name)) {
+                return ingredient;
+            }
+        }
+        return null;
+    }
 }

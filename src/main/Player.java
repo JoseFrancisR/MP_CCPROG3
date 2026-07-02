@@ -99,7 +99,7 @@ public class Player {
     }
 
     /** @return player recipebook */
-    public RecipeBook getRecipebook() {
+    public RecipeBook getRecipeBook() {
         return recipes;
     }
 }
