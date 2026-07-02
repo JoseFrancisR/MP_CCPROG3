@@ -19,7 +19,7 @@ public class Save {
     public boolean saveExists(String name) {
 
         File curDirectory = new File(".").getAbsoluteFile();
-        File targetFile = new File(curDirectory.getParentFile(), "data/saves/" + name);
+        File targetFile = new File(curDirectory.getParentFile(), "data/saves/" + name + ".txt");
 
         try {
             File actualFile = targetFile.getCanonicalFile();
@@ -68,7 +68,7 @@ public class Save {
      */
     public Player loadPlayer(Scanner scanner, String name) {
         File curDirectory = new File(".").getAbsoluteFile();
-        File targetFile = new File(curDirectory.getParentFile(), "data/saves/" + name);
+        File targetFile = new File(curDirectory.getParentFile(), "data/saves/" + name + ".txt");
         String playerName = null;
         int playerCrystal = -1;
         Inventory inventory = new Inventory();
@@ -139,10 +139,8 @@ public class Save {
     public boolean savePlayer(Scanner scanner, Player player) {
         int input;
         File curDirectory = new File(".").getAbsoluteFile();
-        File targetFile = new File(curDirectory.getParentFile(), "data/saves/" + player.getName());
+        File targetFile = new File(curDirectory.getParentFile(), "data/saves/" + player.getName() + ".txt");
         try {
-            File actualFile = targetFile.getCanonicalFile();
-
             if (saveExists(player.getName())) {
                 do {
                     System.out.println("Do you want to overwrite the save(0-NO / 1-YES)");
@@ -155,9 +153,8 @@ public class Save {
                 if (input == 0) {
                     return false;
                 }
-                PrintWriter saveFile = new PrintWriter(player.getName());
             }
-            try (PrintWriter saveFile = new PrintWriter(player.getName())) {
+            try (PrintWriter saveFile = new PrintWriter(targetFile)) {
                 saveFile.println("NAME = " + player.getName() + "\n");
                 saveFile.println("CRYSTALS = " + player.getCrystals() + "\n");
                 writeInventory(saveFile, player.getInventory());
@@ -166,7 +163,7 @@ public class Save {
         } catch (IOException e) {
             System.out.println("ERROR: in writing the file due to " + e.getMessage());
         }
-        return false;
+        return true;
     }
 
     /**
@@ -223,4 +220,24 @@ public class Save {
         int randomQuantity = (int) (Math.random() * 5) + 1; // Random quantity between 1 and 5
         return new ItemStack(randomIngredient, randomQuantity);
     }
+    
+    /**
+     * Returns a boolean on whether there is a save that exists in the directory 
+     */
+    public boolean hasSave() {
+    	 File curDirectory = new File(".").getAbsoluteFile();
+         File saveFolder = new File(curDirectory.getParentFile(), "data/saves/");
+         File[] files = saveFolder.listFiles();
+         if(files == null) {
+        	 return false;
+         }
+         for(File file: files) {
+        	 if(file.isFile()&& file.getName().endsWith(".txt")) {
+        		 return true;
+        	 }
+         }
+         
+        
+         return false;
+    }	
 }

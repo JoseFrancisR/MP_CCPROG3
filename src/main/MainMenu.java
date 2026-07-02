@@ -40,10 +40,73 @@ public class MainMenu {
 
     /** Starts the new-game/load-game menu and main program loop. */
     public void start() {
-        // code here
+    	// code here
         // check if there is save file, if yes, load it, if no, create new player
         // start new game or load game, then display main menu
         // loop until exit game
+    	
+    	int input;
+    	String playerName;
+    	while(currentPlayer == null) {
+    		if(save.hasSave()) {
+    			do {
+        			System.out.println("1. New Game");
+        		    System.out.println("2. Load Game");
+        		    input = scanner.nextInt();
+
+        		} while (input != 1 && input != 2);
+        	} else {
+        		do {
+        			System.out.println("1. New Game");
+
+        			input = scanner.nextInt();
+
+        		} while (input != 1);
+        	}
+        	
+        	if(input==1) {
+        		System.out.println("Please enter username: ");
+        		playerName = scanner.next();
+        		startNewGame(playerName);
+        	} else {
+        		System.out.println("Please enter save to load: ");
+        		playerName = scanner.next();
+        		this.currentPlayer = save.loadPlayer(scanner, playerName);
+        	}
+    	}
+    	
+    	while(true) {
+    		displayMainMenu();
+    		input = scanner.nextInt();
+    		switch(input) {
+    			case 1:
+    				 brewConcoction();
+    		         break;
+    			case 2:
+    				checkInventory();
+    				break;
+    			case 3:
+    				checkSpellbook();
+    				break;
+    			case 4:
+    			    visitMarket();
+    	            break;
+    	        case 5:
+    	            blessCauldronPay();
+    	            break;
+    	        case 6:
+    	            claimLoginBonus();
+    	            break;
+    	        case 7:
+    	        	System.out.println("Exitting the game");
+    	        	exitGame();
+    	            break;
+    	        default:
+    	            System.out.println("Invalid pick from 1-7");
+
+    		}
+    	}
+    	
     }
 
     /**
@@ -52,7 +115,7 @@ public class MainMenu {
      * @param name player/save name
      */
     public void startNewGame(String name) {
-        if (save.saveExists(name)) {
+    	if (save.saveExists(name)) {
             System.out.println("A save file with this name already exists. Overwrite? (y/n)");
             String response = scanner.nextLine();
             if (!response.equalsIgnoreCase("y")) {
