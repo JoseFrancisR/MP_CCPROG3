@@ -63,7 +63,7 @@ public class Save {
      * Loads a player from the formatted text save file.
      *
      * @param scanner save-file scanner
-     * @param name player/save name
+     * @param name    player/save name
      * @return loaded player, or null when loading fails
      */
     public Player loadPlayer(Scanner scanner, String name) {
@@ -73,7 +73,7 @@ public class Save {
         int playerCrystal = -1;
         Inventory inventory = new Inventory();
         RecipeBook recipe = new RecipeBook();
-        
+
         ArrayList<Integer> unlockedRecipes = new ArrayList<>();
         Ingredient ingredient;
         String section = null;
@@ -89,10 +89,11 @@ public class Save {
                     } else if (line.startsWith("CRYSTALS = ")) {
                         playerCrystal = Integer.parseInt(line.substring(11));
                     } else if (line.startsWith("[INVENTORY]")) {
-                        section = "INVENTORY"; // since it needs to move another line to read the next line, we need to set the section to INVENTORY
+                        section = "INVENTORY"; // since it needs to move another line to read the next line, we need to
+                                               // set the section to INVENTORY
                     } else if (line.startsWith("[SPELLBOOK]")) {
                         section = "SPELLBOOK";
-                    } else if (line.isEmpty() || section == null){
+                    } else if (line.isEmpty() || section == null) {
                         // do nothing
                     } else if (section.equals("INVENTORY")) {
                         // split the line into ingredient name and quantity
@@ -136,7 +137,6 @@ public class Save {
      * @return true when saving succeeds
      */
     public boolean savePlayer(Scanner scanner, Player player) {
-        boolean inputCheck = true;
         int input;
         File curDirectory = new File(".").getAbsoluteFile();
         File targetFile = new File(curDirectory.getParentFile(), "data/saves/" + player.getName());
@@ -145,14 +145,16 @@ public class Save {
 
             if (saveExists(player.getName())) {
                 do {
-                    inputCheck = true;
                     System.out.println("Do you want to overwrite the save(0-NO / 1-YES)");
                     input = scanner.nextInt();
                     if (input != 0 && input != 1) {
                         System.out.println("INPUT ONLY 1 or 0");
-                        inputCheck = false;
                     }
-                } while (inputCheck);
+                } while (input != 0 && input != 1);
+
+                if (input == 0) {
+                    return false;
+                }
                 PrintWriter saveFile = new PrintWriter(player.getName());
             }
             try (PrintWriter saveFile = new PrintWriter(player.getName())) {
@@ -200,7 +202,9 @@ public class Save {
     }
 
     /**
-     * Returns a random item stack no duplicates in inventory loaded from list of ingredients at a random quantity between 1 and 5.
+     * Returns a random item stack no duplicates in inventory loaded from list of
+     * ingredients at a random quantity between 1 and 5.
+     * 
      * @param inventory the inventory to get the random item stack from
      * @return a random item stack from the inventory
      */
