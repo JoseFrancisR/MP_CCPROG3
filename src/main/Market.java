@@ -100,4 +100,12 @@ public class Market {
         }
         return availListing;
     }
+
+    /** display available listings */
+    public void displayAvailableListings() {
+        System.out.println("Available Listings:");
+        for (Listing listing : getAvailableListings()) {
+            System.out.println("- " + listing.getQuantity() + "x " + listing.getIngredient().getName() + " for " + (listing.getIngredient().getSellingPrice() * listing.getQuantity()) + " crystals");
+        }
+    }
 }

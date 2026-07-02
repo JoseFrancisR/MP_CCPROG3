@@ -52,7 +52,17 @@ public class MainMenu {
      * @param name player/save name
      */
     public void startNewGame(String name) {
-        // code here
+        if (save.saveExists(name)) {
+            System.out.println("A save file with this name already exists. Overwrite? (y/n)");
+            String response = scanner.nextLine();
+            if (!response.equalsIgnoreCase("y")) {
+                System.out.println("New game creation cancelled.");
+                return;
+            }
+        }
+        currentPlayer = save.createDefaultPlayer(name);
+        save.savePlayer(scanner, currentPlayer);
+        System.out.println("New game created for player: " + name);
     }
 
     /**
@@ -68,17 +78,31 @@ public class MainMenu {
 
     /** Displays the main menu and current crystal balance. */
     public void displayMainMenu() {
-        // code here
+        System.out.println("Welcome, " + currentPlayer.getName() + "!");
+        System.out.println("Current Crystals: " + currentPlayer.getCrystals());
+        System.out.println("Main Menu:");
+        System.out.println("1. Brew a concoction");
+        System.out.println("2. Check inventory");
+        System.out.println("3. Check spellbook");
+        System.out.println("4. Visit market");
+        System.out.println("5. Bless a cauldron (1000 crystals)");
+        System.out.println("6. Claim login bonus (once per session)");
+        System.out.println("7. Exit game");
     }
 
     /** Handles recipe-mode or creative-mode brewing. */
     public void brewConcoction() {
-        // code here
+        currentPlayer.getInventory().displayInventory();
+        currentPlayer.getRecipeBook().displayUnlockedRecipes();
+
+        // choices
     }
 
     /** Displays all ingredient quantities and cauldron counts. */
     public void checkInventory() {
         currentPlayer.getInventory().displayInventory();
+        System.out.println("Usable Cauldrons: " + currentPlayer.getInventory().countUsableCauldrons());
+        System.out.println("Unusable Cauldrons: " + currentPlayer.getInventory().countUnusableCauldrons());
     }
 
     /** Displays all recipes currently unlocked by the player. */
@@ -88,7 +112,9 @@ public class MainMenu {
 
     /** Handles market refresh checks, buying, selling, and exit. */
     public void visitMarket() {
-        // code here
+        market.displayAvailableListings();
+
+        // choices
     }
 
     /**
