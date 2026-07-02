@@ -3,7 +3,8 @@ package src.main;
 import java.util.ArrayList;
 
 /**
- * Stores the complete Potion Compendium and the recipe IDs unlocked by the player.
+ * Stores the complete Potion Compendium and the recipe IDs unlocked by the
+ * player.
  */
 public class RecipeBook {
 
@@ -59,7 +60,7 @@ public class RecipeBook {
     /**
      * Searches for a recipe matching the selected base and fruits.
      *
-     * @param base selected base
+     * @param base   selected base
      * @param fruits selected unique fruits
      * @return matching recipe, or null when the mixture is invalid
      */
@@ -97,12 +98,13 @@ public class RecipeBook {
     }
 
     /**
-     * Returns the IDs that must be written under the save file's RECIPEBOOK section.
+     * Returns the IDs that must be written under the save file's RECIPEBOOK
+     * section.
      *
      * @return copy of the unlocked recipe IDs
      */
     public ArrayList<Integer> getUnlockedRecipeIds() {
-        return new ArrayList<>(unlockedRecipeIds);
+        return this.unlockedRecipeIds;
     }
 
     /**
