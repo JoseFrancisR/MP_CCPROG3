@@ -156,7 +156,7 @@ public class RecipeBook {
     public void displayUnlockedRecipes() {
         for (Recipe recipe : recipes) {
             if (isUnlocked(recipe.getConcoctionId())) {
-                System.out.println(recipe.getConcoctionName());
+                System.out.println(recipe.getConcoctionId() + " - "+ recipe.getConcoctionName());
                 System.out.println("  Base: " + recipe.getBase().getName());
                 System.out.print("  Fruits: ");
                 ArrayList<Ingredient> fruits = recipe.getFruits();
@@ -166,7 +166,6 @@ public class RecipeBook {
                         System.out.print(", ");
                     }
                 }
-                System.out.println();
             }
         }
     }
