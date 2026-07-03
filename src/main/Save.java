@@ -24,13 +24,11 @@ public class Save {
         try {
             File actualFile = targetFile.getCanonicalFile();
             if (actualFile.isFile() && actualFile.exists()) {
-                System.out.println("Save exists");
                 return true;
             }
         } catch (IOException e) {
             System.out.println("ERROR: in finding the file due to " + e.getMessage());
         }
-        System.out.println("Save doesn't exists");
         return false;
     }
 

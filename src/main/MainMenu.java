@@ -118,6 +118,7 @@ public class MainMenu {
     public void startNewGame(String name) {
     	if (save.saveExists(name)) {
             System.out.println("A save file with this name already exists. Overwrite? (y/n)");
+            String temp = scanner.nextLine(); // consume the newline character
             String response = scanner.nextLine().trim();
             if (!response.equalsIgnoreCase("y")) {
                 System.out.println("New game creation cancelled.");
@@ -336,7 +337,7 @@ public class MainMenu {
         System.out.println("Available listings:");
         market.displayAvailableListings();
         System.out.println();
-        System.out.println("Enter the slot numbers to buy (comma-separated), or enter 0 to leave buying from the market:");
+        System.out.println("Enter the slot numbers to buy (comma-separated), or enter 0 to cancel:");
         System.out.print("Selected items: ");
 
         String input = scanner.nextLine().trim();
@@ -355,7 +356,31 @@ public class MainMenu {
         int crystals = currentPlayer.getCrystals();
         int total = 0, purchases = 0;
 
-        
+        for (Integer slot : selectedSlots) {
+            Listing listing = findAvailableListing(slot);
+
+            if (listing == null) {
+                System.out.println("Invalid slot number: " + slot + ". Skipping.");
+            } else {
+                String itemName = listing.isCauldronListing() ? "Cauldron" : listing.getIngredient().getName();
+                int cost = listing.getUnitPrice() * listing.getQuantity();
+
+                if (listing.purchase(currentPlayer)){
+                    purchases++;
+                    total += cost;
+                    System.out.println("Purchased " + listing.getQuantity() + "x " + itemName + " for " + cost + " crystals.");
+                    System.out.println("Remaining Crystals: " + currentPlayer.getCrystals());
+                } else {
+                    System.out.println("Failed to purchase " + listing.getQuantity() + "x " + itemName + ". Not enough crystals/item unavailable.");
+                }
+            }
+        }
+
+        if (purchases > 0) {
+            System.out.println("Total spent: " + total + " crystals.");
+        } else {
+            System.out.println("No purchases were made.");
+        }
     }
 
     /**
@@ -364,6 +389,66 @@ public class MainMenu {
      * @param player
      */
     private void sellToMarket() {
+        ArrayList<ItemStack> inventoryStacks = currentPlayer.getInventory().getIngredientStacks();
+        ArrayList<ItemStack> sellable = new ArrayList<>();
+
+        for (ItemStack stack : inventoryStacks) {
+            if (stack.getQuantity() > 0) {
+                sellable.add(stack);
+            }
+        }
+
+        if (sellable.isEmpty()) {
+            System.out.println("No ingredients available to sell.");
+            return;
+        }
+
+        System.out.println();
+        System.out.println("=========== Sell ==========");
+        displaySellable(sellable);
+        System.out.println();
+        System.out.println("Enter the number and quantity (e.g., 2:1,3:2), or enter 0 to cancel:");
+        System.out.print("Selected items: ");
+
+        String input = scanner.nextLine().trim();
+        if (input.equals("0")) {
+            System.out.println("Exiting market selling.");
+            return;
+        }
+
+        String[] selected = input.split(",");
+
+        for (String selection : selected) {
+            String[] parts = selection.split(":"); // seperate quantity and number
+            if (parts.length != 2) {
+                System.out.println("Invalid input format: " + selection + ". Skipping.");
+                continue;
+            } else {
+                try {
+                    int index = Integer.parseInt(parts[0].trim()) - 1;
+                    int quantity = Integer.parseInt(parts[1].trim());
+
+                    if (index < 1 || index > sellable.size()) {
+                        System.out.println("Invalid item number: " + (index + 1) + ". Skipping.");
+                        // exit
+                    }
+
+                    ItemStack stackToSell = sellable.get(index);
+
+                    if (quantity <= 0 || quantity > stackToSell.getQuantity()) {
+                        System.out.println("Invalid quantity for " + stackToSell.getIngredient().getName() + ". Skipping.");
+                        // exit
+                    }
+                    
+                    currentPlayer.getInventory().removeIngredient(stackToSell.getIngredient(), quantity);
+                    int total = stackToSell.getIngredient().getSellingPrice() * quantity;
+                    currentPlayer.addCrystals(total);
+                    System.out.println("Sold " + quantity + "x " + stackToSell.getIngredient().getName() + " for " + total + " crystals.");
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid number format in selection: " + selection + ". Skipping.");
+                }
+            }
+        }
     }
 
     /**
@@ -390,5 +475,30 @@ public class MainMenu {
         }
 
         return selectedSlots;
+    }
+
+    /**
+     * Finds an available listing by slot number.
+     */
+    private Listing findAvailableListing(int slotNumber) {
+        ArrayList<Listing> listings = market.getAvailableListings();
+        for (Listing listing : listings) {
+            if (listing.getSlotNumber() == slotNumber) {
+                return listing;
+            }
+        }
+        return null; // No available listing found for the given slot number
+    }
+
+    /**
+     * Displays the sellable ingredients with their quantities and selling prices.
+     * 
+     * @param sellable list of sellable ItemStacks
+     */
+    private void displaySellable(ArrayList<ItemStack> sellable) {
+        for (int i = 0; i < sellable.size(); i++) {
+            ItemStack stack = sellable.get(i);
+            System.out.println((i + 1) + ". " + stack.getIngredient().getName() + " - Quantity: " + stack.getQuantity() + " - Selling Price: " + stack.getIngredient().getSellingPrice());
+        }
     }
 }
