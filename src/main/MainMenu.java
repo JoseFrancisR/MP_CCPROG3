@@ -1,6 +1,7 @@
 package src.main;
 
 import java.util.Scanner;
+import java.util.ArrayList;
 
 /**
  * Coordinates menus, session-only values, and the major game services.
@@ -117,7 +118,7 @@ public class MainMenu {
     public void startNewGame(String name) {
     	if (save.saveExists(name)) {
             System.out.println("A save file with this name already exists. Overwrite? (y/n)");
-            String response = scanner.nextLine();
+            String response = scanner.nextLine().trim();
             if (!response.equalsIgnoreCase("y")) {
                 System.out.println("New game creation cancelled.");
                 return;
@@ -125,7 +126,7 @@ public class MainMenu {
         }
         // create new player and save to file
         currentPlayer = save.createDefaultPlayer(name);
-        save.savePlayer(scanner, currentPlayer);
+        save.savePlayer(currentPlayer);
         System.out.println("New game created for player: " + name);
     }
 
@@ -210,15 +211,40 @@ public class MainMenu {
 
     /** Handles market refresh checks, buying, selling, and exit. */
     public void visitMarket() {
+        boolean exit = false;
+        
         if (!market.hasBeenGenerated()) {
             market.generateListings(Ingredient.loadIngredients());
-        } else if(brewsSinceMarketVisit >= 3) {
-    	    market.refresh();
-    	    brewsSinceMarketVisit = 0;
-    	}
-        market.displayAvailableListings();
+        } else if (brewsSinceMarketVisit >= 3) {
+            market.refresh();
+        }
+        brewsSinceMarketVisit = 0;
 
-        // choices
+        scanner.nextLine(); // read remaining newline character from previous input
+
+        do {
+            System.out.println();
+            System.out.println("=========== Market ==========");
+            System.out.println("Current Crystals: " + currentPlayer.getCrystals());
+            System.out.println("1. Buy ingredients/cauldrons");
+            System.out.println("2. Sell ingredients");
+            System.out.println("3. Leave market");
+            String choice = scanner.nextLine().trim();
+            
+            switch (choice) {
+                case "1":
+                    buyFromMarket();
+                    break;
+                case "2":
+                    sellToMarket();
+                    break;
+                case "3":
+                    exit = true;
+                    break;
+                default:
+                    System.out.println("Invalid input. Please enter 1, 2, or 3.");
+            }
+        } while (!exit);
     }
 
     /**
@@ -288,8 +314,81 @@ public class MainMenu {
 
     /** Saves the current player and exits normally. */
     public void exitGame() {
-        save.savePlayer(scanner, currentPlayer);
+        save.savePlayer(currentPlayer);
         System.out.println("Game saved. Goodbye!");
         System.exit(0);
+    }
+
+    /**
+     * buying from market
+     * 
+     * @param player
+     */
+    private void buyFromMarket() {
+        ArrayList<Listing> listings = market.getAvailableListings();
+
+        if (listings.isEmpty()) {
+            System.out.println("No listings available in the market.");
+            return;
+        }
+
+        System.out.println();
+        System.out.println("Available listings:");
+        market.displayAvailableListings();
+        System.out.println();
+        System.out.println("Enter the slot numbers to buy (comma-separated), or enter 0 to leave buying from the market:");
+        System.out.print("Selected items: ");
+
+        String input = scanner.nextLine().trim();
+        if (input.equals("0")) {
+            System.out.println("Exiting market buying.");
+            return;
+        }
+
+        ArrayList<Integer> selectedSlots = parseSelectedSlots(input);
+
+        if (selectedSlots.isEmpty()) {
+            System.out.println("No valid slot numbers selected. Exiting market buying.");
+            return;
+        }
+
+        int crystals = currentPlayer.getCrystals();
+        int total = 0, purchases = 0;
+
+        
+    }
+
+    /**
+     * selling ingredients to market
+     * 
+     * @param player
+     */
+    private void sellToMarket() {
+    }
+
+    /**
+     * parses the user input for selected slots and returns a list of valid slot numbers.
+     * 
+     * @param input user input string
+     * @return list of valid slot numbers
+     */
+    private ArrayList<Integer> parseSelectedSlots(String input) {
+        ArrayList<Integer> selectedSlots = new ArrayList<>();
+        String[] parts = input.split(",");
+
+        for (String part : parts) {
+            try {
+                int slotNumber = Integer.parseInt(part.trim());
+                if (slotNumber >= 1 && slotNumber <= market.getAvailableListings().size()) {
+                    selectedSlots.add(slotNumber);
+                } else {
+                    System.out.println("Invalid slot number: " + slotNumber);
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input: " + part.trim());
+            }
+        }
+
+        return selectedSlots;
     }
 }

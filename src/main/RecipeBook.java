@@ -58,8 +58,8 @@ public class RecipeBook {
                                 }
                             }
                         }
+                        loadedRecipes.add(new Recipe(id, name, base, fruits, saleValue));
                     }
-                    loadedRecipes.add(new Recipe(id, name, base, fruits, saleValue));
                 }
                 this.recipes = loadedRecipes;
                 scanner.close();

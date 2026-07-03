@@ -66,6 +66,7 @@ public class Save {
         defRecipes.add(55);
         defRecipes.add(56);
 
+        newPlayer.getRecipeBook().loadRecipes();
         newPlayer.getRecipeBook().loadUnlockedRecipeIds(defRecipes);
         
         return newPlayer;
@@ -160,8 +161,7 @@ public class Save {
      * @param player player to save
      * @return true when saving succeeds
      */
-    public boolean savePlayer(Scanner scanner, Player player) {
-        int input;
+    public boolean savePlayer(Player player) {
         File targetFile = getSaveFile(player.getName());
         try (PrintWriter saveFile = new PrintWriter(targetFile)) {
             saveFile.println("NAME = " + player.getName() + "\n");

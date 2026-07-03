@@ -60,8 +60,10 @@ public class Market {
      */
     public void buyMultiple(Player player, ArrayList<Integer> slotNumbers) {
         for (Integer slot : slotNumbers) {
-            Listing listing = listings.get(slot - 1);
-            listing.purchase(player);
+            if (slot >= 1 && slot <= listings.size()) {
+                Listing listing = listings.get(slot - 1);
+                listing.purchase(player);
+            } // else invalid slot number, do nothing
         }
     }
 
