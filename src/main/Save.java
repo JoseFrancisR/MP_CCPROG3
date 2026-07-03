@@ -18,8 +18,7 @@ public class Save {
      */
     public boolean saveExists(String name) {
 
-        File curDirectory = new File(".").getAbsoluteFile();
-        File targetFile = new File(curDirectory.getParentFile(), "data/saves/" + name + ".txt");
+        File targetFile = getSaveFile(name);
 
         try {
             File actualFile = targetFile.getCanonicalFile();
@@ -66,9 +65,8 @@ public class Save {
      * @param name    player/save name
      * @return loaded player, or null when loading fails
      */
-    public Player loadPlayer(Scanner scanner, String name) {
-        File curDirectory = new File(".").getAbsoluteFile();
-        File targetFile = new File(curDirectory.getParentFile(), "data/saves/" + name + ".txt");
+    public Player loadPlayer(String name) {
+        File targetFile = getSaveFile(name);
         String playerName = null;
         int playerCrystal = -1;
         Inventory inventory = new Inventory();
@@ -79,6 +77,12 @@ public class Save {
         String section = null;
         String ingredientName;
         int quantity;
+
+        if (!targetFile.exists()) {
+            System.out.println("Save file does not exist.");
+            return null;
+        }
+
         try {
             File actualFile = targetFile.getCanonicalFile();
             if (actualFile.isFile() && actualFile.exists()) {
@@ -103,9 +107,9 @@ public class Save {
                             ingredientName = parts[0].trim();
                             quantity = Integer.parseInt(parts[1].trim());
 
-                            if (ingredientName.equals("TOTAL_CAULDRONS")) {
+                            if (ingredientName.equals("TOTAL_CAULDRONS = ")) {
                                 inventory.setTotalCauldrons(quantity);
-                            } else if (ingredientName.equals("USABLE_CAULDRONS")) {
+                            } else if (ingredientName.equals("USABLE_CAULDRONS = ")) {
                                 inventory.setUsableCauldrons(quantity);
                             } else {
                                 ingredient = Ingredient.findIngredient(ingredientName);
@@ -138,8 +142,7 @@ public class Save {
      */
     public boolean savePlayer(Scanner scanner, Player player) {
         int input;
-        File curDirectory = new File(".").getAbsoluteFile();
-        File targetFile = new File(curDirectory.getParentFile(), "data/saves/" + player.getName() + ".txt");
+        File targetFile = getSaveFile(player.getName());
         try {
             if (saveExists(player.getName())) {
                 do {
@@ -162,6 +165,7 @@ public class Save {
             }
         } catch (IOException e) {
             System.out.println("ERROR: in writing the file due to " + e.getMessage());
+            return false;
         }
         return true;
     }
@@ -225,19 +229,27 @@ public class Save {
      * Returns a boolean on whether there is a save that exists in the directory 
      */
     public boolean hasSave() {
-    	 File curDirectory = new File(".").getAbsoluteFile();
-         File saveFolder = new File(curDirectory.getParentFile(), "data/saves/");
-         File[] files = saveFolder.listFiles();
-         if(files == null) {
-        	 return false;
-         }
-         for(File file: files) {
-        	 if(file.isFile()&& file.getName().endsWith(".txt")) {
-        		 return true;
-        	 }
-         }
-         
+    	File saveFolder = new File("src/data/saves/");
+        File[] files = saveFolder.listFiles();
+        if(files == null) {
+        	return false;
+        }
+        for(File file: files) {
+        	if(file.isFile()&& file.getName().endsWith(".txt")) {
+        		return true;
+        	}
+        }
         
-         return false;
-    }	
+        return false;
+    }
+
+    /**
+     * constructs save file path for a given player name
+     * 
+     * @param name player/save name
+     * @return the path to the save file for the given player name
+     */
+    private File getSaveFile(String name) {
+        return new File("src/data/saves/" + name + ".txt");
+    }
 }

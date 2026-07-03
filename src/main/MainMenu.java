@@ -40,12 +40,8 @@ public class MainMenu {
 
     /** Starts the new-game/load-game menu and main program loop. */
     public void start() {
-    	// code here
-        // check if there is save file, if yes, load it, if no, create new player
-        // start new game or load game, then display main menu
-        // loop until exit game
-    	
     	int input;
+        boolean exit = false;
     	String playerName;
     	System.out.println("WELCOME TO THE ");
     	while(currentPlayer == null) {
@@ -78,7 +74,7 @@ public class MainMenu {
         	}
     	}
     	
-    	while(true) {
+    	while(!exit) {
     		displayMainMenu();
     		input = scanner.nextInt();
     		switch(input) {
@@ -103,6 +99,7 @@ public class MainMenu {
     	        case 7:
     	        	System.out.println("Exitting the game");
     	        	exitGame();
+    	        	exit = true;
     	            break;
     	        default:
     	            System.out.println("Invalid pick from 1-7");
@@ -126,6 +123,14 @@ public class MainMenu {
                 return;
             }
         }
+        // create new txt file to store player data
+        try {
+            save.createSaveFile(name);
+        } catch (Exception e) {
+            System.out.println("Error creating save file: " + e.getMessage());
+            return;
+        }
+        // create new player and save to file
         currentPlayer = save.createDefaultPlayer(name);
         save.savePlayer(scanner, currentPlayer);
         System.out.println("New game created for player: " + name);

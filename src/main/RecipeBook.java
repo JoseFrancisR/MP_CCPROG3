@@ -1,6 +1,8 @@
 package src.main;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * Stores the complete Potion Compendium and the recipe IDs unlocked by the
@@ -29,7 +31,47 @@ public class RecipeBook {
      * @return true when all recipes are loaded successfully
      */
     public boolean loadRecipes(String path) {
-        // recipe loading/file handling
+        File targetFile = new File("src/data/recipeCatalog.csv");
+        ArrayList<Recipe> loadedRecipes = new ArrayList<>();
+        int id;
+        String name;
+        Ingredient base;
+        ArrayList<Ingredient> fruits;
+        int saleValue;
+        try{
+            File actualFile = targetFile.getCanonicalFile();
+            if (actualFile.exists() && actualFile.isFile()) {
+                Scanner scanner = new Scanner(actualFile);
+                while (scanner.hasNextLine()) {
+                    String line = scanner.nextLine();
+                    String[] parts = line.split(",");
+                    id = Integer.parseInt(parts[0].trim());
+                    name = parts[1].trim();
+                    base = Ingredient.findIngredient(parts[2].trim());
+                    fruits = new ArrayList<>();
+                    for (int i = 3; i < parts.length - 1; i++) {
+                        String fruitName = parts[i].trim();
+                        if (!fruitName.isEmpty()) {
+                            Ingredient fruit = Ingredient.findIngredient(fruitName);
+                            if (fruit != null) {
+                                fruits.add(fruit);
+                            }
+                        }
+                    }
+                    saleValue = Integer.parseInt(parts[parts.length - 1].trim());
+                    Recipe recipe = new Recipe(id, name, base, fruits, saleValue);
+                    loadedRecipes.add(recipe);
+                }
+                this.recipes = loadedRecipes;
+                scanner.close();
+                return true;
+            } else {
+                System.out.println("ERROR: Recipe catalog file not found at " + actualFile.getAbsolutePath());
+            }
+
+        } catch (Exception e) {
+            System.out.println("ERROR: Failed to load recipes from " + targetFile.getAbsolutePath() + ": " + e.getMessage());
+        }
         return false;
     }
 
