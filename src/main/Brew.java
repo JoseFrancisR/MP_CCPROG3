@@ -18,6 +18,10 @@ public class Brew {
         if(!hasEnoughIngredients(player, recipe)) {
             return false;
         }
+        
+        if(!player.getRecipeBook().isUnlocked(recipe.getConcoctionId())) {
+            return false;
+        }
         consumeIngredients(player, recipe);
         sellConcoction(player, recipe);
         return true;
@@ -43,7 +47,10 @@ public class Brew {
         if(!hasEnoughIngredients(player, checkRecipe)) {
             return false;
         }
-
+        
+        consumeIngredients(player, checkRecipe);
+        sellConcoction(player, checkRecipe);
+        player.getRecipeBook().unlockRecipe(checkRecipe.getConcoctionId());
         return true;
     }
 
