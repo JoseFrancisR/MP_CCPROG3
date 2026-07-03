@@ -47,18 +47,21 @@ public class MainMenu {
     	
     	int input;
     	String playerName;
+    	System.out.println("WELCOME TO THE ");
     	while(currentPlayer == null) {
     		if(save.hasSave()) {
     			do {
+    				
         			System.out.println("1. New Game");
         		    System.out.println("2. Load Game");
+        		    System.out.println("Please choose 1 or 2 to continue: ");
         		    input = scanner.nextInt();
 
         		} while (input != 1 && input != 2);
         	} else {
         		do {
         			System.out.println("1. New Game");
-
+        			System.out.println("Please enter 1 to make a new game: ");
         			input = scanner.nextInt();
 
         		} while (input != 1);
@@ -69,7 +72,7 @@ public class MainMenu {
         		playerName = scanner.next();
         		startNewGame(playerName);
         	} else {
-        		System.out.println("Please enter save to load: ");
+        		System.out.println("Please enter the name of the save to load in: ");
         		playerName = scanner.next();
         		this.currentPlayer = save.loadPlayer(scanner, playerName);
         	}
@@ -155,8 +158,42 @@ public class MainMenu {
 
     /** Handles recipe-mode or creative-mode brewing. */
     public void brewConcoction() {
+    	boolean loop = true;
+    	int input;
         currentPlayer.getInventory().displayInventory();
-        currentPlayer.getRecipeBook().displayUnlockedRecipes();
+        if(currentPlayer.getInventory().countUsableCauldrons()>1) {
+        	while(loop) {
+        		System.out.println("1. Recipe Mode");
+        		System.out.println("2. Creative Mode");
+        		System.out.println("3. Back");
+        		input = scanner.nextInt();
+        		switch(input) {
+        			case 1:
+        				recipeMode();
+        				break;
+        			case 2: 
+        				creativeMode();
+        				break;
+        			case 3:
+        				loop = false;
+        				break;
+        		}
+        	}
+        } else {
+        	while(loop) {
+        		System.out.println("1. Recipe Mode");
+        		System.out.println("2. Back");
+        		input = scanner.nextInt();
+        		switch(input) {
+        			case 1:
+        				recipeMode();
+        				break;
+        			case 2: 
+        				loop = false;
+        				break;
+        		}
+        	}
+        }
 
         // choices
     }
@@ -175,6 +212,10 @@ public class MainMenu {
 
     /** Handles market refresh checks, buying, selling, and exit. */
     public void visitMarket() {
+    	if(brewsSinceMarketVisit >= 3) {
+    	    market.refresh();
+    	    brewsSinceMarketVisit = 0;
+    	}
         market.displayAvailableListings();
 
         // choices
@@ -209,6 +250,40 @@ public class MainMenu {
             return true;
         }
         return false;
+    }
+    
+    /** Displays the text when player picks recipeMode
+     * 
+     */
+    public void recipeMode() {
+    	int id;
+    	currentPlayer.getRecipeBook().displayUnlockedRecipes();
+    	System.out.println("Enter the ID of the ");
+    	id = scanner.nextInt();
+    	Recipe recipe = currentPlayer.getRecipeBook().findRecipeById(id);
+    	if(recipe != null) {
+    		if(brew.brewRecipe(currentPlayer, recipe)) {
+        		System.out.println("Potion was SUCCESFULLY brewed.");
+        		brewsSinceMarketVisit++;
+        	} else {
+        		System.out.println("Failed to brew the potion.");
+        	}
+    	} else {
+    		System.out.println("Recipe does not exists");
+    	}
+    }
+    /** Displays the text when player picks creativeMode
+     * 
+     */
+    public void creativeMode() {
+    	System.out.println("Pick base");
+    	
+    	if(brew.brewCreative(currentPlayer, null, null)) {// STILL NOT DONE
+    		System.out.println("Potion was SUCCESFULLY brewed.");
+    		brewsSinceMarketVisit++;
+    	} else {
+    		System.out.println("Failed to brew the potion.");
+    	}
     }
 
     /** Saves the current player and exits normally. */
