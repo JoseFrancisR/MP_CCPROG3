@@ -36,7 +36,7 @@ public class RecipeBook {
         String name = null;
         Ingredient base = null;
         ArrayList<Ingredient> fruits = null;
-        try{
+        try {
             File actualFile = targetFile.getCanonicalFile();
             if (actualFile.exists() && actualFile.isFile()) {
                 Scanner scanner = new Scanner(actualFile);

@@ -97,8 +97,11 @@ public class Save {
 
         try {
             File actualFile = targetFile.getCanonicalFile();
+            Scanner fileScanner = null;
             
-            try (Scanner fileScanner = new Scanner(actualFile)) {
+            try {
+                fileScanner = new Scanner(actualFile);
+
                 if (!actualFile.exists()) {
                     System.out.println("Save file does not exist.");
                     return null;
@@ -146,6 +149,10 @@ public class Save {
 
                 recipe.loadUnlockedRecipeIds(unlockedRecipes);
                 return new Player(playerName, playerCrystal, inventory, recipe);
+            } finally {
+                if (fileScanner != null) {
+                    fileScanner.close();
+                }
             }
         } catch (IOException e) {
             System.out.println("ERROR: in finding the file due to " + e.getMessage());
@@ -161,7 +168,11 @@ public class Save {
      */
     public boolean savePlayer(Player player) {
         File targetFile = getSaveFile(player.getName());
-        try (PrintWriter saveFile = new PrintWriter(targetFile)) {
+        PrintWriter saveFile = null;
+
+        try {
+            saveFile = new PrintWriter(targetFile);
+
             saveFile.println("NAME = " + player.getName() + "\n");
             saveFile.println("CRYSTALS = " + player.getCrystals() + "\n");
             writeInventory(saveFile, player.getInventory());
@@ -169,6 +180,10 @@ public class Save {
         } catch (IOException e) {
             System.out.println("ERROR: in writing the file due to " + e.getMessage());
             return false;
+        } finally {
+            if (saveFile != null) {
+                saveFile.close();
+            }
         }
         return true;
     }

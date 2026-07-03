@@ -2,6 +2,7 @@ package src.main;
 
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Coordinates menus, session-only values, and the major game services.
@@ -194,8 +195,6 @@ public class MainMenu {
         		}
         	}
         }
-
-        // choices
     }
 
     /** Displays all ingredient quantities and cauldron counts. */
@@ -270,13 +269,25 @@ public class MainMenu {
      * @return true when the bonus is claimed
      */
     public boolean claimLoginBonus() {
-        if (!loginBonusClaimed) {
-            currentPlayer.getInventory().addItemStack(save.randItem(currentPlayer.getInventory()).getIngredient(), 1);
-            loginBonusClaimed = true;
-            System.out.println("Login bonus claimed! You received 1 random ingredient.");
-            return true;
+        if (loginBonusClaimed) {
+            System.out.println("Login Bonus has already been claimed!");
+            return false;
         }
-        return false;
+        ItemStack bonus = save.randItem(currentPlayer.getInventory());
+
+        if (bonus == null){
+            System.out.println("Bonus item not generated");
+            return false;
+        }
+
+        Random rand = new Random();
+
+        int randQty = rand.nextInt(4) + 1;
+        currentPlayer.getInventory().addItemStack(bonus.getIngredient(), randQty);
+        loginBonusClaimed = true;
+
+        System.out.println("Login bonus claimed! You receieved " + randQty + "x " + bonus.getIngredient().getName() + ".");
+        return true;
     }
     
     /** Displays the text when player picks recipeMode
@@ -353,7 +364,6 @@ public class MainMenu {
             return;
         }
 
-        int crystals = currentPlayer.getCrystals();
         int total = 0, purchases = 0;
 
         for (Integer slot : selectedSlots) {
@@ -428,16 +438,16 @@ public class MainMenu {
                     int index = Integer.parseInt(parts[0].trim()) - 1;
                     int quantity = Integer.parseInt(parts[1].trim());
 
-                    if (index < 1 || index > sellable.size()) {
+                    if (index < 0 || index >= sellable.size()) {
                         System.out.println("Invalid item number: " + (index + 1) + ". Skipping.");
-                        // exit
+                        continue;
                     }
 
                     ItemStack stackToSell = sellable.get(index);
 
                     if (quantity <= 0 || quantity > stackToSell.getQuantity()) {
                         System.out.println("Invalid quantity for " + stackToSell.getIngredient().getName() + ". Skipping.");
-                        // exit
+                        continue;
                     }
                     
                     currentPlayer.getInventory().removeIngredient(stackToSell.getIngredient(), quantity);
@@ -464,10 +474,12 @@ public class MainMenu {
         for (String part : parts) {
             try {
                 int slotNumber = Integer.parseInt(part.trim());
-                if (slotNumber >= 1 && slotNumber <= market.getAvailableListings().size()) {
-                    selectedSlots.add(slotNumber);
-                } else {
+                if (slotNumber < 1 || slotNumber > 8) {
                     System.out.println("Invalid slot number: " + slotNumber);
+                } else if (selectedSlots.contains(slotNumber)) {
+                    System.out.println("Duplicate slot number: " + slotNumber);
+                } else {
+                    selectedSlots.add(slotNumber);
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input: " + part.trim());
