@@ -186,9 +186,10 @@ public class Save {
         writer.println("[INVENTORY]");
         for (ItemStack stack : inventory.getIngredientStacks()) {
             if (stack.getIngredient().getName().contains("BASE")) 
-                writer.println(stack.getIngredient().getName() + " = " + stack.getQuantity());
-            else
+                
                 baseIngredients.push(stack.getIngredient().getName() + " = " + stack.getQuantity());
+            else
+                writer.println(stack.getIngredient().getName() + " = " + stack.getQuantity());
         }
         writer.println();
         while (!baseIngredients.isEmpty()) {
