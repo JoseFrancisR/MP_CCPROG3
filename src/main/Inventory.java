@@ -31,8 +31,8 @@ public class Inventory {
     /** Creates an inventory */
     public Inventory() {
         ingredientStacks = new ArrayList<>();
-        this.totalCauldrons = -1;
-        this.usableCauldrons = -1;
+        this.totalCauldrons = 0;
+        this.usableCauldrons = 0;
     }
 
     /**
@@ -42,7 +42,17 @@ public class Inventory {
      * @param qty number of units
      */
     public void addItemStack(Ingredient item, int qty) {
-        this.ingredientStacks.add(new ItemStack(item, qty));
+        if (item == null || qty <= 0) {
+            return; // Invalid input, do nothing
+        }
+
+        ItemStack stack = findStack(item);
+
+        if (stack == null) {
+            this.ingredientStacks.add(new ItemStack(item, qty));
+        } else if (qty > 0) {
+            stack.add(qty);
+        }
     }
 
     /**

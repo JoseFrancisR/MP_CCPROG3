@@ -70,7 +70,7 @@ public class MainMenu {
         	} else {
         		System.out.println("Please enter the name of the save to load in: ");
         		playerName = scanner.next();
-        		this.currentPlayer = save.loadPlayer(scanner, playerName);
+        		this.currentPlayer = save.loadPlayer(playerName);
         	}
     	}
     	
@@ -123,13 +123,6 @@ public class MainMenu {
                 return;
             }
         }
-        // create new txt file to store player data
-        try {
-            save.createSaveFile(name);
-        } catch (Exception e) {
-            System.out.println("Error creating save file: " + e.getMessage());
-            return;
-        }
         // create new player and save to file
         currentPlayer = save.createDefaultPlayer(name);
         save.savePlayer(scanner, currentPlayer);
@@ -143,7 +136,7 @@ public class MainMenu {
      * @return true when a valid save is loaded
      */
     public boolean loadGame(String name) {
-        currentPlayer = save.loadPlayer(scanner, name);
+        currentPlayer = save.loadPlayer(name);
         return currentPlayer != null;
     }
 
@@ -217,7 +210,9 @@ public class MainMenu {
 
     /** Handles market refresh checks, buying, selling, and exit. */
     public void visitMarket() {
-    	if(brewsSinceMarketVisit >= 3) {
+        if (!market.hasBeenGenerated()) {
+            market.generateListings(Ingredient.loadIngredients());
+        } else if(brewsSinceMarketVisit >= 3) {
     	    market.refresh();
     	    brewsSinceMarketVisit = 0;
     	}

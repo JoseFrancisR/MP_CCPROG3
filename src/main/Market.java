@@ -32,14 +32,14 @@ public class Market {
         boolean cauldronExists = false;
         for (i = 0; i < 8; i++) {
             if (rand.nextInt(8) == 0 && !cauldronExists) { // Randomly generates a cauldron
-                Listing listing = new Listing(i, null, 1, 3000, true);
+                Listing listing = new Listing(i + 1, null, 1, 3000, true);
                 cauldronExists = true;
                 listings.add(listing);
             } else {
                 Ingredient ingredient = ingredients.get(rand.nextInt(ingredients.size()));
                 qty = rand.nextInt(5) + 1;
                 price = ingredient.getBuyingPrice();
-                Listing listing = new Listing(i, ingredient, qty, price, false);
+                Listing listing = new Listing(i + 1, ingredient, qty, price, false);
                 listings.add(listing);
             }
         }
@@ -60,7 +60,7 @@ public class Market {
      */
     public void buyMultiple(Player player, ArrayList<Integer> slotNumbers) {
         for (Integer slot : slotNumbers) {
-            Listing listing = listings.get(slot);
+            Listing listing = listings.get(slot - 1);
             listing.purchase(player);
         }
     }
@@ -105,7 +105,21 @@ public class Market {
     public void displayAvailableListings() {
         System.out.println("Available Listings:");
         for (Listing listing : getAvailableListings()) {
-            System.out.println("- " + listing.getQuantity() + "x " + listing.getIngredient().getName() + " for " + (listing.getIngredient().getSellingPrice() * listing.getQuantity()) + " crystals");
+            if (listing.isCauldronListing()) {
+                System.out.println(listing.getSlotNumber() + ": " + listing.getQuantity() + "x Cauldron for " + listing.getUnitPrice() + " crystals");
+                continue;
+            } else {
+                System.out.println(listing.getSlotNumber() + ": " + listing.getQuantity() + "x " + listing.getIngredient().getName() + " for " + (listing.getIngredient().getBuyingPrice() * listing.getQuantity()) + " crystals");
+            }
         }
+    }
+
+    /**
+     * Returns true when the market has been generated during the current session.
+     *
+     * @return true when the market has been generated
+     */
+    public boolean hasBeenGenerated() {
+        return generatedThisSession;
     }
 }

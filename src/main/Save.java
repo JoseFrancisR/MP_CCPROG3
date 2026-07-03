@@ -42,19 +42,31 @@ public class Save {
     public Player createDefaultPlayer(String name) {
         int i;
         Player newPlayer = new Player(name);
-        // random starting inventory and recipebook
-        for (i = 0; i < 5; i++) {
-            ItemStack randomStack = randItem(newPlayer.getInventory());
-            if (randomStack != null) {
-                newPlayer.getInventory().addItemStack(randomStack.getIngredient(), randomStack.getQuantity());
-            }
-        }
-        for (i = 0; i < 5; i++) {
-            int randomRecipeId = (int) (Math.random() * 130) + 1; // Random recipe ID between 1 and 130
-            if (!newPlayer.getRecipeBook().getUnlockedRecipeIds().contains(randomRecipeId)) {
-                newPlayer.getRecipeBook().getUnlockedRecipeIds().add(randomRecipeId);
-            }
-        }
+        newPlayer.getInventory().addItemStack(Ingredient.findIngredient("STRAWBERRY"), 3);
+        newPlayer.getInventory().addItemStack(Ingredient.findIngredient("ORANGE"), 2);
+        newPlayer.getInventory().addItemStack(Ingredient.findIngredient("LEMON"), 2);
+        newPlayer.getInventory().addItemStack(Ingredient.findIngredient("BANANA"), 3);
+        newPlayer.getInventory().addItemStack(Ingredient.findIngredient("MANGO"), 1);
+        newPlayer.getInventory().addItemStack(Ingredient.findIngredient("KIWI"), 1);
+        newPlayer.getInventory().addItemStack(Ingredient.findIngredient("BLUEBERRY"), 3);
+        newPlayer.getInventory().addItemStack(Ingredient.findIngredient("SYRUP BASE"), 3);
+        newPlayer.getInventory().addItemStack(Ingredient.findIngredient("BUBBLE BASE"), 3);
+        newPlayer.getInventory().addItemStack(Ingredient.findIngredient("PERFUME BASE"), 1);
+        newPlayer.getInventory().addItemStack(Ingredient.findIngredient("MILK BASE"), 2);
+        newPlayer.getInventory().addItemStack(Ingredient.findIngredient("LOTION BASE"), 2);
+
+        ArrayList<Integer> defRecipes = new ArrayList<>();
+        defRecipes.add(1);
+        defRecipes.add(2);
+        defRecipes.add(16);
+        defRecipes.add(17);
+        defRecipes.add(36);
+        defRecipes.add(37);
+        defRecipes.add(55);
+        defRecipes.add(56);
+
+        newPlayer.getRecipeBook().loadUnlockedRecipeIds(defRecipes);
+        
         return newPlayer;
     }
 
@@ -85,9 +97,14 @@ public class Save {
 
         try {
             File actualFile = targetFile.getCanonicalFile();
-            if (actualFile.isFile() && actualFile.exists()) {
-                while (scanner.hasNextLine()) {
-                    String line = scanner.nextLine();
+            
+            try (Scanner fileScanner = new Scanner(actualFile)) {
+                if (!actualFile.exists()) {
+                    System.out.println("Save file does not exist.");
+                    return null;
+                }
+                while (fileScanner.hasNextLine()) {
+                    String line = fileScanner.nextLine();
                     if (line.startsWith("NAME = ")) {
                         playerName = line.substring(7);
                     } else if (line.startsWith("CRYSTALS = ")) {
@@ -107,9 +124,9 @@ public class Save {
                             ingredientName = parts[0].trim();
                             quantity = Integer.parseInt(parts[1].trim());
 
-                            if (ingredientName.equals("TOTAL_CAULDRONS = ")) {
+                            if (ingredientName.equals("TOTAL CAULDRONS")) {
                                 inventory.setTotalCauldrons(quantity);
-                            } else if (ingredientName.equals("USABLE_CAULDRONS = ")) {
+                            } else if (ingredientName.equals("USABLE CAULDRONS")) {
                                 inventory.setUsableCauldrons(quantity);
                             } else {
                                 ingredient = Ingredient.findIngredient(ingredientName);
@@ -125,6 +142,8 @@ public class Save {
                         }
                     }
                 }
+                recipe.loadRecipes();
+
                 recipe.loadUnlockedRecipeIds(unlockedRecipes);
                 return new Player(playerName, playerCrystal, inventory, recipe);
             }
@@ -143,26 +162,11 @@ public class Save {
     public boolean savePlayer(Scanner scanner, Player player) {
         int input;
         File targetFile = getSaveFile(player.getName());
-        try {
-            if (saveExists(player.getName())) {
-                do {
-                    System.out.println("Do you want to overwrite the save(0-NO / 1-YES)");
-                    input = scanner.nextInt();
-                    if (input != 0 && input != 1) {
-                        System.out.println("INPUT ONLY 1 or 0");
-                    }
-                } while (input != 0 && input != 1);
-
-                if (input == 0) {
-                    return false;
-                }
-            }
-            try (PrintWriter saveFile = new PrintWriter(targetFile)) {
-                saveFile.println("NAME = " + player.getName() + "\n");
-                saveFile.println("CRYSTALS = " + player.getCrystals() + "\n");
-                writeInventory(saveFile, player.getInventory());
-                writeRecipebook(saveFile, player.getRecipeBook());
-            }
+        try (PrintWriter saveFile = new PrintWriter(targetFile)) {
+            saveFile.println("NAME = " + player.getName() + "\n");
+            saveFile.println("CRYSTALS = " + player.getCrystals() + "\n");
+            writeInventory(saveFile, player.getInventory());
+            writeRecipebook(saveFile, player.getRecipeBook());
         } catch (IOException e) {
             System.out.println("ERROR: in writing the file due to " + e.getMessage());
             return false;
@@ -181,8 +185,8 @@ public class Save {
         for (ItemStack stack : inventory.getIngredientStacks()) {
             writer.println(stack.getIngredient().getName() + " = " + stack.getQuantity());
         }
-        writer.println("TOTAL_CAULDRONS = " + inventory.countTotalCauldrons());
-        writer.println("USABLE_CAULDRONS = " + inventory.countUsableCauldrons() + "\n");
+        writer.println("TOTAL CAULDRONS = " + inventory.countTotalCauldrons());
+        writer.println("USABLE CAULDRONS = " + inventory.countUsableCauldrons() + "\n");
     }
 
     /**

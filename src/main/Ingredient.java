@@ -64,19 +64,34 @@ public class Ingredient {
     }
 
     /**
-     * Compares two ingredients using their names.
+     * Compares two objects for equality based on their name, 
+     * ignoring case and avoiding creating separate instances of similar objects.
      *
      * @param other ingredient to compare
      * @return true when both ingredients represent the same item
      */
-    public boolean equals(Ingredient other) {
-        boolean equal = false;
-
-        if (other != null) {
-            equal = this.name.equals(other.name);
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
         }
 
-        return equal;
+        if (!(object instanceof Ingredient)) {
+            return false;
+        }
+
+        Ingredient other = (Ingredient) object;
+        return name.equalsIgnoreCase(other.name);
+    }
+
+    /**
+     * Generates a hash code based on the ingredient name, *ignoring case*.
+     *
+     * @return hash code for the ingredient
+     */
+    @Override
+    public int hashCode() {
+        return name.toUpperCase().hashCode();
     }
 
     /**
@@ -118,7 +133,7 @@ public class Ingredient {
     public static Ingredient findIngredient(String name) {
         ArrayList<Ingredient> ingredients = loadIngredients();
         for (Ingredient ingredient : ingredients) {
-            if (ingredient.getName().equals(name)) {
+            if (ingredient.getName().equalsIgnoreCase(name)) {
                 return ingredient;
             }
         }
