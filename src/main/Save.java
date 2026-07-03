@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Stack;
 
 /**
  * Reads and writes player data using the required plain-text save format.
@@ -181,10 +182,19 @@ public class Save {
      * @param inventory player inventory
      */
     private void writeInventory(PrintWriter writer, Inventory inventory) {
+        Stack<String> baseIngredients = new Stack<>();
         writer.println("[INVENTORY]");
         for (ItemStack stack : inventory.getIngredientStacks()) {
-            writer.println(stack.getIngredient().getName() + " = " + stack.getQuantity());
+            if (stack.getIngredient().getName().contains("BASE")) 
+                writer.println(stack.getIngredient().getName() + " = " + stack.getQuantity());
+            else
+                baseIngredients.push(stack.getIngredient().getName() + " = " + stack.getQuantity());
         }
+        writer.println();
+        while (!baseIngredients.isEmpty()) {
+            writer.println(baseIngredients.pop());
+        }
+        writer.println();
         writer.println("TOTAL CAULDRONS = " + inventory.countTotalCauldrons());
         writer.println("USABLE CAULDRONS = " + inventory.countUsableCauldrons() + "\n");
     }
