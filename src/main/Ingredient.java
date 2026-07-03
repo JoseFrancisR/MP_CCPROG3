@@ -83,8 +83,7 @@ public class Ingredient {
      * @return array list of ingredient information in the order of name, buyingPrice, sellingPrice
      */
     public static ArrayList<Ingredient> loadIngredients() {
-        File curDirectory = new File(".").getAbsoluteFile();
-        File targetFile = new File(curDirectory.getParentFile(), "data/ingredients.csv");
+        File targetFile = new File("src/data/ingredients.csv");
         ArrayList<Ingredient> ingredients = new ArrayList<>();
 
         try {
