@@ -292,7 +292,7 @@ public class Save {
         
         if(files == null) {
         	System.out.println("Save folder not found");
-        	return; // no found files exit the function
+        	return; // exit method folder doesn't exists
         }
         
         System.out.println("Availabe Saves: ");
