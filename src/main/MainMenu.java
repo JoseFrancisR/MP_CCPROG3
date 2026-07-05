@@ -168,6 +168,7 @@ public class MainMenu {
         		System.out.println("1. Recipe Mode");
         		System.out.println("2. Creative Mode");
         		System.out.println("3. Back");
+        		System.out.print("Enter which mode (1-3): ");
         		input = scanner.nextInt();
         		switch(input) {
         			case 1:
@@ -179,12 +180,16 @@ public class MainMenu {
         			case 3:
         				loop = false;
         				break;
+        			default:
+        				System.out.println("Enter a value from 1-3");
+        				break;
         		}
         	}
         } else {
         	while(loop) {
         		System.out.println("1. Recipe Mode");
         		System.out.println("2. Back");
+        		System.out.print("Enter which mode (1-2): ");
         		input = scanner.nextInt();
         		switch(input) {
         			case 1:
@@ -192,6 +197,9 @@ public class MainMenu {
         				break;
         			case 2: 
         				loop = false;
+        				break;
+        			default:
+        				System.out.println("Enter a value from 1-3");
         				break;
         		}
         	}
