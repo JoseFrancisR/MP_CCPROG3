@@ -296,28 +296,110 @@ public class MainMenu {
      */
     public void recipeMode() {
     	int id;
+    	Recipe recipe;
     	currentPlayer.getRecipeBook().displayUnlockedRecipes();
-    	System.out.println("Enter the ID of the ");
-    	id = scanner.nextInt();
-    	Recipe recipe = currentPlayer.getRecipeBook().findRecipeById(id);
-    	if(recipe != null) {
-    		if(brew.brewRecipe(currentPlayer, recipe)) {
-        		System.out.println("Potion was SUCCESFULLY brewed.");
-        		brewsSinceMarketVisit++;
-        	} else {
-        		System.out.println("Failed to brew the potion.");
+    	while(true) {
+    		System.out.println("Enter the ID of the (Enter -1 to back out) ");
+    		   
+        	id = scanner.nextInt();
+        	scanner.nextLine(); // to fix the buffer of the nextInt
+        	if(id == -1) {
+        		System.out.println("Going back...");
+        		return;
         	}
-    	} else {
-    		System.out.println("Recipe does not exists");
+        
+        	recipe = currentPlayer.getRecipeBook().findRecipeById(id);
+        	if(recipe == null) {
+        		System.out.println("The recipe doesn't exists");
+        		continue;
+        	} else if(!currentPlayer.getInventory().hasIngredients(recipe)){
+        		System.out.println("Player doesn't have the ingredients");
+        		continue;
+        	} else {
+        		break;
+        	}
+        	
+        
     	}
+    	if(brew.brewRecipe(currentPlayer, recipe)) {
+    		System.out.println("Potion was SUCCESFULLY brewed.");
+    		brewsSinceMarketVisit++;
+    	} else {
+    		System.out.println("Failed to brew the potion.");
+    	}
+    	
     }
     /** Displays the text when player picks creativeMode
      * 
      */
     public void creativeMode() {
-    	System.out.println("Pick base");
+    	String input;
+    	int ctr= 1;
+    	Ingredient base = null;
+    	ArrayList<Ingredient> fruits = new ArrayList<>();
+    	// Player selects base
+    	while(base==null) {
+    		System.out.println("Enter base from your inventory");
+    		System.out.println("If you want to exit type 'BACK'");
+    		input = scanner.nextLine().trim();
+    		if(input.equalsIgnoreCase("back")) {
+    			return;
+    		}
+    		Ingredient ingredient = Ingredient.findIngredient(input);
+    		
+    		if(ingredient == null) {
+    			System.out.println("The ingredient doesn't exists");
+    		} else if(currentPlayer.getInventory().getQuantity(ingredient) < 1) {
+    			System.out.println("You do not have " + ingredient.getName() + " retry...");
+    		}
+    		else if(!ingredient.isConcoctionBase()) {
+    			System.out.println("Please enter a base not a fruit");
+    		} else {
+    			base = ingredient;
+    		}
+    	}
     	
-    	if(brew.brewCreative(currentPlayer, null, null)) {// STILL NOT DONE
+    	System.out.println("Pick fruit/s atleast input one fruit and automatically finishes when you input 3 fruits:");
+    	System.out.println("If you want to exit type 'BACK'");
+    	System.out.println("If you're ready to brew type 'DONE'");
+    	// Player selects fruits
+    	while(true) {
+    		System.out.println("Enter a name of fruit " + ctr + " : ");
+    		input = scanner.nextLine().trim();
+    
+    		if(input.equalsIgnoreCase("done")) {
+    			if(fruits.size() >= 1) {
+    				break;
+    			} else {
+    				System.out.println("Atleast add one fruit...");
+    			}
+    	    } else if(input.equalsIgnoreCase("back")) {
+    			return;
+    		} 
+    		
+    		Ingredient ingredient = Ingredient.findIngredient(input);
+    		if(ingredient == null) {
+    			System.out.println("The ingredient doesn't exists");
+    		} else if(currentPlayer.getInventory().getQuantity(ingredient) < 1) {
+    			System.out.println("You do not have " + ingredient.getName() + " retry...");
+    		} else if(!ingredient.isFruit()) {
+    			System.out.println("Please enter a fruit not a base:");
+    		} else if(fruits.contains(ingredient))  {
+    			System.out.println("You already selected the fruit");
+    		}
+    		else {
+    			fruits.add(ingredient);
+    			ctr++;
+    		}
+    		
+    		if(fruits.size() == 3) {
+    			System.out.println("MAX is 3 fruits starting the brewing process");
+    			break;
+    		}
+    		
+    	}
+    	
+    	if(brew.brewCreative(currentPlayer, base, fruits)) {
     		System.out.println("Potion was SUCCESFULLY brewed.");
     		brewsSinceMarketVisit++;
     	} else {
