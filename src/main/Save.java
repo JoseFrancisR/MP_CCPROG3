@@ -280,4 +280,32 @@ public class Save {
     private File getSaveFile(String name) {
         return new File("src/data/saves/" + name + ".txt");
     }
+    
+    /**
+     * Displays all available saves
+     * 
+     */
+    public void displaySaves() {
+    	int ctr = 1;
+    	File saveFolder = new File("src/data/saves/");
+        File[] files = saveFolder.listFiles();
+        
+        if(files == null) {
+        	System.out.println("Save folder not found");
+        	return; // no found files exit the function
+        }
+        
+        System.out.println("Availabe Saves: ");
+        for(File file: files) {
+        	if(file.isFile()&& file.getName().endsWith(".txt")) {
+        		System.out.println(ctr + " " + file.getName());
+        		ctr++;
+        	}
+        }
+        
+        if(ctr==1) {
+        	System.out.println("No save is available");
+        	return; 
+        }
+    }
 }

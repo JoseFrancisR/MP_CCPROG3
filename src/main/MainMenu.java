@@ -70,6 +70,7 @@ public class MainMenu {
         		playerName = scanner.next();
         		startNewGame(playerName);
         	} else {
+        		save.displaySaves();
         		System.out.println("Please enter the name of the save to load in: ");
         		playerName = scanner.next();
         		this.currentPlayer = save.loadPlayer(playerName);
