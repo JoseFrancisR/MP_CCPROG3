@@ -103,13 +103,15 @@ public class Market {
         return availListing;
     }
 
-    /** display available listings */
+    /** 
+     * display available listings 
+     * 
+     */
     public void displayAvailableListings() {
         System.out.println("Available Listings:");
         for (Listing listing : getAvailableListings()) {
             if (listing.isCauldronListing()) {
                 System.out.println(listing.getSlotNumber() + ": " + listing.getQuantity() + "x Cauldron for " + listing.getUnitPrice() + " crystals");
-                continue;
             } else {
                 System.out.println(listing.getSlotNumber() + ": " + listing.getQuantity() + "x " + listing.getIngredient().getName() + " for " + (listing.getIngredient().getBuyingPrice() * listing.getQuantity()) + " crystals");
             }
