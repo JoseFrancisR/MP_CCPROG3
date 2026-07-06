@@ -22,7 +22,7 @@ public class Brew {
         }
         
         if(!player.getRecipeBook().isUnlocked(recipe.getConcoctionId())) {
-            success = false
+            success = false;
         }
 
         if (success){
