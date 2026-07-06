@@ -129,6 +129,10 @@ public class MainMenu {
                 save.savePlayer(currentPlayer);
                 System.out.println("New game created for player: " + name);
             }
+        } else {
+            currentPlayer = save.createDefaultPlayer(name);
+            save.savePlayer(currentPlayer);
+            System.out.println("New game created for player: " + name);
         }
         // create new player and save to file
     }
