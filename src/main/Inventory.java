@@ -1,6 +1,7 @@
 package src.main;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 /**
  * Stores the player's ingredient quantities and aggregate cauldron counts.
@@ -190,9 +191,18 @@ public class Inventory {
 
     /** Displays the current inventory. */
     public void displayInventory() {
+        Stack<String> baseIngredients = new Stack<>();
+        
         System.out.println("Current Inventory:");
         for (ItemStack stack : ingredientStacks) {
-            System.out.println("- " + stack.getQuantity() + "x " + stack.getIngredient().getName());
+            if (stack.getIngredient().getName().contains("BASE"))
+                baseIngredients.push(stack.getIngredient().getName() + " = " + stack.getQuantity());
+            else
+                System.out.println(stack.getIngredient().getName() + " = " + stack.getQuantity());
+        }
+        System.out.println();
+        while (!baseIngredients.isEmpty()) {
+            System.out.println(baseIngredients.pop());
         }
     }
 }

@@ -78,6 +78,9 @@ public class MainMenu {
     	}
     	currentPlayer.getRecipeBook().loadRecipes(); // load all recipes once
     	while(!exit) {
+            // wait for confirmation
+            displayConfirmation();
+            System.out.println("================================");
     		displayMainMenu();
     		input = scanner.nextInt();
     		switch(input) {
@@ -215,6 +218,7 @@ public class MainMenu {
     /** Displays all ingredient quantities and cauldron counts. */
     public void checkInventory() {
         currentPlayer.getInventory().displayInventory();
+        System.out.println();
         System.out.println("Usable Cauldrons: " + currentPlayer.getInventory().countUsableCauldrons());
         System.out.println("Unusable Cauldrons: " + currentPlayer.getInventory().countUnusableCauldrons());
     }
@@ -274,6 +278,10 @@ public class MainMenu {
             System.out.print("Cauldron blessed! You now have " + currentPlayer.getInventory().countUsableCauldrons() + " usable cauldrons.");
             System.out.println("You have " + currentPlayer.getCrystals() + " crystals remaining.");
             return true;
+        } else if (currentPlayer.getCrystals() < 1000) {
+            System.out.println("You don't have enough crystals.");
+        } else if (currentPlayer.getInventory().countUsableCauldrons() >= currentPlayer.getInventory().countTotalCauldrons()) {
+            System.out.println("You have no cauldrons to bless");
         }
         return false;
     }
@@ -293,10 +301,9 @@ public class MainMenu {
                  System.out.println("Bonus item not generated");
              } else {
                  Random rand = new Random();
-                 int randQty = rand.nextInt(4) + 1;
-                 currentPlayer.getInventory().addItemStack(bonus.getIngredient(), randQty);
+                 currentPlayer.getInventory().addItemStack(bonus.getIngredient(), 1);
                  loginBonusClaimed = true;
-                 System.out.println("Login bonus claimed! You receieved " + randQty + "x " + bonus.getIngredient().getName() + ".");
+                 System.out.println("Login bonus claimed! You receieved " + 1 + "x " + bonus.getIngredient().getName() + ".");
                  claimed = true;
              }
         }
@@ -611,5 +618,14 @@ public class MainMenu {
             ItemStack stack = sellable.get(i);
             System.out.println((i + 1) + ". " + stack.getIngredient().getName() + " - Quantity: " + stack.getQuantity() + " - Selling Price: " + stack.getIngredient().getSellingPrice());
         }
+    }
+
+    /**
+     * Displays a confirmation screen before proceeding back to main menu
+     */
+    private void displayConfirmation() {
+        Scanner s = new Scanner(System.in);
+        System.out.println("Enter any key to proceed to Main Menu");
+        String temp = s.nextLine();
     }
 }
