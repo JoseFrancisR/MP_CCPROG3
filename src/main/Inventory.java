@@ -42,16 +42,14 @@ public class Inventory {
      * @param qty number of units
      */
     public void addItemStack(Ingredient item, int qty) {
-        if (item == null || qty <= 0) {
-            return; // Invalid input, do nothing
-        }
+        if (!(item == null || qty <= 0)) {
+            ItemStack stack = findStack(item);
 
-        ItemStack stack = findStack(item);
-
-        if (stack == null) {
-            this.ingredientStacks.add(new ItemStack(item, qty));
-        } else if (qty > 0) {
-            stack.add(qty);
+            if (stack == null) {
+                this.ingredientStacks.add(new ItemStack(item, qty));
+            } else if (qty > 0) {
+                stack.add(qty);
+            }
         }
     }
 
@@ -64,10 +62,13 @@ public class Inventory {
      */
     public boolean removeIngredient(Ingredient item, int qty) {
         ItemStack stack = findStack(item);
+        boolean flag = false;
+        
         if (stack != null) {
-            return stack.remove(qty);
+            flag = true;
+            stack.remove(qty);
         }
-        return false;
+        return flag;
     }
 
     /**
@@ -78,10 +79,12 @@ public class Inventory {
      */
     public int getQuantity(Ingredient item) {
         ItemStack stack = findStack(item);
+        int qty = 0;
+
         if (stack != null) {
-            return stack.getQuantity();
+            qty = stack.getQuantity();
         }
-        return 0;
+        return qty;
     }
 
     /**
@@ -91,12 +94,14 @@ public class Inventory {
      * @return true when all required ingredients are available
      */
     public boolean hasIngredients(Recipe recipe) {
+        boolean flag = true;
+
         for (Ingredient item : recipe.getRequiredIngredients()) {
             if (getQuantity(item) < recipe.getRequiredQuantity(item)) {
-                return false;
+                flag = false;
             }
         }
-        return true;
+        return flag;
     }
 
     /** Adds one new usable cauldron. */
@@ -111,11 +116,13 @@ public class Inventory {
      * @return true when a usable cauldron was damaged
      */
     public boolean damageCauldron() {
+        boolean flag = false;
+
         if (this.usableCauldrons > 0) {
             this.usableCauldrons--;
-            return true;
+            flag = true;
         }
-        return false;
+        return flag;
     }
 
     /**
@@ -124,11 +131,13 @@ public class Inventory {
      * @return true when a cauldron was blessed, false if all cauldrons are already usable
      */
     public boolean blessCauldron() {
+        boolean flag = false;
+        
         if (this.totalCauldrons > this.usableCauldrons) {
             this.usableCauldrons++;
-            return true;
+            flag = true;
         }
-        return false;
+        return flag;
     }
 
     /** @return total cauldrons */
@@ -169,12 +178,14 @@ public class Inventory {
 
     /** @return the ingredient needed null if not found */
     private ItemStack findStack(Ingredient item) {
+        ItemStack found = null;
+        
         for (ItemStack stack : ingredientStacks) {
-            if (stack.getIngredient().equals(item)) {
-                return stack;
+            if (stack.getIngredient().isEqual(item)) {
+                found = stack;
             }
         }
-        return null;
+        return found;
     }
 
     /** Displays the current inventory. */

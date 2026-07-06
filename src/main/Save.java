@@ -240,17 +240,42 @@ public class Save {
     public ItemStack randItem(Inventory inventory) {
         ArrayList<Ingredient> ingredients = Ingredient.loadIngredients();
         ArrayList<Ingredient> inventoryIngredients = new ArrayList<>();
+        ItemStack random = null;
+
         for (ItemStack stack : inventory.getIngredientStacks()) {
             inventoryIngredients.add(stack.getIngredient());
         }
-        ingredients.removeAll(inventoryIngredients);
-        if (ingredients.isEmpty()) {
-            return null; // No more ingredients to add
+
+        // filters existing/owned
+        ArrayList<Ingredient> filtered = new ArrayList<>();
+
+        for (Ingredient ingredient : ingredients) {
+            boolean owned = false;
+
+            for (Ingredient inventoryIngredient : inventoryIngredients) {
+                if (owned == false) {
+                    if (ingredient.isEqual(inventoryIngredient)) {
+                        owned = true;
+                    }
+                }
+            }
+
+            if (owned == false) {
+                filtered.add(ingredient);
+            }
         }
-        int randomIndex = (int) (Math.random() * ingredients.size());
-        Ingredient randomIngredient = ingredients.get(randomIndex);
-        int randomQuantity = (int) (Math.random() * 5) + 1; // Random quantity between 1 and 5
-        return new ItemStack(randomIngredient, randomQuantity);
+
+        ingredients = filtered;
+
+        if (!ingredients.isEmpty()) {
+            int randomIndex = (int) (Math.random() * ingredients.size());
+            Ingredient randomIngredient = ingredients.get(randomIndex);
+            int randomQuantity = (int) (Math.random() * 5) + 1; // Random quantity between 1 and 5
+            
+            random = new ItemStack(randomIngredient, randomQuantity);
+        }
+        
+        return random;
     }
     
     /**

@@ -29,7 +29,7 @@ public class ItemStack {
      */
     public void add(int qty) {
         if (qty <= 0) {
-            throw new IllegalArgumentException("Cannot add non-positive quantity");
+            System.out.println("Cannot add non-positive quantity");
         } else {
             quantity += qty;
         }
@@ -42,14 +42,17 @@ public class ItemStack {
      * @return true when the removal succeeds
      */
     public boolean remove(int qty) {
+        boolean flag = false;
+        
         if (qty <= 0) {
-            throw new IllegalArgumentException("Cannot remove non-positive quantity");
+            System.out.println("Cannot add non-positive quantity");
         } else if (qty > quantity) {
-            return false;
+            flag = false;
         } else {
             quantity -= qty;
-            return true;
+            flag = true;
         }
+        return flag;
     }
 
     /** @return current quantity */

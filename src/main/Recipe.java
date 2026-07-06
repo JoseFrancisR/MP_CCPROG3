@@ -49,18 +49,24 @@ public class Recipe {
      * @return true when the ingredients match this recipe
      */
     public boolean matches(Ingredient base, ArrayList<Ingredient> fruits) {
-        if (!this.base.equals(base)) {
-            return false;
+        boolean match = true;
+
+        if (base == null || fruits == null) {
+            match = false;
         }
-        if (this.fruits.size() != fruits.size()) {
-            return false; 
+        
+        if (!this.base.isEqual(base) && match) {
+            match = false;
+        }
+        if (this.fruits.size() != fruits.size() && match) {
+            match = false;
         }
         for (Ingredient fruit : fruits) {
-            if (!this.fruits.contains(fruit)) {
-                return false;
+            if (!containsFruit(fruit)) {
+                match = false;
             }
         }
-        return true;
+        return match;
     }
 
     /**
@@ -101,12 +107,36 @@ public class Recipe {
     }
 
     public int getRequiredQuantity(Ingredient item) {
-        if (item.equals(base)) {
-            return 1;
-        } else if (fruits.contains(item)) {
-            return 1;
+        int val;
+        
+        if (item.isEqual(base)) {
+            val = 1;
+        } else if (containsFruit(item)) {
+            val = 1;
         } else {
-            return 0;
+            val = 0;
         }
+
+        return val;
+    }
+
+    /**
+     * Checks if it contains the Ingredient fruit
+     * @return boolean
+     */
+    public boolean containsFruit(Ingredient other) {
+        boolean contains = false;
+
+        if (other != null) {
+            for (Ingredient fruit : fruits) {
+                if (contains == false) {
+                    if (fruit.isEqual(other)) {
+                        contains = true;
+                    }
+                }
+            }
+        }
+        
+        return contains;
     }
 }

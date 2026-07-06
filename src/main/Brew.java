@@ -81,7 +81,7 @@ public class Brew {
 
         for(i = 0; i < fruits.size(); i++) {
             for(j = i + 1; j < fruits.size(); j++) {
-                if(fruits.get(i).equals(fruits.get(j))) {
+                if(fruits.get(i).isEqual(fruits.get(j))) {
                     success = false;
                 }
             }
