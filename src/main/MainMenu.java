@@ -76,7 +76,7 @@ public class MainMenu {
         		this.currentPlayer = save.loadPlayer(playerName);
         	}
     	}
-    	
+    	currentPlayer.getRecipeBook().loadRecipes(); // load all recipes once
     	while(!exit) {
     		displayMainMenu();
     		input = scanner.nextInt();
@@ -160,6 +160,8 @@ public class MainMenu {
         System.out.println("5. Bless a cauldron (1000 crystals)");
         System.out.println("6. Claim login bonus (once per session)");
         System.out.println("7. Exit game");
+        System.out.println("--------------------------------");
+        System.out.println("Choice: ");
     }
 
     /** Handles recipe-mode or creative-mode brewing. */
