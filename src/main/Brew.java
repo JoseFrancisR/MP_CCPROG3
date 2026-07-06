@@ -15,16 +15,22 @@ public class Brew {
      * @return true when brewing succeeds
      */
     public boolean brewRecipe(Player player, Recipe recipe) {
+        boolean success = true;
+        
         if(!hasEnoughIngredients(player, recipe)) {
-            return false;
+            success = false;
         }
         
         if(!player.getRecipeBook().isUnlocked(recipe.getConcoctionId())) {
-            return false;
+            success = false;
         }
-        consumeIngredients(player, recipe);
-        sellConcoction(player, recipe);
-        return true;
+
+        if (success){
+            consumeIngredients(player, recipe);
+            sellConcoction(player, recipe);
+        }
+
+        return success;
     }
 
     /**
@@ -36,22 +42,27 @@ public class Brew {
      * @return true when the mixture matches a valid recipe
      */
     public boolean brewCreative(Player player, Ingredient base, ArrayList<Ingredient> fruits) {
+        boolean success = true;
+        
         if(!validateUniqueFruits(fruits)) {
-            return false;
+            success = false;
         }
         Recipe checkRecipe = player.getRecipeBook().findRecipe(base, fruits);
         if(checkRecipe == null) {
             damageCauldron(player);
-            return false;
+            success = false;
         }
         if(!hasEnoughIngredients(player, checkRecipe)) {
-            return false;
+            success = false;
         }
         
-        consumeIngredients(player, checkRecipe);
-        sellConcoction(player, checkRecipe);
-        player.getRecipeBook().unlockRecipe(checkRecipe.getConcoctionId());
-        return true;
+        if (success) {
+            consumeIngredients(player, checkRecipe);
+            sellConcoction(player, checkRecipe);
+            player.getRecipeBook().unlockRecipe(checkRecipe.getConcoctionId());
+        }
+        
+        return success;
     }
 
     /**
@@ -62,19 +73,21 @@ public class Brew {
      */
     private boolean validateUniqueFruits(ArrayList<Ingredient> fruits) {
         int i, j;
+        boolean success = true;
+
         if(fruits.size() < 1 || fruits.size() > 3) {
-            return false;
+            success = false;
         }
 
         for(i = 0; i < fruits.size(); i++) {
             for(j = i + 1; j < fruits.size(); j++) {
-                if(fruits.get(i).equals(fruits.get(j))) {
-                    return false;
+                if(fruits.get(i).isEqual(fruits.get(j))) {
+                    success = false;
                 }
             }
         }
 
-        return true;
+        return success;
     }
 
     /**
