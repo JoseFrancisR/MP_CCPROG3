@@ -49,24 +49,25 @@ public class Listing {
      * @return true when the transaction succeeds
      */
     public boolean purchase(Player player) {
+        boolean flag = false;
         if (available) {
             if (isCauldron) {
                 if (player.getCrystals() >= unitPrice) {
                     player.getInventory().addCauldron();
                     player.spendCrystals(unitPrice);
                     markSold();
-                    return true;
+                    flag = true;
                 }
             } else {
                 if (player.getCrystals() >= unitPrice * quantity) {
                     player.getInventory().addItemStack(ingredient, quantity);
                     player.spendCrystals(unitPrice * quantity);
                     markSold();
-                    return true;
+                    flag = true;
                 }
             }
         }
-        return false;
+        return flag;
     }
 
     /** Marks the slot as unavailable after purchase. */

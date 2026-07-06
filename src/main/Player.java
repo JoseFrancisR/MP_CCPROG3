@@ -66,11 +66,12 @@ public class Player {
      * @return true when payment succeeds
      */
     public boolean spendCrystals(int amount) {
+        boolean flag = false;
         if (canAfford(amount)) {
             this.crystals -= amount;
-            return true;
+            flag = true;
         }
-        return false;
+        return flag;
     }
 
     /**

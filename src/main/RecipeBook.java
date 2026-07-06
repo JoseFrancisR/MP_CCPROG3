@@ -36,6 +36,7 @@ public class RecipeBook {
         String name = null;
         Ingredient base = null;
         ArrayList<Ingredient> fruits = null;
+        boolean success = false;
         try {
             File actualFile = targetFile.getCanonicalFile();
             if (actualFile.exists() && actualFile.isFile()) {
@@ -63,7 +64,7 @@ public class RecipeBook {
                 }
                 this.recipes = loadedRecipes;
                 scanner.close();
-                return true;
+                success = true;
             } else {
                 System.out.println("ERROR: Recipe catalog file not found at " + actualFile.getAbsolutePath());
             }
@@ -71,7 +72,7 @@ public class RecipeBook {
         } catch (Exception e) {
             System.out.println("ERROR: Failed to load recipes from " + targetFile.getAbsolutePath() + ": " + e.getMessage());
         }
-        return false;
+        return success;
     }
 
     /**
@@ -90,12 +91,13 @@ public class RecipeBook {
      * @return matching recipe, or null when not found
      */
     public Recipe findRecipeById(int id) {
+        Recipe found = null;
         for (Recipe recipe : recipes) {
             if (recipe.getConcoctionId() == id) {
-                return recipe;
+                found = recipe;
             }
         }
-        return null;
+        return found;
     }
 
     /**
@@ -106,12 +108,13 @@ public class RecipeBook {
      * @return matching recipe, or null when the mixture is invalid
      */
     public Recipe findRecipe(Ingredient base, ArrayList<Ingredient> fruits) {
+        Recipe found = null;
         for (Recipe recipe : recipes) {
             if (recipe.matches(base, fruits)) {
-                return recipe;
+                found = recipe;
             }
         }
-        return null;
+        return found;
     }
 
     /**
@@ -121,11 +124,12 @@ public class RecipeBook {
      * @return true when the recipe becomes newly unlocked
      */
     public boolean unlockRecipe(int id) {
+        boolean flag = false;
         if (!isUnlocked(id)) {
             unlockedRecipeIds.add(id);
-            return true;
+            flag = true;
         }
-        return false;
+        return flag;
     }
 
     /**

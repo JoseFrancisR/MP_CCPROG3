@@ -18,18 +18,18 @@ public class Save {
      * @return true when the corresponding file exists
      */
     public boolean saveExists(String name) {
-
         File targetFile = getSaveFile(name);
+        boolean flag = false;
 
         try {
             File actualFile = targetFile.getCanonicalFile();
             if (actualFile.isFile() && actualFile.exists()) {
-                return true;
+                flag = true;
             }
         } catch (IOException e) {
             System.out.println("ERROR: in finding the file due to " + e.getMessage());
         }
-        return false;
+        return flag;
     }
 
     /**
@@ -90,74 +90,76 @@ public class Save {
         String ingredientName;
         int quantity;
 
+        Player save = null;
+
         if (!targetFile.exists()) {
             System.out.println("Save file does not exist.");
-            return null;
-        }
-
-        try {
-            File actualFile = targetFile.getCanonicalFile();
-            Scanner fileScanner = null;
-            
+        } else {
             try {
-                fileScanner = new Scanner(actualFile);
+                File actualFile = targetFile.getCanonicalFile();
+                Scanner fileScanner = null;
+                
+                try {
+                    fileScanner = new Scanner(actualFile);
 
-                if (!actualFile.exists()) {
-                    System.out.println("Save file does not exist.");
-                    return null;
-                }
-                while (fileScanner.hasNextLine()) {
-                    String line = fileScanner.nextLine();
-                    if (line.startsWith("NAME = ")) {
-                        playerName = line.substring(7);
-                    } else if (line.startsWith("CRYSTALS = ")) {
-                        playerCrystal = Integer.parseInt(line.substring(11));
-                    } else if (line.startsWith("[INVENTORY]")) {
-                        section = "INVENTORY"; // since it needs to move another line to read the next line, we need to
-                                               // set the section to INVENTORY
-                    } else if (line.startsWith("[SPELLBOOK]")) {
-                        section = "SPELLBOOK";
-                    } else if (line.isEmpty() || section == null) {
-                        // do nothing
-                    } else if (section.equals("INVENTORY")) {
-                        // split the line into ingredient name and quantity
-                        String[] parts = line.split("=");
+                    if (!actualFile.exists()) {
+                        System.out.println("Save file does not exist.");
+                        return null;
+                    }
+                    while (fileScanner.hasNextLine()) {
+                        String line = fileScanner.nextLine();
+                        if (line.startsWith("NAME = ")) {
+                            playerName = line.substring(7);
+                        } else if (line.startsWith("CRYSTALS = ")) {
+                            playerCrystal = Integer.parseInt(line.substring(11));
+                        } else if (line.startsWith("[INVENTORY]")) {
+                            section = "INVENTORY"; // since it needs to move another line to read the next line, we need to
+                                                   // set the section to INVENTORY
+                        } else if (line.startsWith("[SPELLBOOK]")) {
+                            section = "SPELLBOOK";
+                        } else if (line.isEmpty() || section == null) {
+                            // do nothing
+                        } else if (section.equals("INVENTORY")) {
+                            // split the line into ingredient name and quantity
+                            String[] parts = line.split("=");
 
-                        if (parts.length == 2) {
-                            ingredientName = parts[0].trim();
-                            quantity = Integer.parseInt(parts[1].trim());
+                            if (parts.length == 2) {
+                                ingredientName = parts[0].trim();
+                                quantity = Integer.parseInt(parts[1].trim());
 
-                            if (ingredientName.equals("TOTAL CAULDRONS")) {
-                                inventory.setTotalCauldrons(quantity);
-                            } else if (ingredientName.equals("USABLE CAULDRONS")) {
-                                inventory.setUsableCauldrons(quantity);
-                            } else {
-                                ingredient = Ingredient.findIngredient(ingredientName);
-                                inventory.addItemStack(ingredient, quantity);
+                                if (ingredientName.equals("TOTAL CAULDRONS")) {
+                                    inventory.setTotalCauldrons(quantity);
+                                } else if (ingredientName.equals("USABLE CAULDRONS")) {
+                                    inventory.setUsableCauldrons(quantity);
+                                } else {
+                                    ingredient = Ingredient.findIngredient(ingredientName);
+                                    inventory.addItemStack(ingredient, quantity);
+                                }
                             }
-                        }
-                    } else if (section.equals("SPELLBOOK")) {
-                        // split the nums into own string and parse into array list of int
-                        String[] recipeIds = line.split(",");
+                        } else if (section.equals("SPELLBOOK")) {
+                            // split the nums into own string and parse into array list of int
+                            String[] recipeIds = line.split(",");
 
-                        for (String id : recipeIds) {
-                            unlockedRecipes.add(Integer.parseInt(id.trim()));
+                            for (String id : recipeIds) {
+                                unlockedRecipes.add(Integer.parseInt(id.trim()));
+                           }
                         }
                     }
-                }
-                recipe.loadRecipes();
+                    recipe.loadRecipes();
 
-                recipe.loadUnlockedRecipeIds(unlockedRecipes);
-                return new Player(playerName, playerCrystal, inventory, recipe);
-            } finally {
-                if (fileScanner != null) {
-                    fileScanner.close();
+                    recipe.loadUnlockedRecipeIds(unlockedRecipes);
+                    save = new Player(playerName, playerCrystal, inventory, recipe);
+                } finally {
+                    if (fileScanner != null) {
+                        fileScanner.close();
+                    }
                 }
+            } catch (IOException e) {
+                System.out.println("ERROR: in finding the file due to " + e.getMessage());
             }
-        } catch (IOException e) {
-            System.out.println("ERROR: in finding the file due to " + e.getMessage());
         }
-        return null;
+        
+        return save;
     }
 
     /**
@@ -169,6 +171,7 @@ public class Save {
     public boolean savePlayer(Player player) {
         File targetFile = getSaveFile(player.getName());
         PrintWriter saveFile = null;
+        boolean flag = true;
 
         try {
             saveFile = new PrintWriter(targetFile);
@@ -179,13 +182,13 @@ public class Save {
             writeRecipebook(saveFile, player.getRecipeBook());
         } catch (IOException e) {
             System.out.println("ERROR: in writing the file due to " + e.getMessage());
-            return false;
+            flag = false;
         } finally {
             if (saveFile != null) {
                 saveFile.close();
             }
         }
-        return true;
+        return flag;
     }
 
     /**
@@ -284,16 +287,15 @@ public class Save {
     public boolean hasSave() {
     	File saveFolder = new File("src/data/saves/");
         File[] files = saveFolder.listFiles();
-        if(files == null) {
-        	return false;
+        boolean flag = false;
+        if(files != null) {
+            for(File file: files) {
+        	    if(file.isFile()&& file.getName().endsWith(".txt")) {
+        	    	flag = true;
+        	    }
+            }
         }
-        for(File file: files) {
-        	if(file.isFile()&& file.getName().endsWith(".txt")) {
-        		return true;
-        	}
-        }
-        
-        return false;
+        return flag;
     }
 
     /**
@@ -314,23 +316,25 @@ public class Save {
     	int ctr = 1;
     	File saveFolder = new File("src/data/saves/");
         File[] files = saveFolder.listFiles();
+        boolean found = true;
         
         if(files == null) {
         	System.out.println("Save folder not found");
-        	return; // exit method folder doesn't exists
+        	found = false;
         }
         
         System.out.println("Availabe Saves: ");
-        for(File file: files) {
-        	if(file.isFile()&& file.getName().endsWith(".txt")) {
-        		System.out.println(ctr + " " + file.getName());
-        		ctr++;
-        	}
+        if (found){
+            for(File file: files) {
+        	    if(file.isFile()&& file.getName().endsWith(".txt")) {
+        	    	System.out.println(ctr + " " + file.getName());
+        	    	ctr++;
+        	    }
+            }
         }
-        
+
         if(ctr==1) {
         	System.out.println("No save is available");
-        	return; 
         }
     }
 }
