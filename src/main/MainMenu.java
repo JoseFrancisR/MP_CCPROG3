@@ -2,7 +2,6 @@ package src.main;
 
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Coordinates menus, session-only values, and the major game services.
@@ -300,7 +299,6 @@ public class MainMenu {
              if (bonus == null){
                  System.out.println("Bonus item not generated");
              } else {
-                 Random rand = new Random();
                  currentPlayer.getInventory().addItemStack(bonus.getIngredient(), 1);
                  loginBonusClaimed = true;
                  System.out.println("Login bonus claimed! You receieved " + 1 + "x " + bonus.getIngredient().getName() + ".");
