@@ -104,7 +104,6 @@ public class Market {
 
     /** 
      * display available listings 
-     * 
      */
     public void displayAvailableListings() {
         System.out.println("Available Listings:");

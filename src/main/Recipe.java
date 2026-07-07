@@ -106,6 +106,12 @@ public class Recipe {
         return saleValue;
     }
 
+    /**
+     * Checks whether the inputted ingredient is needed for a recipe
+     * 
+     * @param item the item being checked if needed
+     * @return 1 or 0 depending if ingredient is required or not
+     */
     public int getRequiredQuantity(Ingredient item) {
         int val;
         

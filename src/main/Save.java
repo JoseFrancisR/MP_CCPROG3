@@ -282,6 +282,8 @@ public class Save {
     
     /**
      * Returns a boolean on whether there is a save that exists in the directory 
+     * 
+     * @return true if there is a save, otherwise false
      */
     public boolean hasSave() {
     	File saveFolder = new File("src/data/saves/");
@@ -309,7 +311,6 @@ public class Save {
     
     /**
      * Displays all available saves
-     * 
      */
     public void displaySaves() {
     	int ctr = 1;

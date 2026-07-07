@@ -597,6 +597,9 @@ public class MainMenu {
 
     /**
      * Finds an available listing by slot number.
+     * 
+     * @param slotNumber the slot number selected by player
+     * @return the listing the was valid/found, if not returns null
      */
     private Listing findAvailableListing(int slotNumber) {
         ArrayList<Listing> listings = market.getAvailableListings();
