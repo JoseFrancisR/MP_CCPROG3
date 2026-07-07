@@ -39,7 +39,6 @@ public class Save {
      * @return new player
      */
     public Player createDefaultPlayer(String name) {
-        int i;
         Player newPlayer = new Player(name);
         newPlayer.getInventory().addItemStack(Ingredient.findIngredient("STRAWBERRY"), 3);
         newPlayer.getInventory().addItemStack(Ingredient.findIngredient("ORANGE"), 2);

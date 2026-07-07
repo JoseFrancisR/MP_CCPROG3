@@ -53,13 +53,14 @@ public class MainMenu {
         		    System.out.println("2. Load Game");
         		    System.out.println("Please choose 1 or 2 to continue: ");
         		    input = scanner.nextInt();
-
+        		    scanner.nextLine(); // take out the buffer
         		} while (input != 1 && input != 2);
         	} else {
         		do {
         			System.out.println("1. New Game");
         			System.out.println("Please enter 1 to make a new game: ");
         			input = scanner.nextInt();
+        			scanner.nextLine();
 
         		} while (input != 1);
         	}
@@ -67,11 +68,13 @@ public class MainMenu {
         	if(input==1) {
         		System.out.println("Please enter username: ");
         		playerName = scanner.next();
+        		scanner.nextLine();
         		startNewGame(playerName);
         	} else {
         		save.displaySaves();
         		System.out.println("Please enter the name of the save to load in: ");
         		playerName = scanner.next();
+        		scanner.nextLine();
         		this.currentPlayer = save.loadPlayer(playerName);
         	}
     	}
@@ -82,6 +85,7 @@ public class MainMenu {
             System.out.println("================================");
     		displayMainMenu();
     		input = scanner.nextInt();
+    		scanner.nextLine();
     		switch(input) {
     			case 1:
     				 brewConcoction();
@@ -122,7 +126,6 @@ public class MainMenu {
     public void startNewGame(String name) {
     	if (save.saveExists(name)) {
             System.out.println("A save file with this name already exists. Overwrite? (y/n)");
-            String temp = scanner.nextLine(); // consume the newline character
             String response = scanner.nextLine().trim();
             if (!response.equalsIgnoreCase("y")) {
                 System.out.println("New game creation cancelled.");
@@ -163,7 +166,7 @@ public class MainMenu {
         System.out.println("6. Claim login bonus (once per session)");
         System.out.println("7. Exit game");
         System.out.println("--------------------------------");
-        System.out.println("Choice: ");
+        System.out.print("Choice: ");
     }
 
     /** Handles recipe-mode or creative-mode brewing. */
@@ -178,6 +181,7 @@ public class MainMenu {
         		System.out.println("3. Back");
         		System.out.print("Enter which mode (1-3): ");
         		input = scanner.nextInt();
+        		scanner.nextLine();
         		switch(input) {
         			case 1:
         				recipeMode();
@@ -199,6 +203,7 @@ public class MainMenu {
         		System.out.println("2. Back");
         		System.out.print("Enter which mode (1-2): ");
         		input = scanner.nextInt();
+        		scanner.nextLine();
         		switch(input) {
         			case 1:
         				recipeMode();
@@ -237,8 +242,6 @@ public class MainMenu {
             market.refresh();
         }
         brewsSinceMarketVisit = 0;
-
-        scanner.nextLine(); // read remaining newline character from previous input
 
         do {
             System.out.println();
@@ -622,8 +625,7 @@ public class MainMenu {
      * Displays a confirmation screen before proceeding back to main menu
      */
     private void displayConfirmation() {
-        Scanner s = new Scanner(System.in);
         System.out.println("Enter any key to proceed to Main Menu");
-        String temp = s.nextLine();
+        scanner.nextLine();
     }
 }

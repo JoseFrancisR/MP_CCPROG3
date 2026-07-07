@@ -93,7 +93,6 @@ public class Market {
      * @return available listings
      */
     public ArrayList<Listing> getAvailableListings() {
-        int i;
         ArrayList<Listing> availListing = new ArrayList<>();
         for (Listing listing : listings) {
             if (listing.isAvailable()) {
