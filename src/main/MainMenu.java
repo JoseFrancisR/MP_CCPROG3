@@ -82,7 +82,7 @@ public class MainMenu {
     	while(!exit) {
             // wait for confirmation
             displayConfirmation();
-            System.out.println("================================");
+            displayBorder();
     		displayMainMenu();
     		input = scanner.nextInt();
     		scanner.nextLine();
@@ -125,6 +125,7 @@ public class MainMenu {
      */
     public void startNewGame(String name) {
     	if (save.saveExists(name)) {
+            displayBorder();
             System.out.println("A save file with this name already exists. Overwrite? (y/n)");
             String response = scanner.nextLine().trim();
             if (!response.equalsIgnoreCase("y")) {
@@ -165,7 +166,7 @@ public class MainMenu {
         System.out.println("5. Bless a cauldron (1000 crystals)");
         System.out.println("6. Claim login bonus (once per session)");
         System.out.println("7. Exit game");
-        System.out.println("--------------------------------");
+        System.out.println("-----------------------------");
         System.out.print("Choice: ");
     }
 
@@ -176,6 +177,7 @@ public class MainMenu {
         currentPlayer.getInventory().displayInventory();
         if(currentPlayer.getInventory().countUsableCauldrons()>1) {
         	while(loop) {
+                displayBorder();
         		System.out.println("1. Recipe Mode");
         		System.out.println("2. Creative Mode");
         		System.out.println("3. Back");
@@ -199,6 +201,7 @@ public class MainMenu {
         	}
         } else {
         	while(loop) {
+                displayBorder();
         		System.out.println("1. Recipe Mode");
         		System.out.println("2. Back");
         		System.out.print("Enter which mode (1-2): ");
@@ -221,6 +224,7 @@ public class MainMenu {
 
     /** Displays all ingredient quantities and cauldron counts. */
     public void checkInventory() {
+        displayBorder();
         currentPlayer.getInventory().displayInventory();
         System.out.println();
         System.out.println("Usable Cauldrons: " + currentPlayer.getInventory().countUsableCauldrons());
@@ -229,6 +233,7 @@ public class MainMenu {
 
     /** Displays all recipes currently unlocked by the player. */
     public void checkSpellbook() {
+        displayBorder();
         currentPlayer.getRecipeBook().displayUnlockedRecipes();
     }
 
@@ -244,7 +249,7 @@ public class MainMenu {
         brewsSinceMarketVisit = 0;
 
         do {
-            System.out.println();
+            displayBorder();
             System.out.println("=========== Market ==========");
             System.out.println("Current Crystals: " + currentPlayer.getCrystals());
             System.out.println("1. Buy ingredients/cauldrons");
@@ -277,12 +282,15 @@ public class MainMenu {
         if (currentPlayer.getCrystals() >= 1000 && (currentPlayer.getInventory().countUsableCauldrons() < currentPlayer.getInventory().countTotalCauldrons())) {
             currentPlayer.spendCrystals(1000);
             currentPlayer.getInventory().blessCauldron();
+            displayBorder();
             System.out.print("Cauldron blessed! You now have " + currentPlayer.getInventory().countUsableCauldrons() + " usable cauldrons.");
             System.out.println("You have " + currentPlayer.getCrystals() + " crystals remaining.");
             return true;
         } else if (currentPlayer.getCrystals() < 1000) {
+            displayBorder();
             System.out.println("You don't have enough crystals.");
         } else if (currentPlayer.getInventory().countUsableCauldrons() >= currentPlayer.getInventory().countTotalCauldrons()) {
+            displayBorder();
             System.out.println("You have no cauldrons to bless");
         }
         return false;
@@ -296,19 +304,20 @@ public class MainMenu {
     public boolean claimLoginBonus() {
     	boolean claimed = false; 
         if (loginBonusClaimed) {
+            displayBorder();
             System.out.println("Login Bonus has already been claimed!");
         } else {
-        	 ItemStack bonus = save.randItem(currentPlayer.getInventory());
-             if (bonus == null){
-                 System.out.println("Bonus item not generated");
-             } else {
-                 currentPlayer.getInventory().addItemStack(bonus.getIngredient(), 1);
-                 loginBonusClaimed = true;
-                 System.out.println("Login bonus claimed! You receieved " + 1 + "x " + bonus.getIngredient().getName() + ".");
-                 claimed = true;
-             }
+            displayBorder();
+        	ItemStack bonus = save.randItem(currentPlayer.getInventory());
+            if (bonus == null){
+                System.out.println("Bonus item not generated");
+            } else {
+                currentPlayer.getInventory().addItemStack(bonus.getIngredient(), 1);
+                loginBonusClaimed = true;
+                System.out.println("Login bonus claimed! You receieved " + 1 + "x " + bonus.getIngredient().getName() + ".");
+                claimed = true;
+            }
         }
-       
 
         return claimed;
     }
@@ -323,6 +332,7 @@ public class MainMenu {
     	Recipe recipe = null;
     	currentPlayer.getRecipeBook().displayUnlockedRecipes();
     	while(loop) {
+            displayBorder();
     		System.out.println("Enter the ID of the (Enter -1 to back out) ");
     		   
         	id = scanner.nextInt();
@@ -344,9 +354,11 @@ public class MainMenu {
     	}
     	if(playerBrew == true) {
     		if(brew.brewRecipe(currentPlayer, recipe)) {
+                displayBorder();
         		System.out.println("Potion was SUCCESFULLY brewed.");
         		brewsSinceMarketVisit++;
         	} else {
+                displayBorder();
         		System.out.println("Failed to brew the potion.");
         	}
     	}
@@ -366,6 +378,9 @@ public class MainMenu {
     	ArrayList<Ingredient> fruits = new ArrayList<>();
     	// Player selects base
     	while(loopBase) {
+            displayBorder();
+            currentPlayer.getInventory().displayInventory();
+            System.out.println();
     		System.out.println("Enter base from your inventory");
     		System.out.println("If you want to exit type 'BACK'");
     		input = scanner.nextLine().trim();
@@ -394,6 +409,9 @@ public class MainMenu {
     	System.out.println("If you're ready to brew type 'DONE'");
     	// Player selects fruits
     	while(loopFruit) {
+            displayBorder();
+            currentPlayer.getInventory().displayInventory();
+            System.out.println();
     		System.out.println("Enter a name of fruit " + ctr + " : ");
     		input = scanner.nextLine().trim();
     
@@ -431,6 +449,7 @@ public class MainMenu {
     		}
     	}
     	if(playerBrew) {
+            displayBorder();
     		if(brew.brewCreative(currentPlayer, base, fruits)) {
         		System.out.println("Potion was SUCCESFULLY brewed.");
         		brewsSinceMarketVisit++;
@@ -442,6 +461,7 @@ public class MainMenu {
 
     /** Saves the current player and exits normally. */
     public void exitGame() {
+        displayBorder();
         save.savePlayer(currentPlayer);
         System.out.println("Game saved. Goodbye!");
         System.exit(0);
@@ -456,10 +476,10 @@ public class MainMenu {
         ArrayList<Listing> listings = market.getAvailableListings();
 
         if (listings.isEmpty()) {
+            displayBorder();
             System.out.println("No listings available in the market.");
         } else {
-        	System.out.println();
-            System.out.println("Available listings:");
+            displayBorder();
             market.displayAvailableListings();
             System.out.println();
             System.out.println("Enter the slot numbers to buy (comma-separated), or enter 0 to cancel:");
@@ -467,39 +487,39 @@ public class MainMenu {
 
             String input = scanner.nextLine().trim();
              if (input.equals("0")) {
-            	 System.out.println("Exiting market buying.");
-             } else {
-            	 ArrayList<Integer> selectedSlots = parseSelectedSlots(input);
-                 if (selectedSlots.isEmpty()) {
-                     System.out.println("No valid slot numbers selected. Exiting market buying.");
-                 } else {
-                	 int total = 0, purchases = 0;
+            	System.out.println("Exiting market buying.");
+            } else {
+            	ArrayList<Integer> selectedSlots = parseSelectedSlots(input);
+                if (selectedSlots.isEmpty()) {
+                    System.out.println("No valid slot numbers selected. Exiting market buying.");
+                } else {
+                	int total = 0, purchases = 0;
 
-                     for (Integer slot : selectedSlots) {
-                         Listing listing = findAvailableListing(slot);
+                    for (Integer slot : selectedSlots) {
+                        Listing listing = findAvailableListing(slot);
 
-                         if (listing == null) {
-                             System.out.println("Invalid slot number: " + slot + ". Skipping.");
-                         } else {
-                             String itemName = listing.isCauldronListing() ? "Cauldron" : listing.getIngredient().getName();
-                             int cost = listing.getUnitPrice() * listing.getQuantity();
+                        if (listing == null) {
+                            System.out.println("Invalid slot number: " + slot + ". Skipping.");
+                        } else {
+                            String itemName = listing.isCauldronListing() ? "Cauldron" : listing.getIngredient().getName();
+                            int cost = listing.getUnitPrice() * listing.getQuantity();
 
-                             if (listing.purchase(currentPlayer)){
-                                 purchases++;
-                                 total += cost;
-                                 System.out.println("Purchased " + listing.getQuantity() + "x " + itemName + " for " + cost + " crystals.");
-                                 System.out.println("Remaining Crystals: " + currentPlayer.getCrystals());
-                             } else {
-                                 System.out.println("Failed to purchase " + listing.getQuantity() + "x " + itemName + ". Not enough crystals/item unavailable.");
-                             }
-                         }
-                     }
+                            if (listing.purchase(currentPlayer)){
+                                purchases++;
+                                total += cost;
+                                System.out.println("Purchased " + listing.getQuantity() + "x " + itemName + " for " + cost + " crystals.");
+                                System.out.println("Remaining Crystals: " + currentPlayer.getCrystals());
+                            } else {
+                                System.out.println("Failed to purchase " + listing.getQuantity() + "x " + itemName + ". Not enough crystals/item unavailable.");
+                            }
+                        }
+                    }
 
-                     if (purchases > 0) {
-                         System.out.println("Total spent: " + total + " crystals.");
-                     } else {
-                         System.out.println("No purchases were made.");
-                     }
+                    if (purchases > 0) {
+                        System.out.println("Total spent: " + total + " crystals.");
+                    } else {
+                        System.out.println("No purchases were made.");
+                    }
                  }
              }
         }
@@ -521,49 +541,50 @@ public class MainMenu {
         }
 
         if (sellable.isEmpty()) {
+            displayBorder();
             System.out.println("No ingredients available to sell.");
         } else {
-        	 System.out.println();
-             System.out.println("=========== Sell ==========");
-             displaySellable(sellable);
-             System.out.println();
-             System.out.println("Enter the number and quantity (e.g., 2:1,3:2), or enter 0 to cancel:");
-             System.out.print("Selected items: ");
+            displayBorder();
+            System.out.println("============ Sell ===========");
+            displaySellable(sellable);
+            System.out.println();
+            System.out.println("Enter the number and quantity (e.g., 2:1,3:2), or enter 0 to cancel:");
+            System.out.print("Selected items: ");
 
-             String input = scanner.nextLine().trim();
-             if (input.equals("0")) {
-                 System.out.println("Exiting market selling.");
-             } else {
-            	 String[] selected = input.split(",");
-                 for (String selection : selected) {
-                     String[] parts = selection.split(":"); // seperate quantity and number
-                     if (parts.length != 2) {
-                         System.out.println("Invalid input format: " + selection + ". Skipping.");
-                     } else {
-                         try {
-                             int index = Integer.parseInt(parts[0].trim()) - 1;
-                             int quantity = Integer.parseInt(parts[1].trim());
+            String input = scanner.nextLine().trim();
+            if (input.equals("0")) {
+                System.out.println("Exiting market selling.");
+            } else {
+            	String[] selected = input.split(",");
+                for (String selection : selected) {
+                    String[] parts = selection.split(":"); // seperate quantity and number
+                    if (parts.length != 2) {
+                        System.out.println("Invalid input format: " + selection + ". Skipping.");
+                    } else {
+                        try {
+                            int index = Integer.parseInt(parts[0].trim()) - 1;
+                            int quantity = Integer.parseInt(parts[1].trim());
 
-                             if (index < 0 || index >= sellable.size()) {
-                                 System.out.println("Invalid item number: " + (index + 1) + ". Skipping.");
-                             } else {
-                            	 ItemStack stackToSell = sellable.get(index);
+                            if (index < 0 || index >= sellable.size()) {
+                                System.out.println("Invalid item number: " + (index + 1) + ". Skipping.");
+                            } else {
+                            	ItemStack stackToSell = sellable.get(index);
 
-                                 if (quantity <= 0 || quantity > stackToSell.getQuantity()) {
-                                     System.out.println("Invalid quantity for " + stackToSell.getIngredient().getName() + ". Skipping.");
-                                 } else {
-                                	  currentPlayer.getInventory().removeIngredient(stackToSell.getIngredient(), quantity);
-                                      int total = stackToSell.getIngredient().getSellingPrice() * quantity;
-                                      currentPlayer.addCrystals(total);
-                                      System.out.println("Sold " + quantity + "x " + stackToSell.getIngredient().getName() + " for " + total + " crystals.");
-                                 }
-                             }
-                         } catch (NumberFormatException e) {
-                             System.out.println("Invalid number format in selection: " + selection + ". Skipping.");
-                         }
-                     }
-                 }
-             }
+                                if (quantity <= 0 || quantity > stackToSell.getQuantity()) {
+                                    System.out.println("Invalid quantity for " + stackToSell.getIngredient().getName() + ". Skipping.");
+                                } else {
+                                	currentPlayer.getInventory().removeIngredient(stackToSell.getIngredient(), quantity);
+                                    int total = stackToSell.getIngredient().getSellingPrice() * quantity;
+                                    currentPlayer.addCrystals(total);
+                                    System.out.println("Sold " + quantity + "x " + stackToSell.getIngredient().getName() + " for " + total + " crystals.");
+                                }
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid number format in selection: " + selection + ". Skipping.");
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -630,5 +651,13 @@ public class MainMenu {
     private void displayConfirmation() {
         System.out.println("Enter any key to proceed to Main Menu");
         scanner.nextLine();
+    }
+
+    /**
+     * Displays a border line
+     */
+    private void displayBorder() {
+        System.out.println();
+        System.out.println("===========================");
     }
 }
