@@ -44,19 +44,25 @@ public class Brew {
     public boolean brewCreative(Player player, Ingredient base, ArrayList<Ingredient> fruits) {
         boolean success = true;
         boolean validFruits = validateUniqueFruits(fruits);
+        Recipe checkRecipe = null;
 
         if(!validFruits) {
             success = false;
         }
 
-        Recipe checkRecipe = player.getRecipeBook().findRecipe(base, fruits);
-        
-        if(checkRecipe == null) {
-            damageCauldron(player);
-            success = false;
+        if (success) {
+            checkRecipe = player.getRecipeBook().findRecipe(base, fruits);
+
+            if (checkRecipe == null) {
+                damageCauldron(player);
+                success = false;
+            }
         }
-        if(checkRecipe != null && !hasEnoughIngredients(player, checkRecipe)) {
-            success = false;
+        
+        if (success) {
+            if (!hasEnoughIngredients(player, checkRecipe)) {
+                success = false;
+            }
         }
         
         if (success) {
