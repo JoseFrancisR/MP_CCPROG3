@@ -243,8 +243,9 @@ public class MainMenu {
             market.generateListings(Ingredient.loadIngredients());
         } else if (brewsSinceMarketVisit >= 3) {
             market.refresh();
+            brewsSinceMarketVisit = 0;
         }
-        brewsSinceMarketVisit = 0;
+        
 
         do {
             displayBorder();
@@ -354,7 +355,7 @@ public class MainMenu {
     	if(playerBrew == true) {
     		if(brew.brewRecipe(currentPlayer, recipe)) {
                 displayBorder();
-        		System.out.println("Potion was SUCCESFULLY brewed.");
+        		System.out.println("Potion was SUCCESFULLY brewed. You EARNED: " + recipe.getSaleValue());
         		brewsSinceMarketVisit++;
         	} else {
                 displayBorder();
@@ -368,6 +369,7 @@ public class MainMenu {
      * 
      */
     public void creativeMode() {
+    	int earnedCrystals = 0;
     	String input;
     	int ctr= 1;
     	Ingredient base = null;
@@ -375,6 +377,13 @@ public class MainMenu {
     	boolean loopBase = true;
     	boolean loopFruit = true;
     	ArrayList<Ingredient> fruits = new ArrayList<>();
+    	//Check again whether the player has enough usable cauldrons
+    	if(currentPlayer.getInventory().countUsableCauldrons() <= 1) {
+    		System.out.println("You can't use creative mode when you dont have enough cauldrons");
+    		playerBrew = false;
+    		loopBase = false;
+    		loopFruit = false;
+    	}
     	// Player selects base
     	while(loopBase) {
             displayBorder();
@@ -454,8 +463,13 @@ public class MainMenu {
         // if still continuing to brew
     	if(playerBrew) {
             displayBorder();
+            //Make a recipe variable to find the price when selling it
+            Recipe checkRecipe = currentPlayer.getRecipeBook().findRecipe(base, fruits);
     		if(brew.brewCreative(currentPlayer, base, fruits)) {
-        		System.out.println("Potion was SUCCESFULLY brewed.");
+    			if(checkRecipe != null) {
+    				earnedCrystals =checkRecipe.getSaleValue();
+    			}
+         		System.out.println("Potion was SUCCESFULLY brewed. You EARNED: " + earnedCrystals );
         		brewsSinceMarketVisit++;
         	} else {
         		System.out.println("Failed to brew the potion.");
