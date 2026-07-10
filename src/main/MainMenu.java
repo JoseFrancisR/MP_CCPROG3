@@ -248,7 +248,7 @@ public class MainMenu {
         
 
         do {
-            displayBorder();
+            System.out.println();
             System.out.println("=========== Market ==========");
             System.out.println("Current Crystals: " + currentPlayer.getCrystals());
             System.out.println("1. Buy ingredients/cauldrons");
@@ -696,6 +696,6 @@ public class MainMenu {
      */
     private void displayBorder() {
         System.out.println();
-        System.out.println("===========================");
+        System.out.println("=============================");
     }
 }
