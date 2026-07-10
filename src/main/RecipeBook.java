@@ -59,7 +59,11 @@ public class RecipeBook {
                                 }
                             }
                         }
-                        loadedRecipes.add(new Recipe(id, name, base, fruits, saleValue));
+                        if (base != null) {
+                            loadedRecipes.add(new Recipe(id, name, base, fruits, saleValue));
+                        } else {
+                            System.out.println("Base error");
+                        }
                     }
                 }
                 this.recipes = loadedRecipes;

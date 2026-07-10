@@ -107,15 +107,13 @@ public class MainMenu {
     	            break;
     	        case 7:
     	        	System.out.println("Exitting the game");
-    	        	exitGame();
-    	        	exit = true;
+    	        	exit = exitGame();
     	            break;
     	        default:
     	            System.out.println("Invalid pick from 1-7");
 
     		}
     	}
-    	
     }
 
     /**
@@ -279,13 +277,14 @@ public class MainMenu {
      * @return true when the transaction succeeds
      */
     public boolean blessCauldronPay() {
+        boolean flag = false;
         if (currentPlayer.getCrystals() >= 1000 && (currentPlayer.getInventory().countUsableCauldrons() < currentPlayer.getInventory().countTotalCauldrons())) {
             currentPlayer.spendCrystals(1000);
             currentPlayer.getInventory().blessCauldron();
             displayBorder();
             System.out.print("Cauldron blessed! You now have " + currentPlayer.getInventory().countUsableCauldrons() + " usable cauldrons.");
             System.out.println("You have " + currentPlayer.getCrystals() + " crystals remaining.");
-            return true;
+            flag = true;
         } else if (currentPlayer.getCrystals() < 1000) {
             displayBorder();
             System.out.println("You don't have enough crystals.");
@@ -293,7 +292,7 @@ public class MainMenu {
             displayBorder();
             System.out.println("You have no cauldrons to bless");
         }
-        return false;
+        return flag;
     }
 
     /**
@@ -465,11 +464,11 @@ public class MainMenu {
     }
 
     /** Saves the current player and exits normally. */
-    public void exitGame() {
+    public boolean exitGame() {
         displayBorder();
         save.savePlayer(currentPlayer);
         System.out.println("Game saved. Goodbye!");
-        System.exit(0);
+        return true;
     }
 
     /**

@@ -106,6 +106,8 @@ public class Ingredient {
             }
         } catch (IOException e) {
             System.out.println("ERROR: in finding the file due to " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("ERROR: invalid number in file due to " + e.getMessage());
         }
 
         return ingredients;
@@ -121,11 +123,14 @@ public class Ingredient {
         ArrayList<Ingredient> ingredients = loadIngredients();
         Ingredient found = null;
 
-        for (Ingredient ingredient : ingredients) {
-            if (ingredient.getName().equalsIgnoreCase(name)) {
-                found = ingredient;
+        if (name != null) {
+            for (Ingredient ingredient : ingredients) {
+                if (ingredient.getName().equalsIgnoreCase(name)) {
+                    found = ingredient;
+                }
             }
         }
+        
         return found;
     }
 }

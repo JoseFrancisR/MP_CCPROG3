@@ -61,11 +61,14 @@ public class Recipe {
         if (this.fruits.size() != fruits.size() && match) {
             match = false;
         }
-        for (Ingredient fruit : fruits) {
-            if (!containsFruit(fruit)) {
-                match = false;
+        if (match) {
+            for (Ingredient fruit : fruits) {
+                if (!containsFruit(fruit)) {
+                    match = false;
+                }
             }
         }
+        
         return match;
     }
 
@@ -113,14 +116,10 @@ public class Recipe {
      * @return 1 or 0 depending if ingredient is required or not
      */
     public int getRequiredQuantity(Ingredient item) {
-        int val;
+        int val = 0;
         
-        if (item.isEqual(base)) {
+        if (item != null && (item.isEqual(base) || containsFruit(item))) {
             val = 1;
-        } else if (containsFruit(item)) {
-            val = 1;
-        } else {
-            val = 0;
         }
 
         return val;

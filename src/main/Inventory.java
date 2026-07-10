@@ -66,8 +66,7 @@ public class Inventory {
         boolean flag = false;
         
         if (stack != null) {
-            flag = true;
-            stack.remove(qty);
+            flag = stack.remove(qty);
         }
         return flag;
     }
