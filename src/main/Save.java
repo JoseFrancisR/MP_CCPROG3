@@ -72,7 +72,6 @@ public class Save {
     /**
      * Loads a player from the formatted text save file.
      *
-     * @param scanner save-file scanner
      * @param name    player/save name
      * @return loaded player, or null when loading fails
      */

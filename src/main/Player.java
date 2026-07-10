@@ -37,9 +37,6 @@ public class Player {
      * Creates a default player.
      *
      * @param name player name
-     * @param crystals starting crystals
-     * @param inventory player inventory
-     * @param recipes player recipes
      */
     public Player(String name) {
         this.name = name;
