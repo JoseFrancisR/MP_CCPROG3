@@ -30,13 +30,14 @@ public class Market {
         Random rand = new Random();
         int i, qty, price;
         boolean cauldronExists = false;
-        for (i = 0; i < 8; i++) {
-            if (rand.nextInt(8) == 0 && !cauldronExists) { // Randomly generates a cauldron
-                Listing listing = new Listing(i + 1, null, 1, 3000, true);
-                cauldronExists = true;
-                listings.add(listing);
-            } else {
-                if (!ingredients.isEmpty()){
+
+        if (ingredients != null || !ingredients.isEmpty()) {
+            for (i = 0; i < 8; i++) {
+                if (rand.nextInt(8) == 0 && !cauldronExists) { // Randomly generates a cauldron
+                    Listing listing = new Listing(i + 1, null, 1, 3000, true);
+                    cauldronExists = true;
+                    listings.add(listing);
+                } else {
                     Ingredient ingredient = ingredients.get(rand.nextInt(ingredients.size()));
                     qty = rand.nextInt(5) + 1;
                     price = ingredient.getBuyingPrice();
@@ -44,8 +45,10 @@ public class Market {
                     listings.add(listing);
                 }
             }
+            generatedThisSession = true;
+        } else {
+            generatedThisSession = false;
         }
-        generatedThisSession = true;
     }
 
     /** Replaces the existing listings when a refresh condition is met. */
