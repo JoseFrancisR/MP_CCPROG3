@@ -36,11 +36,13 @@ public class Market {
                 cauldronExists = true;
                 listings.add(listing);
             } else {
-                Ingredient ingredient = ingredients.get(rand.nextInt(ingredients.size()));
-                qty = rand.nextInt(5) + 1;
-                price = ingredient.getBuyingPrice();
-                Listing listing = new Listing(i + 1, ingredient, qty, price, false);
-                listings.add(listing);
+                if (!ingredients.isEmpty()){
+                    Ingredient ingredient = ingredients.get(rand.nextInt(ingredients.size()));
+                    qty = rand.nextInt(5) + 1;
+                    price = ingredient.getBuyingPrice();
+                    Listing listing = new Listing(i + 1, ingredient, qty, price, false);
+                    listings.add(listing);
+                }
             }
         }
         generatedThisSession = true;

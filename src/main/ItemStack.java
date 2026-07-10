@@ -45,7 +45,7 @@ public class ItemStack {
         boolean flag = false;
         
         if (qty <= 0) {
-            System.out.println("Cannot add non-positive quantity");
+            System.out.println("Cannot remove non-positive quantity");
         } else if (qty > quantity) {
             flag = false;
         } else {

@@ -55,12 +55,18 @@ public class Recipe {
             match = false;
         }
         
-        if (!this.base.isEqual(base) && match) {
-            match = false;
+        if (match) {
+            if (!this.base.isEqual(base)) {
+                match = false;
+            }
         }
-        if (this.fruits.size() != fruits.size() && match) {
-            match = false;
+        
+        if (match) {
+            if (this.fruits.size() != fruits.size()) {
+                match = false;
+            }
         }
+        
         if (match) {
             for (Ingredient fruit : fruits) {
                 if (!containsFruit(fruit)) {

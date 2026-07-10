@@ -78,14 +78,16 @@ public class Brew {
         int i, j;
         boolean success = true;
 
-        if(fruits.size() < 1 || fruits.size() > 3) {
-            success = false;
-        }
+        if (fruits != null) {
+            if(fruits.size() < 1 || fruits.size() > 3) {
+                success = false;
+            }
 
-        for(i = 0; i < fruits.size(); i++) {
-            for(j = i + 1; j < fruits.size(); j++) {
-                if(fruits.get(i).isEqual(fruits.get(j))) {
-                    success = false;
+            for(i = 0; i < fruits.size(); i++) {
+                for(j = i + 1; j < fruits.size(); j++) {
+                    if(fruits.get(i).isEqual(fruits.get(j))) {
+                        success = false;
+                    }
                 }
             }
         }

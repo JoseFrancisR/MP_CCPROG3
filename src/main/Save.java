@@ -88,6 +88,7 @@ public class Save {
         String section = null;
         String ingredientName;
         int quantity;
+        boolean exit = false;
 
         Player save = null;
 
@@ -103,9 +104,10 @@ public class Save {
 
                     if (!actualFile.exists()) {
                         System.out.println("Save file does not exist.");
-                        return null;
+                        save = null;
+                        exit = true;
                     }
-                    while (fileScanner.hasNextLine()) {
+                    while (fileScanner.hasNextLine() && !exit) {
                         String line = fileScanner.nextLine();
                         if (line.startsWith("NAME = ")) {
                             playerName = line.substring(7);
@@ -144,10 +146,12 @@ public class Save {
                            }
                         }
                     }
-                    recipe.loadRecipes();
+                    if (!exit) {
+                        recipe.loadRecipes();
 
-                    recipe.loadUnlockedRecipeIds(unlockedRecipes);
-                    save = new Player(playerName, playerCrystal, inventory, recipe);
+                        recipe.loadUnlockedRecipeIds(unlockedRecipes);
+                        save = new Player(playerName, playerCrystal, inventory, recipe);
+                    }
                 } finally {
                     if (fileScanner != null) {
                         fileScanner.close();
