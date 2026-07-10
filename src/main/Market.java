@@ -31,7 +31,7 @@ public class Market {
         int i, qty, price;
         boolean cauldronExists = false;
 
-        if (ingredients != null || !ingredients.isEmpty()) {
+        if (ingredients != null && !ingredients.isEmpty()) {
             for (i = 0; i < 8; i++) {
                 if (rand.nextInt(8) == 0 && !cauldronExists) { // Randomly generates a cauldron
                     Listing listing = new Listing(i + 1, null, 1, 3000, true);
