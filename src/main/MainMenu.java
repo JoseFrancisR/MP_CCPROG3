@@ -404,50 +404,55 @@ public class MainMenu {
     		}
     	}
     	
-    	System.out.println("Pick fruit/s atleast input one fruit and automatically finishes when you input 3 fruits:");
-    	System.out.println("If you want to exit type 'BACK'");
-    	System.out.println("If you're ready to brew type 'DONE'");
-    	// Player selects fruits
-    	while(loopFruit) {
+    	
+    	// Player selects fruits if still brewing
+    	if (playerBrew) {
             displayBorder();
-            currentPlayer.getInventory().displayInventory();
-            System.out.println();
-    		System.out.println("Enter a name of fruit " + ctr + " : ");
-    		input = scanner.nextLine().trim();
-    
-    		if(input.equalsIgnoreCase("done")) {
-    			if(fruits.size() >= 1) {
-    				loopFruit = false;
-    			} else {
-    				System.out.println("Atleast add one fruit...");
-    			}
-    	    } else if(input.equalsIgnoreCase("back")) {
-    			loopFruit = false;
-    			playerBrew = false;
-    		} 
-    		
-    		if(loopFruit != false && playerBrew != false) {
-    			Ingredient ingredient = Ingredient.findIngredient(input);
-        		if(ingredient == null) {
-        			System.out.println("The ingredient doesn't exists");
-        		} else if(currentPlayer.getInventory().getQuantity(ingredient) < 1) {
-        			System.out.println("You do not have " + ingredient.getName() + " retry...");
-        		} else if(!ingredient.isFruit()) {
-        			System.out.println("Please enter a fruit not a base:");
-        		} else if(fruits.contains(ingredient))  {
-        			System.out.println("You already selected the fruit");
-        		}
-        		else {
-        			fruits.add(ingredient);
-        			ctr++;
-        		}
-        		
-        		if(fruits.size() == 3) {
-        			System.out.println("MAX is 3 fruits starting the brewing process");
-        			loopFruit = false;
-        		}
-    		}
-    	}
+            System.out.println("Pick fruit/s atleast input one fruit and automatically finishes when you input 3 fruits:");
+    	    System.out.println("If you want to exit type 'BACK'");
+    	    System.out.println("If you're ready to brew type 'DONE'");
+            while(loopFruit) {
+                displayBorder();
+                currentPlayer.getInventory().displayInventory();
+                System.out.println();
+    	    	System.out.println("Enter a name of fruit " + ctr + " : ");
+    	    	input = scanner.nextLine().trim();
+                
+    	    	if(input.equalsIgnoreCase("done")) {
+    	    		if(fruits.size() >= 1) {
+    	    			loopFruit = false;
+    	    		} else {
+    	    			System.out.println("Atleast add one fruit...");
+    	    		}
+    	        } else if(input.equalsIgnoreCase("back")) {
+    	    		loopFruit = false;
+    	    		playerBrew = false;
+    	    	} 
+            
+    	    	if(loopFruit != false && playerBrew != false) {
+    	    		Ingredient ingredient = Ingredient.findIngredient(input);
+            		if(ingredient == null) {
+            			System.out.println("The ingredient doesn't exists");
+            		} else if(currentPlayer.getInventory().getQuantity(ingredient) < 1) {
+            			System.out.println("You do not have " + ingredient.getName() + " retry...");
+            		} else if(!ingredient.isFruit()) {
+            			System.out.println("Please enter a fruit not a base:");
+            		} else if(hasSelectedFruit(fruits, ingredient))  {
+            			System.out.println("You already selected the fruit");
+            		}
+            		else {
+            			fruits.add(ingredient);
+            			ctr++;
+            		}
+                
+            		if(fruits.size() == 3) {
+            			System.out.println("MAX is 3 fruits starting the brewing process");
+            			loopFruit = false;
+            		}
+    	    	}
+    	    }
+        }
+        // if still continuing to brew
     	if(playerBrew) {
             displayBorder();
     		if(brew.brewCreative(currentPlayer, base, fruits)) {
@@ -631,6 +636,26 @@ public class MainMenu {
             }
         }
         return targetListing; 
+    }
+
+    /**
+     * Finds if the key ingredient is found within the ArrayList of fruits
+     * @param fruits array list of selected fruits to linear search over
+     * @param key key ingredient being checked if contained in list
+     * @return boolean, true if found, false if not
+     */
+    private boolean hasSelectedFruit(ArrayList<Ingredient> fruits, Ingredient key) {
+        boolean found = false;
+
+        for (Ingredient fruit : fruits) {
+            if (found == false) {
+                if (fruit.isEqual(key)) {
+                    found = true;
+                }
+            }
+        }
+
+        return found;
     }
 
     /**
