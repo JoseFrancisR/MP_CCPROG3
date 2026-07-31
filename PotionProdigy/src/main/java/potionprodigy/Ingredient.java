@@ -8,13 +8,10 @@ import java.util.Scanner;
 /**
  * Represents one fruit ingredient or concoction base available in the game.
  */
-public class Ingredient {
+public abstract class Ingredient {
 
     /** Name used by the inventory, recipes, market, and save file. */
     private String name;
-
-    /** True when this ingredient is a fruit; false when it is a concoction base. */
-    private boolean fruitIngredient;
 
     /** Number of crystals required to buy one unit. */
     private int buyingPrice;
@@ -26,14 +23,12 @@ public class Ingredient {
      * Creates an ingredient.
      *
      * @param name ingredient name
-     * @param fruitIngredient true for fruit; false for a concoction base
      * @param buyingPrice market buying price
      * @param sellingPrice market selling price
      */
-    public Ingredient(String name, boolean fruitIngredient,
+    public Ingredient(String name, 
                       int buyingPrice, int sellingPrice) {
         this.name = name;
-        this.fruitIngredient = fruitIngredient;
         this.buyingPrice = buyingPrice;
         this.sellingPrice = sellingPrice;
     }
@@ -45,12 +40,12 @@ public class Ingredient {
 
     /** @return true when the ingredient is a fruit */
     public boolean isFruit() {
-        return fruitIngredient;
+        return this instanceof Fruit;
     }
 
     /** @return true when the ingredient is a concoction base */
     public boolean isConcoctionBase() {
-        return !fruitIngredient;
+    	return this instanceof Fruit;
     }
 
     /** @return market buying price */
@@ -99,7 +94,13 @@ public class Ingredient {
                     boolean fruitIngredient = Boolean.parseBoolean(parts[1]);
                     int buyingPrice = Integer.parseInt(parts[2]);
                     int sellingPrice = Integer.parseInt(parts[3]);
-                    Ingredient ingredient = new Ingredient(name, fruitIngredient, buyingPrice, sellingPrice);
+                    Ingredient ingredient;
+                    if(fruitIngredient) {
+                    	ingredient = new Fruit(name, buyingPrice, sellingPrice);
+                    } else {
+                    	ingredient = new ConcoctionBase(name, buyingPrice, sellingPrice);
+                    }
+                    
                     ingredients.add(ingredient);
                 }
                 scanner.close();
