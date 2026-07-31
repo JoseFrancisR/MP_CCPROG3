@@ -37,25 +37,33 @@ public class StartPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
+        jPanel1 = new javax.swing.JPanel();
         lblTitle = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
         lblPlayerName = new javax.swing.JLabel();
-        txtPlayerName = new javax.swing.JTextField();
+        jPanel3 = new javax.swing.JPanel();
         btnNewGame = new javax.swing.JButton();
         btnLoadGame = new javax.swing.JButton();
         lblMessage = new javax.swing.JLabel();
+        txtPlayerName = new javax.swing.JTextField();
 
-        lblTitle.setText("Potion Prodigy");
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        lblPlayerName.setText("Player Name:");
+        lblTitle.setFont(new java.awt.Font("Monospaced", 1, 70)); // NOI18N
+        lblTitle.setText("POTION PRODIGY");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(23, 24, 24, 25);
+        jPanel1.add(lblTitle, gridBagConstraints);
 
-        txtPlayerName.setText("Enter player name here");
-        txtPlayerName.setToolTipText("");
-        txtPlayerName.setActionCommand("<Not Set>");
-        txtPlayerName.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        txtPlayerName.setMinimumSize(new java.awt.Dimension(140, 22));
-        txtPlayerName.setName("Enter player name here"); // NOI18N
-        txtPlayerName.addActionListener(this::txtPlayerNameActionPerformed);
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+
+        lblPlayerName.setText("Player Name:    ");
+        jPanel2.add(lblPlayerName, new java.awt.GridBagConstraints());
 
         btnNewGame.setText("New Game");
         btnNewGame.addActionListener(this::btnNewGameActionPerformed);
@@ -65,51 +73,70 @@ public class StartPanel extends javax.swing.JPanel {
 
         lblMessage.setText("Enter your player name to begin.");
 
+        txtPlayerName.setToolTipText("");
+        txtPlayerName.setActionCommand("<Not Set>");
+        txtPlayerName.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txtPlayerName.setMinimumSize(new java.awt.Dimension(140, 22));
+        txtPlayerName.setName("Enter player name here"); // NOI18N
+        txtPlayerName.addActionListener(this::txtPlayerNameActionPerformed);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(150, 150, 150)
+                .addComponent(btnNewGame)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnLoadGame)
+                .addGap(149, 149, 149))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(txtPlayerName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblMessage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(264, 264, 264))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addComponent(txtPlayerName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblMessage)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnNewGame)
+                    .addComponent(btnLoadGame))
+                .addGap(33, 33, 33))
+        );
+
+        txtPlayerName.getAccessibleContext().setAccessibleName("");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(297, 297, 297)
-                        .addComponent(lblTitle))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(186, 186, 186)
-                        .addComponent(btnNewGame)
-                        .addGap(131, 131, 131)
-                        .addComponent(btnLoadGame))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(252, 252, 252)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblMessage)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(44, 44, 44)
-                                .addComponent(lblPlayerName))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(267, 267, 267)
-                        .addComponent(txtPlayerName, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(186, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 33, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 691, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(142, Short.MAX_VALUE)
-                .addComponent(lblTitle)
-                .addGap(84, 84, 84)
-                .addComponent(lblPlayerName)
+                .addGap(49, 49, 49)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtPlayerName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblMessage)
-                .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnNewGame)
-                    .addComponent(btnLoadGame))
-                .addGap(111, 111, 111))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(168, 168, 168))
         );
-
-        txtPlayerName.getAccessibleContext().setAccessibleName("");
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtPlayerNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPlayerNameActionPerformed
@@ -176,6 +203,9 @@ public class StartPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLoadGame;
     private javax.swing.JButton btnNewGame;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblMessage;
     private javax.swing.JLabel lblPlayerName;
     private javax.swing.JLabel lblTitle;

@@ -4,17 +4,65 @@
  */
 package gui;
 
+import controller.Controller;
+import potionprodigy.Player;
+import potionprodigy.ItemStack;
+import potionprodigy.Inventory;
+import gui.components.ItemCard;
+
 /**
  *
  * @author YJ
  */
 public class InventoryPanel extends javax.swing.JPanel {
-
+    MainFrame mainFrame;
+    Controller controller;
+    
     /**
      * Creates new form InventoryPanel
      */
     public InventoryPanel() {
         initComponents();
+    }
+    
+    public InventoryPanel(MainFrame mainFrame, Controller controller) {
+        initComponents();
+
+        this.mainFrame = mainFrame;
+        this.controller = controller;
+
+        // num of row, cols; px gap h, v
+        inventoryGridPanel.setLayout(new java.awt.GridLayout(0, 4, 12, 12));
+
+        inventoryGridPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(12, 12, 12, 12));
+        
+        inventoryScrollPane.getVerticalScrollBar().setUnitIncrement(16);
+    }
+    
+    public void refreshDisplay() {
+        inventoryGridPanel.removeAll();
+
+        Player player = controller.getCurrentPlayer();
+
+        if (player == null) {
+            return;
+        }
+
+        for (ItemStack stack : player.getInventory().getIngredientStacks()) {
+            if (stack.getQuantity() > 0) {
+                ItemCard card = new ItemCard(stack);
+                
+                inventoryGridPanel.add(card);
+            }
+        }
+
+        Inventory inventory = player.getInventory();
+
+        lblCauldrons.setText("Cauldrons: " + inventory.countUsableCauldrons()
+                + " usable / " + inventory.countUnusableCauldrons() + " unusable");
+
+        inventoryGridPanel.revalidate();
+        inventoryGridPanel.repaint();
     }
 
     /**
@@ -26,19 +74,73 @@ public class InventoryPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lblTitle = new javax.swing.JLabel();
+        inventoryScrollPane = new javax.swing.JScrollPane();
+        inventoryGridPanel = new javax.swing.JPanel();
+        lblCauldrons = new javax.swing.JLabel();
+        btnBack = new javax.swing.JButton();
+
+        lblTitle.setText("jLabel1");
+
+        javax.swing.GroupLayout inventoryGridPanelLayout = new javax.swing.GroupLayout(inventoryGridPanel);
+        inventoryGridPanel.setLayout(inventoryGridPanelLayout);
+        inventoryGridPanelLayout.setHorizontalGroup(
+            inventoryGridPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 98, Short.MAX_VALUE)
+        );
+        inventoryGridPanelLayout.setVerticalGroup(
+            inventoryGridPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 98, Short.MAX_VALUE)
+        );
+
+        inventoryScrollPane.setViewportView(inventoryGridPanel);
+
+        lblCauldrons.setText("jLabel1");
+
+        btnBack.setText("Back");
+        btnBack.addActionListener(this::btnBackActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblCauldrons)
+                    .addComponent(btnBack)
+                    .addComponent(lblTitle))
+                .addGap(239, 292, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(inventoryScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(145, 145, 145))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(lblTitle)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblCauldrons)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnBack)
+                .addGap(25, 25, 25)
+                .addComponent(inventoryScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(84, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBackActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBack;
+    private javax.swing.JPanel inventoryGridPanel;
+    private javax.swing.JScrollPane inventoryScrollPane;
+    private javax.swing.JLabel lblCauldrons;
+    private javax.swing.JLabel lblTitle;
     // End of variables declaration//GEN-END:variables
 }
