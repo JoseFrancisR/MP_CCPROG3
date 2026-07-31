@@ -74,21 +74,33 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Brew A Potion"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBrewActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnInventory">
       <Properties>
         <Property name="text" type="java.lang.String" value="Open Inventory"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnInventoryActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnSpellbook">
       <Properties>
         <Property name="text" type="java.lang.String" value="Open Spellbook"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSpellbookActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnMarket">
       <Properties>
         <Property name="text" type="java.lang.String" value="Visit Market"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMarketActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnBlessCauldron">
       <Properties>

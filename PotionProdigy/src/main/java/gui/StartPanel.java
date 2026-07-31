@@ -49,7 +49,12 @@ public class StartPanel extends javax.swing.JPanel {
 
         lblPlayerName.setText("Player Name:");
 
-        txtPlayerName.setText("...");
+        txtPlayerName.setText("Enter player name here");
+        txtPlayerName.setToolTipText("");
+        txtPlayerName.setActionCommand("<Not Set>");
+        txtPlayerName.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txtPlayerName.setMinimumSize(new java.awt.Dimension(140, 22));
+        txtPlayerName.setName("Enter player name here"); // NOI18N
         txtPlayerName.addActionListener(this::txtPlayerNameActionPerformed);
 
         btnNewGame.setText("New Game");
@@ -80,9 +85,10 @@ public class StartPanel extends javax.swing.JPanel {
                             .addComponent(lblMessage)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(44, 44, 44)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblPlayerName)
-                                    .addComponent(txtPlayerName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                .addComponent(lblPlayerName))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(267, 267, 267)
+                        .addComponent(txtPlayerName, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(186, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -102,6 +108,8 @@ public class StartPanel extends javax.swing.JPanel {
                     .addComponent(btnLoadGame))
                 .addGap(111, 111, 111))
         );
+
+        txtPlayerName.getAccessibleContext().setAccessibleName("");
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtPlayerNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPlayerNameActionPerformed

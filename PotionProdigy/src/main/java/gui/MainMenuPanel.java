@@ -4,17 +4,41 @@
  */
 package gui;
 
+import controller.Controller;
+import potionprodigy.Player;
+
 /**
  *
  * @author YJ
  */
 public class MainMenuPanel extends javax.swing.JPanel {
 
+    private MainFrame mainFrame;
+    private Controller controller;
+    
     /**
      * Creates new form MainMenuPanel
      */
     public MainMenuPanel() {
         initComponents();
+    }
+
+    public MainMenuPanel(MainFrame mainFrame, Controller controller) {
+        initComponents();
+
+        this.mainFrame = mainFrame;
+        this.controller = controller;
+    }
+
+    // refresh method to update mainmenu
+    public void refreshDisplay() {
+        Player player = controller.getCurrentPlayer();
+
+        if (player != null) {
+            lblWelcome.setText("Welcome, " + player.getName() + "!");
+
+            lblCrystals.setText("Current Crystals: " + player.getCrystals());
+        }
     }
 
     /**
@@ -41,12 +65,16 @@ public class MainMenuPanel extends javax.swing.JPanel {
         lblCrystals.setText("Crystals");
 
         btnBrew.setText("Brew A Potion");
+        btnBrew.addActionListener(this::btnBrewActionPerformed);
 
         btnInventory.setText("Open Inventory");
+        btnInventory.addActionListener(this::btnInventoryActionPerformed);
 
         btnSpellbook.setText("Open Spellbook");
+        btnSpellbook.addActionListener(this::btnSpellbookActionPerformed);
 
         btnMarket.setText("Visit Market");
+        btnMarket.addActionListener(this::btnMarketActionPerformed);
 
         btnBlessCauldron.setText("Bless Cauldron");
 
@@ -96,6 +124,22 @@ public class MainMenuPanel extends javax.swing.JPanel {
                 .addContainerGap(70, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnBrewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrewActionPerformed
+        mainFrame.showBrew();
+    }//GEN-LAST:event_btnBrewActionPerformed
+
+    private void btnInventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventoryActionPerformed
+        mainFrame.showInventory();
+    }//GEN-LAST:event_btnInventoryActionPerformed
+
+    private void btnSpellbookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSpellbookActionPerformed
+        mainFrame.showSpellbook();
+    }//GEN-LAST:event_btnSpellbookActionPerformed
+
+    private void btnMarketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMarketActionPerformed
+        mainFrame.showMarket();
+    }//GEN-LAST:event_btnMarketActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

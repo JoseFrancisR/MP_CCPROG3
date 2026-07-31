@@ -5,6 +5,7 @@
 package gui;
 
 import controller.Controller;
+import java.awt.CardLayout;
 
 /**
  *
@@ -13,36 +14,82 @@ import controller.Controller;
 public class MainFrame extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainFrame.class.getName());
+
+    private final Controller controller;
+    private final CardLayout cardLayout;
     
-    private static final String START_SCREEN = "START";
-    private static final String MAIN_MENU_SCREEN = "MAIN_MENU";
-
-    private final controller.Controller controller;
-
     private StartPanel startPanel;
-    // private MainMenuPanel mainMenuPanel;
+    private MainMenuPanel mainMenuPanel;
+    private BrewPanel brewPanel;
+    private InventoryPanel inventoryPanel;
+    private SpellbookPanel spellbookPanel;
+    private MarketPanel marketPanel;
+    
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
         initComponents();
         
-        controller = new controller.Controller();
+        this.controller = new Controller();
+        this.cardLayout = (CardLayout)contentPanel.getLayout();
 
-        startPanel = new StartPanel(this, controller);
-        // mainMenuPanel = new MainMenuPanel(this, controller);
+        this.startPanel = new StartPanel(this, controller);
+        this.mainMenuPanel = new MainMenuPanel(this, controller);
+        this.brewPanel = new BrewPanel(this, controller);
+        this.inventoryPanel = new InventoryPanel(this, controller);
+        this.spellbookPanel = new SpellbookPanel(this, controller);
+        this.marketPanel = new MarketPanel(this, controller);
 
+        contentPanel.add(startPanel, "START");
+        contentPanel.add(mainMenuPanel, "MENU");
+        contentPanel.add(brewPanel, "BREW");
+        contentPanel.add(inventoryPanel, "INVENTORY");
+        contentPanel.add(spellbookPanel, "SPELLBOOK");
+        contentPanel.add(marketPanel, "MARKET");
+        
+        showStart();
+
+        setTitle("Potion Prodigy");
         setLocationRelativeTo(null);
-        // showScreen(START_SCREEN);
     }
 
     public void openMainMenu() {
-        // mainMenuPanel.refreshDisplay();
+        mainMenuPanel.refreshDisplay();
         // showScreen(MAIN_MENU_SCREEN);
     }
 
     public Controller getController() {
         return controller;
+    }
+    
+    public void showStart() {
+        cardLayout.show(contentPanel, "START");
+    }
+    
+    public void showMainMenu() {
+        mainMenuPanel.refreshDisplay();
+        cardLayout.show(contentPanel, "MENU");
+    }
+    
+    public void showBrew() {
+        brewPanel.refreshDisplay();
+        cardLayout.show(contentPanel, "BREW");
+    }
+    
+    public void showInventory() {
+        inventoryPanel.refreshDisplay();
+        cardLayout.show(contentPanel, "INVENTORY");
+    }
+    
+    public void showSpellbook() {
+        spellbookPanel.refreshDisplay();
+        cardLayout.show(contentPanel, "SPELLBOOK");
+    }
+    
+    public void showMarket() {
+        marketPanel.refreshDisplay();
+        cardLayout.show(contentPanel, "MARKET");
     }
 
     /**
@@ -54,7 +101,7 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        ContentPanel = new javax.swing.JPanel();
+        contentPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Potion Prodigy");
@@ -62,22 +109,12 @@ public class MainFrame extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(1000, 700));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout ContentPanelLayout = new javax.swing.GroupLayout(ContentPanel);
-        ContentPanel.setLayout(ContentPanelLayout);
-        ContentPanelLayout.setHorizontalGroup(
-            ContentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 860, Short.MAX_VALUE)
-        );
-        ContentPanelLayout.setVerticalGroup(
-            ContentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 530, Short.MAX_VALUE)
-        );
-
-        getContentPane().add(ContentPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 860, 530));
+        contentPanel.setLayout(new java.awt.CardLayout());
+        getContentPane().add(contentPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 780, 480));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel ContentPanel;
+    private javax.swing.JPanel contentPanel;
     // End of variables declaration//GEN-END:variables
 }
