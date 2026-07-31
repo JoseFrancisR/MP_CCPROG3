@@ -36,17 +36,17 @@ public class MainFrame extends javax.swing.JFrame {
 
         this.startPanel = new StartPanel(this, controller);
         this.mainMenuPanel = new MainMenuPanel(this, controller);
-        this.brewPanel = new BrewPanel(this, controller);
-        this.inventoryPanel = new InventoryPanel(this, controller);
-        this.spellbookPanel = new SpellbookPanel(this, controller);
-        this.marketPanel = new MarketPanel(this, controller);
+        // this.brewPanel = new BrewPanel(this, controller);
+        // this.inventoryPanel = new InventoryPanel(this, controller);
+        // this.spellbookPanel = new SpellbookPanel(this, controller);
+        // this.marketPanel = new MarketPanel(this, controller);
 
         contentPanel.add(startPanel, "START");
         contentPanel.add(mainMenuPanel, "MENU");
-        contentPanel.add(brewPanel, "BREW");
-        contentPanel.add(inventoryPanel, "INVENTORY");
-        contentPanel.add(spellbookPanel, "SPELLBOOK");
-        contentPanel.add(marketPanel, "MARKET");
+        // contentPanel.add(brewPanel, "BREW");
+        // contentPanel.add(inventoryPanel, "INVENTORY");
+        // contentPanel.add(spellbookPanel, "SPELLBOOK");
+        // contentPanel.add(marketPanel, "MARKET");
         
         showStart();
 
@@ -73,22 +73,22 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     public void showBrew() {
-        brewPanel.refreshDisplay();
+        // brewPanel.refreshDisplay();
         cardLayout.show(contentPanel, "BREW");
     }
     
     public void showInventory() {
-        inventoryPanel.refreshDisplay();
+        // inventoryPanel.refreshDisplay();
         cardLayout.show(contentPanel, "INVENTORY");
     }
     
     public void showSpellbook() {
-        spellbookPanel.refreshDisplay();
+        // spellbookPanel.refreshDisplay();
         cardLayout.show(contentPanel, "SPELLBOOK");
     }
     
     public void showMarket() {
-        marketPanel.refreshDisplay();
+        // marketPanel.refreshDisplay();
         cardLayout.show(contentPanel, "MARKET");
     }
 
