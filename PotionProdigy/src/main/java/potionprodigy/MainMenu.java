@@ -356,11 +356,11 @@ public class MainMenu {
     		if(brew.brewRecipe(currentPlayer, recipe)) {
                 displayBorder();
         		System.out.println("Potion was SUCCESFULLY brewed. You EARNED: " + recipe.getSaleValue());
-        		brewsSinceMarketVisit++;
         	} else {
                 displayBorder();
         		System.out.println("Failed to brew the potion.");
         	}
+    		brewsSinceMarketVisit++;
     	}
     	
     	
@@ -470,10 +470,10 @@ public class MainMenu {
     				earnedCrystals =checkRecipe.getSaleValue();
     			}
          		System.out.println("Potion was SUCCESFULLY brewed. You EARNED: " + earnedCrystals );
-        		brewsSinceMarketVisit++;
         	} else {
         		System.out.println("Failed to brew the potion.");
         	}
+    		brewsSinceMarketVisit++;
     	}
     }
 
