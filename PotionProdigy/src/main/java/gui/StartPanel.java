@@ -53,6 +53,7 @@ public class StartPanel extends javax.swing.JPanel {
         txtPlayerName.addActionListener(this::txtPlayerNameActionPerformed);
 
         btnNewGame.setText("New Game");
+        btnNewGame.addActionListener(this::btnNewGameActionPerformed);
 
         btnLoadGame.setText("Load Game");
 
@@ -104,6 +105,39 @@ public class StartPanel extends javax.swing.JPanel {
     private void txtPlayerNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPlayerNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPlayerNameActionPerformed
+
+    private void btnNewGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewGameActionPerformed
+        String playerName = txtPlayerName.getText().trim();
+        boolean createGame = false;
+        
+        if (playerName.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Please enter a player name.", "Missing Player Name", 
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+        } else {
+            createGame = true;
+            
+            if (controller.saveExists(playerName)) {
+                int answer = javax.swing.JOptionPane.showConfirmDialog(this, 
+                        "A save named \"" + playerName + 
+                        "\" already exists.\nOverwrite it?", "Overwrite Save",
+                        javax.swing.JOptionPane.YES_NO_OPTION, 
+                        javax.swing.JOptionPane.WARNING_MESSAGE);
+                
+                createGame = answer == javax.swing.JOptionPane.YES_OPTION;
+            }
+        }
+        
+        if (createGame) {
+            controller.createNewGame(playerName);
+            
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "New game created for " + playerName + ".", "New Game", 
+                    javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            
+            mainFrame.openMainMenu();
+        }
+    }//GEN-LAST:event_btnNewGameActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
