@@ -163,6 +163,7 @@ public class StartPanel extends javax.swing.JPanel {
                 javax.swing.JOptionPane.showMessageDialog(this, 
                         "Welcome back, " + playerName + "!", "Game Loaded", 
                         javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                mainFrame.showMainMenu();
             } else {
                 javax.swing.JOptionPane.showMessageDialog(this, 
                         "No valid save was found for \"" + playerName + "\".", 

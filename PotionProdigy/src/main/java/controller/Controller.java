@@ -57,7 +57,7 @@ public class Controller {
             brewsSinceMarketVisit = 0;
             success = true;
         }
-
+        
         return success;
     }
 
