@@ -45,7 +45,7 @@ public abstract class Ingredient {
 
     /** @return true when the ingredient is a concoction base */
     public boolean isConcoctionBase() {
-    	return this instanceof Fruit;
+    	return this instanceof ConcoctionBase;
     }
 
     /** @return market buying price */
