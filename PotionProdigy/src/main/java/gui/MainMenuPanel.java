@@ -148,11 +148,11 @@ public class MainMenuPanel extends javax.swing.JPanel {
                         + controller.getCurrentPlayer().getInventory().countUsableCauldrons() + " usable cauldrons.",
                         "Bless Cauldron", JOptionPane.INFORMATION_MESSAGE);
                 refreshDisplay();
-            } else if (result == -2) {
+            } else if (result == -1) {
                 JOptionPane.showMessageDialog(this,
                         "Blessing failed: You don't have enough crystals(Requires 1000 crystals)", "Bless Cauldron",
                         JOptionPane.WARNING_MESSAGE);
-            } else if (result == -3) {
+            } else if (result == -2) {
                 JOptionPane.showMessageDialog(this, "Blessing failed: There are no unusable cauldrons",
                         "Bless Cauldron", JOptionPane.WARNING_MESSAGE);
             } else {
