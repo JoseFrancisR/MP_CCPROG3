@@ -102,4 +102,18 @@ public class Controller {
     public void resetMarketBrewCounter() {
         brewsSinceMarketVisit = 0;
     }
+    
+    public int blessCauldronPay() {
+        int status = 0;
+        if (currentPlayer.getCrystals() >= 1000 && (currentPlayer.getInventory().countUsableCauldrons() < currentPlayer.getInventory().countTotalCauldrons())) {
+            currentPlayer.spendCrystals(1000);
+            status = 1;
+        } else if (currentPlayer.getCrystals() < 1000) {
+            status = -1;
+        } else if (currentPlayer.getInventory().countUsableCauldrons() >= currentPlayer.getInventory().countTotalCauldrons()) {
+            status = -2;
+        }
+        return status;
+    }
+
 }
