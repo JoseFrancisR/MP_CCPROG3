@@ -46,7 +46,8 @@ public class MainMenuPanel extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         lblWelcome = new javax.swing.JLabel();
@@ -79,50 +80,79 @@ public class MainMenuPanel extends javax.swing.JPanel {
         btnBlessCauldron.addActionListener(this::btnBlessCauldronActionPerformed);
 
         btnLoginBonus.setText("Login Bonus");
+        btnLoginBonus.addActionListener(this::btnLoginBonusActionPerformed);
 
         btnSaveAndExit.setText("Save & Exit");
+        btnSaveAndExit.addActionListener(this::btnSaveAndExitActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addGap(70, 70, 70)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(btnSaveAndExit)
-                                        .addComponent(btnLoginBonus)
-                                        .addComponent(btnBlessCauldron)
-                                        .addComponent(btnMarket)
-                                        .addComponent(btnSpellbook)
-                                        .addComponent(btnInventory)
-                                        .addComponent(btnBrew)
-                                        .addComponent(lblCrystals)
-                                        .addComponent(lblWelcome))
-                                .addContainerGap(488, Short.MAX_VALUE)));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(70, 70, 70)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnSaveAndExit)
+                    .addComponent(btnLoginBonus)
+                    .addComponent(btnBlessCauldron)
+                    .addComponent(btnMarket)
+                    .addComponent(btnSpellbook)
+                    .addComponent(btnInventory)
+                    .addComponent(btnBrew)
+                    .addComponent(lblCrystals)
+                    .addComponent(lblWelcome))
+                .addContainerGap(488, Short.MAX_VALUE))
+        );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addGap(65, 65, 65)
-                                .addComponent(lblWelcome)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblCrystals)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnBrew)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnInventory)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnSpellbook)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnMarket)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnBlessCauldron)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnLoginBonus)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnSaveAndExit)
-                                .addContainerGap(70, Short.MAX_VALUE)));
-
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(65, 65, 65)
+                .addComponent(lblWelcome)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblCrystals)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnBrew)
+                .addGap(18, 18, 18)
+                .addComponent(btnInventory)
+                .addGap(18, 18, 18)
+                .addComponent(btnSpellbook)
+                .addGap(18, 18, 18)
+                .addComponent(btnMarket)
+                .addGap(18, 18, 18)
+                .addComponent(btnBlessCauldron)
+                .addGap(18, 18, 18)
+                .addComponent(btnLoginBonus)
+                .addGap(18, 18, 18)
+                .addComponent(btnSaveAndExit)
+                .addContainerGap(70, Short.MAX_VALUE))
+        );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnLoginBonusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginBonusActionPerformed
+        int status = controller.claimLoginBonus();
+        switch(status){
+            case -1: 
+                JOptionPane.showMessageDialog(this, "Login bonus couldn't be generated", "Login Bonus",JOptionPane.ERROR_MESSAGE);
+                break;
+            case 0:
+                JOptionPane.showMessageDialog(this, "Login bonus already claimed", "Login Bonus",JOptionPane.INFORMATION_MESSAGE);
+                break;
+            case 1:
+                JOptionPane.showMessageDialog(this, "Login bonus successfully claimed", "Login Bonus",JOptionPane.INFORMATION_MESSAGE);
+                break;
+        }
+    }//GEN-LAST:event_btnLoginBonusActionPerformed
+
+    private void btnSaveAndExitActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSaveAndExitActionPerformed
+
+        if (controller.saveGame()) {
+            JOptionPane.showMessageDialog(this, "Game saved successfully!!!", "Saved game",JOptionPane.INFORMATION_MESSAGE);
+
+            System.exit(0);
+        } else {
+            JOptionPane.showMessageDialog(this,"Failed to save the game.","Save Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }// GEN-LAST:event_btnSaveAndExitActionPerformed
 
     private void btnBrewActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnBrewActionPerformed
         mainFrame.showBrew();
@@ -143,21 +173,26 @@ public class MainMenuPanel extends javax.swing.JPanel {
     private void btnBlessCauldronActionPerformed(java.awt.event.ActionEvent evt) {
         if (controller != null) {
             int result = controller.blessCauldronPay();
-            if (result == 1) {
-                JOptionPane.showMessageDialog(this, "Cauldron blessed! You now have "
-                        + controller.getCurrentPlayer().getInventory().countUsableCauldrons() + " usable cauldrons.",
-                        "Bless Cauldron", JOptionPane.INFORMATION_MESSAGE);
-                refreshDisplay();
-            } else if (result == -1) {
-                JOptionPane.showMessageDialog(this,
+            switch(result) {
+                case -1:
+                    JOptionPane.showMessageDialog(this, "Blessing failed: There are no unusable cauldrons",
+                        "Bless Cauldron", JOptionPane.WARNING_MESSAGE);
+                    break;
+                case 0:
+                    JOptionPane.showMessageDialog(this,
                         "Blessing failed: You don't have enough crystals(Requires 1000 crystals)", "Bless Cauldron",
                         JOptionPane.WARNING_MESSAGE);
-            } else if (result == -2) {
-                JOptionPane.showMessageDialog(this, "Blessing failed: There are no unusable cauldrons",
-                        "Bless Cauldron", JOptionPane.WARNING_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "Unable to bless cauldron.", "Bless Cauldron",
+                    break;
+                case 1:
+                    JOptionPane.showMessageDialog(this, "Cauldron blessed! You now have "
+                        + controller.getCurrentPlayer().getInventory().countUsableCauldrons() + " usable cauldrons.",
+                        "Bless Cauldron", JOptionPane.INFORMATION_MESSAGE);
+                    refreshDisplay();
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(this, "Unable to bless cauldron.", "Bless Cauldron",
                         JOptionPane.ERROR_MESSAGE);
+                    break;
             }
         }
     }

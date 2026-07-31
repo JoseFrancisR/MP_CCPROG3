@@ -111,11 +111,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Login Bonus"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLoginBonusActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnSaveAndExit">
       <Properties>
         <Property name="text" type="java.lang.String" value="Save &amp; Exit"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveAndExitActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

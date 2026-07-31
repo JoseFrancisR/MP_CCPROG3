@@ -8,6 +8,7 @@ import potionprodigy.Brew;
 import potionprodigy.Market;
 import potionprodigy.Player;
 import potionprodigy.Save;
+import potionprodigy.ItemStack;
 
 public class Controller {
 
@@ -57,7 +58,7 @@ public class Controller {
             brewsSinceMarketVisit = 0;
             success = true;
         }
-        
+
         return success;
     }
 
@@ -102,16 +103,32 @@ public class Controller {
     public void resetMarketBrewCounter() {
         brewsSinceMarketVisit = 0;
     }
-    
+
     public int blessCauldronPay() {
         int status = 0;
         if (currentPlayer.getCrystals() >= 1000 && (currentPlayer.getInventory().countUsableCauldrons() < currentPlayer.getInventory().countTotalCauldrons())) {
             currentPlayer.spendCrystals(1000);
             status = 1;
         } else if (currentPlayer.getCrystals() < 1000) {
-            status = -1;
+            status = 0;
         } else if (currentPlayer.getInventory().countUsableCauldrons() >= currentPlayer.getInventory().countTotalCauldrons()) {
-            status = -2;
+            status = -1;
+        }
+        return status;
+    }
+
+    public int claimLoginBonus() {
+
+    	int status = 0;
+        if(!loginBonusClaimed) {
+            ItemStack bonus = save.randItem(currentPlayer.getInventory());
+            if (bonus == null){
+                status = -1;
+            } else {
+                currentPlayer.getInventory().addItemStack(bonus.getIngredient(), 1);
+                loginBonusClaimed = true;
+                status = 1;
+            }
         }
         return status;
     }
