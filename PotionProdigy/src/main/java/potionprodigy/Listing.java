@@ -1,4 +1,4 @@
-package src.main;
+package potionprodigy;
 
 /**
  * Represents one of the eight market slots.

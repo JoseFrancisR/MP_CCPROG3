@@ -1,4 +1,4 @@
-package src.main;
+package potionprodigy;
 
 /**
  * Stores an ingredient together with the quantity owned by the player.

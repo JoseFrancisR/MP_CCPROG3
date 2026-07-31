@@ -1,4 +1,4 @@
-package src.main;
+package potionprodigy;
 
 /**
  * Stores the player's persistent game data.

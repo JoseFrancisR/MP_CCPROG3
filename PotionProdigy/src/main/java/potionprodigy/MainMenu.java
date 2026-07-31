@@ -1,4 +1,4 @@
-package src.main;
+package potionprodigy;
 
 import java.util.Scanner;
 import java.util.ArrayList;
