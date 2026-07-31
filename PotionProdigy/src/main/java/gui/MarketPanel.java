@@ -4,19 +4,25 @@
  */
 package gui;
 
+import controller.Controller;
 /**
  *
  * @author YJ
  */
 public class MarketPanel extends javax.swing.JPanel {
+    private MainFrame mainFrame;
+    private Controller controller;
 
+    
     /**
      * Creates new form MarketPanel
      */
-    public MarketPanel() {
+    public MarketPanel(MainFrame mainFrame, Controller controller) {
         initComponents();
-    }
 
+        this.mainFrame = mainFrame;
+        this.controller = controller;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -26,19 +32,72 @@ public class MarketPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton1 = new javax.swing.JButton();
+        RadioBtnBuy = new javax.swing.JRadioButton();
+        RadioBtnSell = new javax.swing.JRadioButton();
+        btnSell = new javax.swing.JButton();
+
+        jButton1.setText("Confirm");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
+
+        RadioBtnBuy.setText("Buy");
+        RadioBtnBuy.addActionListener(this::RadioBtnBuyActionPerformed);
+
+        RadioBtnSell.setText("Sell");
+
+        btnSell.setText("Sell");
+        btnSell.addActionListener(this::btnSellActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(RadioBtnSell)
+                            .addComponent(RadioBtnBuy)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(107, 107, 107)
+                        .addComponent(jButton1)
+                        .addGap(66, 66, 66)
+                        .addComponent(btnSell)))
+                .addContainerGap(81, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addComponent(RadioBtnBuy)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(RadioBtnSell)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 165, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(btnSell))
+                .addGap(16, 16, 16))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void RadioBtnBuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RadioBtnBuyActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_RadioBtnBuyActionPerformed
+
+    private void btnSellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSellActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSellActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton RadioBtnBuy;
+    private javax.swing.JRadioButton RadioBtnSell;
+    private javax.swing.JButton btnSell;
+    private javax.swing.JButton jButton1;
     // End of variables declaration//GEN-END:variables
 }
