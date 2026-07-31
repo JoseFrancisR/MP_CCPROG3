@@ -56,6 +56,7 @@ public class StartPanel extends javax.swing.JPanel {
         btnNewGame.addActionListener(this::btnNewGameActionPerformed);
 
         btnLoadGame.setText("Load Game");
+        btnLoadGame.addActionListener(this::btnLoadGameActionPerformed);
 
         lblMessage.setText("Enter your player name to begin.");
 
@@ -64,41 +65,42 @@ public class StartPanel extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(58, Short.MAX_VALUE)
-                .addComponent(btnNewGame)
-                .addGap(131, 131, 131)
-                .addComponent(btnLoadGame)
-                .addGap(61, 61, 61))
-            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(128, 128, 128)
-                        .addComponent(lblMessage))
+                        .addGap(297, 297, 297)
+                        .addComponent(lblTitle))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(172, 172, 172)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblTitle)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lblPlayerName)
-                                .addComponent(txtPlayerName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(186, 186, 186)
+                        .addComponent(btnNewGame)
+                        .addGap(131, 131, 131)
+                        .addComponent(btnLoadGame))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(252, 252, 252)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblMessage)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(44, 44, 44)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblPlayerName)
+                                    .addComponent(txtPlayerName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(186, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(56, Short.MAX_VALUE)
+                .addContainerGap(142, Short.MAX_VALUE)
                 .addComponent(lblTitle)
-                .addGap(39, 39, 39)
+                .addGap(84, 84, 84)
                 .addComponent(lblPlayerName)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtPlayerName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblMessage)
-                .addGap(36, 36, 36)
+                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNewGame)
                     .addComponent(btnLoadGame))
-                .addGap(64, 64, 64))
+                .addGap(111, 111, 111))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -138,6 +140,28 @@ public class StartPanel extends javax.swing.JPanel {
             mainFrame.openMainMenu();
         }
     }//GEN-LAST:event_btnNewGameActionPerformed
+
+    private void btnLoadGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadGameActionPerformed
+        String playerName = txtPlayerName.getText().trim();
+        
+        if (playerName.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Please enter the name of the save to load.", 
+                    "Missing Save Name", javax.swing.JOptionPane.WARNING_MESSAGE);
+        } else {
+            boolean loaded = controller.loadGame(playerName);
+            
+            if (loaded) {
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                        "Welcome back, " + playerName + "!", "Game Loaded", 
+                        javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                        "No valid save was found for \"" + playerName + "\".", 
+                        "Load Failed", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnLoadGameActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
