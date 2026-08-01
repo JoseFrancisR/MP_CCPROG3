@@ -2,33 +2,54 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package gui;
+package gui.components;
 
 import potionprodigy.Listing;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.BoxLayout;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Component;
+import java.awt.Image;
+import java.net.URL;
 /**
  *
  * @author ikoyg
  */
-public class ItemCard extends JPanel {
+public class MarketItemCard extends JPanel {
 
+    private JLabel lblIcon;
     private JLabel lblName;
     private JLabel lblQuantity;
     private JLabel lblCost;
 
-    public ItemCard(Listing listing) {
+    public MarketItemCard(Listing listing) {
         initComponents();
         
         if (listing != null && listing.getIngredient() != null) {
             lblName.setText(listing.getIngredient().getName());
             lblQuantity.setText("Qty: " + listing.getQuantity());
             lblCost.setText(listing.getUnitPrice() * listing.getQuantity() + " Crystals");
+
+            String iconPath;
+            if (listing.getIngredient().isFruit()) {
+                iconPath = "/images/fruits.png";
+            } else {
+                iconPath = "/images/bases.png";
+            }
+
+            ImageIcon itemIcon = loadIcon(iconPath, 80, 80);
+            if (itemIcon != null) {
+                lblIcon.setIcon(itemIcon);
+                lblIcon.setText("");
+            } else { //When cant load the icon
+                lblIcon.setText("[ PLACEHOLDER ]");
+            }
         }
     }
 
@@ -36,6 +57,10 @@ public class ItemCard extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         setBackground(new Color(245, 245, 245));
+
+        lblIcon = new JLabel();
+        lblIcon.setHorizontalAlignment(SwingConstants.CENTER);
+        lblIcon.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         lblName = new JLabel("Item Name");
         lblName.setFont(new Font("SansSerif", Font.BOLD, 12));
@@ -50,8 +75,19 @@ public class ItemCard extends JPanel {
         lblCost.setForeground(new Color(180, 100, 0));
         lblCost.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        add(lblIcon);
         add(lblName);
         add(lblQuantity);
         add(lblCost);
+    }
+
+    private ImageIcon loadIcon(String resourcePath, int width, int height) {
+        URL imageUrl = getClass().getResource(resourcePath);
+        if (imageUrl != null) {
+            Image originalImage = new ImageIcon(imageUrl).getImage();
+            Image scaledImage = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            return new ImageIcon(scaledImage);
+        }
+        return null;
     }
 }
