@@ -11,6 +11,7 @@ import gui.components.MarketItemCard;
 import javax.swing.JOptionPane;
 import gui.components.ItemCard;
 import java.util.ArrayList;
+import gui.components.SellItemCard;
 import java.util.List;
 
 /**
@@ -21,6 +22,7 @@ public class MarketPanel extends javax.swing.JPanel {
     private MainFrame mainFrame;
     private Controller controller;
     private java.util.List<Integer> selectedSlotNumbers = new java.util.ArrayList<>();
+    private List<SellItemCard> sellCards = new ArrayList<>();
     
     /**
      * Creates new form MarketPanel
@@ -105,55 +107,147 @@ public class MarketPanel extends javax.swing.JPanel {
     }
 
     private void handleConfirmPurchase() {
+        int totalCost, currentCrystals;
         if(!selectedSlotNumbers.isEmpty()) {
-            ArrayList<Integer> selectedSlots = new ArrayList<>(selectedSlotNumbers);
-            ArrayList<Integer> results = controller.buyItems(selectedSlots);
+            totalCost = controller.calculateTotalCost(new ArrayList<>(selectedSlotNumbers));
+            int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "Are you sure you want to buy the selected items for " + totalCost + " Crystals?",
+                "Confirm Purchase",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE
+            );
+            if(confirm == JOptionPane.YES_OPTION){
+                ArrayList<Integer> selectedSlots = new ArrayList<>(selectedSlotNumbers);
+                ArrayList<Integer> results = controller.buyItems(selectedSlots);
 
-            boolean allSucceeded = true;
-            boolean insufficientCrystals = false;
+                boolean allSucceeded = true;
+                boolean insufficientCrystals = false;
 
-            for(int status : results) {
-                if(status == -3) {
-                    insufficientCrystals = true;
-                    allSucceeded = false;
-                } else if(status != 1) {
-                    allSucceeded = false;
+                for(int status : results) {
+                    if(status == -3) {
+                        insufficientCrystals = true;
+                        allSucceeded = false;
+                    } else if(status != 1) {
+                        allSucceeded = false;
+                    }
                 }
-            }
 
-            if(allSucceeded) {
-                JOptionPane.showMessageDialog(this, 
-                    "Successfully purchased all selected items!", 
-                    "Purchase Successful", 
-                    JOptionPane.INFORMATION_MESSAGE);
-                selectedSlotNumbers.clear();
-                refreshDisplay();
-            } else if(insufficientCrystals) {
-                int totalCost = controller.calculateTotalCost(selectedSlots);
-                int currentCrystals = controller.getCurrentPlayer().getCrystals();
+                if(allSucceeded) {
+                    JOptionPane.showMessageDialog(this, 
+                        "Successfully purchased all selected items!", 
+                        "Purchase Successful", 
+                        JOptionPane.INFORMATION_MESSAGE);
+                    selectedSlotNumbers.clear();
+                    refreshDisplay();
+                } else if(insufficientCrystals) {
+                    currentCrystals = controller.getCurrentPlayer().getCrystals();
             
-                JOptionPane.showMessageDialog(this, 
-                    "Transaction failed! Total cost is " + totalCost + " crystals, but you only have " + currentCrystals + " crystals.", 
-                    "Insufficient Crystals", 
-                    JOptionPane.ERROR_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, 
-                    "Transaction failed. One or more items are no longer available.", 
-                    "Purchase Failed", 
-                    JOptionPane.ERROR_MESSAGE);
-                selectedSlotNumbers.clear();
-                refreshDisplay();
-            }
+                    JOptionPane.showMessageDialog(this, 
+                        "Transaction failed! Total cost is " + totalCost + " crystals, but you only have " + currentCrystals + " crystals.", 
+                        "Insufficient Crystals", 
+                        JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, 
+                        "Transaction failed. One or more items are no longer available.", 
+                        "Purchase Failed", 
+                        JOptionPane.ERROR_MESSAGE);
+                    selectedSlotNumbers.clear();
+                    refreshDisplay();
+                }
+            } 
         } else {
-            JOptionPane.showMessageDialog(this, 
-                "Please select at least one item to purchase.", 
-                "No Items Selected", 
-                JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, 
+                    "Please select at least one item to purchase.", 
+                    "No Items Selected", 
+                    JOptionPane.WARNING_MESSAGE);
         }
     }
 
     public void refreshSellView() {
-        // WLAAAFDSHKLFSDHF
+        jPanel2.removeAll();
+
+        jPanel2.setLayout(new java.awt.GridLayout(0, 4, 10, 10));
+        jScrollPane1.getVerticalScrollBar().setUnitIncrement(15);
+    
+        // Clear previously tracked sell cards
+        sellCards.clear();
+
+        if(controller != null) {
+            potionprodigy.Player player = controller.getCurrentPlayer();
+            if(player != null && player.getInventory() != null) {
+                for(potionprodigy.ItemStack stack : player.getInventory().getIngredientStacks()) {
+                    if(stack.getQuantity() > 0) {
+                        gui.components.SellItemCard card = new gui.components.SellItemCard(stack);
+                        card.setQuantityChangeListener(() -> updateTotalSellEarnings());
+                        sellCards.add(card);
+                        jPanel2.add(card);
+                    }
+                }
+            }
+        }
+
+        updateTotalSellEarnings();
+        jPanel2.revalidate();
+        jPanel2.repaint();
+    }
+
+
+    private void updateTotalSellEarnings() {
+        int totalEarnings = 0;
+
+        if(controller != null) {
+        java.util.ArrayList<potionprodigy.ItemStack> selectedStacks = new java.util.ArrayList<>();
+
+            for(gui.components.SellItemCard card : sellCards) {
+                int qty= card.getSelectedQuantity();
+                if(qty > 0) {
+                    selectedStacks.add(new potionprodigy.ItemStack(card.getItemStack().getIngredient(), qty));
+                }
+            }
+            totalEarnings = controller.calculateTotalSellValue(selectedStacks);
+        }
+
+        totalCostLabel.setText("Total Earnings: " + totalEarnings + " Crystals");
+    }
+
+    private void handleConfirmSell() {
+        int qty, earnings;
+        ArrayList<potionprodigy.ItemStack> itemsToSell = new ArrayList<>();
+
+        for(gui.components.SellItemCard card : sellCards) {
+            qty = card.getSelectedQuantity();
+            if (qty > 0) {
+                itemsToSell.add(new potionprodigy.ItemStack(card.getItemStack().getIngredient(), qty));
+            }
+        }
+
+        if (itemsToSell.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                "Please select at least one item to sell.",
+                "No Items Selected",
+                JOptionPane.WARNING_MESSAGE);
+        } else {
+            earnings = controller.calculateTotalSellValue(itemsToSell);
+            int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "Are you sure you want to sell the selected items for " + earnings + " Crystals?",
+                "Confirm Sale",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE
+            );
+
+            if(confirm == JOptionPane.YES_OPTION) {
+                controller.sellItems(itemsToSell);
+
+                JOptionPane.showMessageDialog(this,
+                    "Successfully sold items for " + earnings + " crystals!",
+                    "Sale Successful",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+                refreshDisplay();
+            }
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -278,7 +372,11 @@ public class MarketPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
-        handleConfirmPurchase();
+        if (radioBtnBuy.isSelected()) {
+            handleConfirmPurchase();
+        } else {
+            handleConfirmSell();
+        }
     }//GEN-LAST:event_btnConfirmActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

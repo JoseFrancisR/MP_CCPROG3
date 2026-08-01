@@ -145,6 +145,18 @@ public class Controller {
         return totalCost;
     }
 
+    public int calculateTotalSellValue(ArrayList<ItemStack> items) {
+        int total = 0;
+        if(items != null) {
+            for(ItemStack stack : items) {
+                if (stack.getIngredient() != null) {
+                    total += stack.getIngredient().getSellingPrice() * stack.getQuantity();
+                }
+            }
+        }
+        return total;
+    }
+
     public boolean isSlotAvailable(int slotNumber) {
         boolean available = false;
         int i = 0;
