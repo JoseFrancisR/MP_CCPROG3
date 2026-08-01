@@ -7,14 +7,11 @@ package gui;
 import gui.components.MarketItemCard;
 import controller.Controller;
 import javax.swing.ButtonGroup;
-<<<<<<< Updated upstream
 import gui.components.MarketItemCard;
-=======
 import javax.swing.JOptionPane;
 import gui.components.ItemCard;
 import java.util.ArrayList;
 import java.util.List;
->>>>>>> Stashed changes
 
 /**
  *
