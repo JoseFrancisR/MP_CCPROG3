@@ -27,32 +27,32 @@ public class InventoryPanel extends javax.swing.JPanel {
     
     public InventoryPanel(MainFrame mainFrame, Controller controller) {
         initComponents();
+        
+        inventoryItemsPanel.setLayout(new java.awt.GridLayout(0, 4, 10, 10));
+
+        inventoryScrollPane.getVerticalScrollBar().setUnitIncrement(15);
 
         this.mainFrame = mainFrame;
         this.controller = controller;
 
         // num of row, cols; px gap h, v
-        inventoryGridPanel.setLayout(new java.awt.GridLayout(0, 4, 12, 12));
+        inventoryItemsPanel.setLayout(new java.awt.GridLayout(0, 4, 12, 12));
 
-        inventoryGridPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(12, 12, 12, 12));
-        
-        inventoryScrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        inventoryItemsPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(12, 12, 12, 12));
     }
     
     public void refreshDisplay() {
-        inventoryGridPanel.removeAll();
+        inventoryItemsPanel.removeAll();
 
         Player player = controller.getCurrentPlayer();
 
-        if (player == null) {
-            return;
-        }
-
-        for (ItemStack stack : player.getInventory().getIngredientStacks()) {
-            if (stack.getQuantity() > 0) {
-                ItemCard card = new ItemCard(stack);
-                
-                inventoryGridPanel.add(card);
+        if (player != null) {
+            for (ItemStack stack : player.getInventory().getIngredientStacks()) {
+                if (stack.getQuantity() > 0) {
+                    ItemCard card = new ItemCard(stack);
+                    
+                    inventoryItemsPanel.add(card);
+                }
             }
         }
 
@@ -61,8 +61,8 @@ public class InventoryPanel extends javax.swing.JPanel {
         lblCauldrons.setText("Cauldrons: " + inventory.countUsableCauldrons()
                 + " usable / " + inventory.countUnusableCauldrons() + " unusable");
 
-        inventoryGridPanel.revalidate();
-        inventoryGridPanel.repaint();
+        inventoryItemsPanel.revalidate();
+        inventoryItemsPanel.repaint();
     }
 
     /**
@@ -76,24 +76,14 @@ public class InventoryPanel extends javax.swing.JPanel {
 
         lblTitle = new javax.swing.JLabel();
         inventoryScrollPane = new javax.swing.JScrollPane();
-        inventoryGridPanel = new javax.swing.JPanel();
+        inventoryItemsPanel = new javax.swing.JPanel();
         lblCauldrons = new javax.swing.JLabel();
         btnBack = new javax.swing.JButton();
 
         lblTitle.setText("jLabel1");
 
-        javax.swing.GroupLayout inventoryGridPanelLayout = new javax.swing.GroupLayout(inventoryGridPanel);
-        inventoryGridPanel.setLayout(inventoryGridPanelLayout);
-        inventoryGridPanelLayout.setHorizontalGroup(
-            inventoryGridPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 98, Short.MAX_VALUE)
-        );
-        inventoryGridPanelLayout.setVerticalGroup(
-            inventoryGridPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 98, Short.MAX_VALUE)
-        );
-
-        inventoryScrollPane.setViewportView(inventoryGridPanel);
+        inventoryItemsPanel.setLayout(new java.awt.GridLayout(10, 0, 4, 10));
+        inventoryScrollPane.setViewportView(inventoryItemsPanel);
 
         lblCauldrons.setText("jLabel1");
 
@@ -138,7 +128,7 @@ public class InventoryPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
-    private javax.swing.JPanel inventoryGridPanel;
+    private javax.swing.JPanel inventoryItemsPanel;
     private javax.swing.JScrollPane inventoryScrollPane;
     private javax.swing.JLabel lblCauldrons;
     private javax.swing.JLabel lblTitle;

@@ -4,17 +4,47 @@
  */
 package gui;
 
+import controller.Controller;
+import gui.components.RecipeCard;
+import potionprodigy.Player;
+import potionprodigy.Inventory;
+import potionprodigy.Recipe;
+
 /**
  *
  * @author YJ
  */
 public class SpellbookPanel extends javax.swing.JPanel {
-
+    MainFrame mainFrame;
+    Controller controller;
     /**
      * Creates new form SpellbookPanel
      */
     public SpellbookPanel() {
         initComponents();
+        
+        recipeListPanel.setLayout(new javax.swing.BoxLayout(recipeListPanel, javax.swing.BoxLayout.Y_AXIS));
+    }
+    
+    public void refreshDisplay() {
+        recipeListPanel.removeAll();
+    
+        Player player = controller.getCurrentPlayer();
+
+        if (player != null) {
+            Inventory inventory = player.getInventory();
+        
+            for (Recipe recipe : player.getRecipeBook().getUnlockedRecipes()) {
+                RecipeCard recipeCard = new RecipeCard(recipe, inventory, null, false);
+                recipeCard.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, recipeCard.getPreferredSize().height));
+            
+                recipeListPanel.add(recipeCard);
+                recipeListPanel.add(javax.swing.Box.createVerticalStrut(8));
+            }
+        }
+    
+        recipeListPanel.revalidate();
+        recipeListPanel.repaint();
     }
 
     /**
@@ -26,19 +56,33 @@ public class SpellbookPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        recipeScrollPane = new javax.swing.JScrollPane();
+        recipeListPanel = new javax.swing.JPanel();
+
+        recipeListPanel.setLayout(new javax.swing.BoxLayout(recipeListPanel, javax.swing.BoxLayout.LINE_AXIS));
+        recipeScrollPane.setViewportView(recipeListPanel);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(136, 136, 136)
+                .addComponent(recipeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(164, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(68, 68, 68)
+                .addComponent(recipeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(132, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel recipeListPanel;
+    private javax.swing.JScrollPane recipeScrollPane;
     // End of variables declaration//GEN-END:variables
 }

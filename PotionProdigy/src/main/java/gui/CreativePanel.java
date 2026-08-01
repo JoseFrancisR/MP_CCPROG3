@@ -4,17 +4,104 @@
  */
 package gui;
 
+import java.util.ArrayList;
+import gui.components.ItemCard;
+import potionprodigy.Inventory;
+import potionprodigy.Player;
+import potionprodigy.ItemStack;
+import potionprodigy.Ingredient;
+import controller.Controller;
+
+
 /**
  *
  * @author YJ
  */
 public class CreativePanel extends javax.swing.JPanel {
-
+    MainFrame mainFrame;
+    Controller controller;
+    
+    private Ingredient selectedBase = null;
+    private ArrayList<Ingredient> selectedFruits = new ArrayList<>();
+    
     /**
      * Creates new form CreativePanel
      */
-    public CreativePanel() {
+    public CreativePanel(MainFrame mainFrame, Controller controller) {
         initComponents();
+        
+        this.mainFrame = mainFrame;
+        this.controller = controller;
+        
+        inventoryItemsPanel.setLayout(new java.awt.GridLayout(0, 4, 10, 10));
+
+        inventoryScrollPane.getVerticalScrollBar().setUnitIncrement(15);
+    }
+    
+    public void refreshDisplay() {
+        inventoryItemsPanel.removeAll();
+
+        Player player = controller.getCurrentPlayer();
+
+        if (player != null) {
+            for (ItemStack stack : player.getInventory().getIngredientStacks()) {
+                if (stack.getQuantity() > 0) {
+                    ItemCard card = new ItemCard(stack);
+
+                    card.addMouseListener(new java.awt.event.MouseAdapter() {
+                        @Override
+                        public void mouseClicked(java.awt.event.MouseEvent event) {
+                            handleItemSelection(card);
+                        }
+                    });
+                    
+                    inventoryItemsPanel.add(card);
+                }
+            }
+        }
+        Inventory inventory = player.getInventory();
+
+        lblCauldrons.setText("Cauldrons: " + inventory.countUsableCauldrons()
+                + " usable / " + inventory.countUnusableCauldrons() + " unusable");
+
+        inventoryItemsPanel.revalidate();
+        inventoryItemsPanel.repaint();
+    }
+    
+    private void handleItemSelection(ItemCard card) {
+        Ingredient ingredient = card.getItemStack().getIngredient();
+    
+        if (ingredient.isConcoctionBase()) {
+            handleBaseSelection(card, ingredient);
+        } else {
+            handleFruitSelection(card, ingredient);
+        }
+    }
+    
+    private void handleFruitSelection(ItemCard card, Ingredient fruit) {
+        if (selectedFruits.contains(fruit)) {
+            selectedFruits.remove(fruit);
+            card.setSelectedCard(false);
+        } else if (selectedFruits.size() >= 3) {
+            javax.swing.JOptionPane.showMessageDialog(this, "You may only select up to three fruits.",
+                "Invalid Selection", javax.swing.JOptionPane.WARNING_MESSAGE);
+        } else {
+            selectedFruits.add(fruit);
+            card.setSelectedCard(true);
+        }
+    }
+    
+    private void handleBaseSelection(ItemCard card, Ingredient base) {
+        if (selectedBase == base) {
+            selectedBase = null;
+            card.setSelectedCard(false);
+        } else if (selectedBase != null) {
+            javax.swing.JOptionPane.showMessageDialog(this, "You may only select one base.",
+                "Invalid Selection", javax.swing.JOptionPane.WARNING_MESSAGE);
+        } else {
+            selectedBase = base;
+            card.setSelectedCard(true);
+        }
     }
 
     /**
@@ -26,19 +113,60 @@ public class CreativePanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        inventoryScrollPane = new javax.swing.JScrollPane();
+        inventoryItemsPanel = new javax.swing.JPanel();
+        lblCauldrons = new javax.swing.JLabel();
+        btnBrew = new javax.swing.JButton();
+        btnBack = new javax.swing.JButton();
+
+        inventoryItemsPanel.setLayout(new java.awt.GridLayout());
+        inventoryScrollPane.setViewportView(inventoryItemsPanel);
+
+        lblCauldrons.setText("jLabel1");
+
+        btnBrew.setText("Brew");
+
+        btnBack.setText("Back");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(62, 62, 62)
+                        .addComponent(btnBack)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(inventoryScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(61, 61, 61)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnBrew)
+                            .addComponent(lblCauldrons))))
+                .addContainerGap(154, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addComponent(lblCauldrons)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnBrew)
+                .addGap(2, 2, 2)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(inventoryScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBack))
+                .addContainerGap(112, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnBrew;
+    private javax.swing.JPanel inventoryItemsPanel;
+    private javax.swing.JScrollPane inventoryScrollPane;
+    private javax.swing.JLabel lblCauldrons;
     // End of variables declaration//GEN-END:variables
 }

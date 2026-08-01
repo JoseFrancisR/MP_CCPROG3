@@ -175,7 +175,7 @@ public class MainMenuPanel extends javax.swing.JPanel {
             int result = controller.blessCauldronPay();
             switch(result) {
                 case -1:
-                    JOptionPane.showMessageDialog(this, "Blessing failed: There are no unusable cauldrons",
+                    JOptionPane.showMessageDialog(this, "Blessing failed: There are no blessable cauldrons",
                         "Bless Cauldron", JOptionPane.WARNING_MESSAGE);
                     break;
                 case 0:

@@ -78,12 +78,12 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     public void showInventory() {
-        // inventoryPanel.refreshDisplay();
+        inventoryPanel.refreshDisplay();
         cardLayout.show(contentPanel, "INVENTORY");
     }
     
     public void showSpellbook() {
-        // spellbookPanel.refreshDisplay();
+        spellbookPanel.refreshDisplay();
         cardLayout.show(contentPanel, "SPELLBOOK");
     }
     

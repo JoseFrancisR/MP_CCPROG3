@@ -160,21 +160,13 @@ public class RecipeBook {
      * Displays only unlocked recipes in the same ascending order used by the
      * Potion Compendium.
      */
-    public void displayUnlockedRecipes() {
+    public ArrayList<Recipe> getUnlockedRecipes() {
+        ArrayList<Recipe> unlockedRecipes = new ArrayList<>();
         for (Recipe recipe : recipes) {
             if (isUnlocked(recipe.getConcoctionId())) {
-                System.out.println(recipe.getConcoctionId() + " - "+ recipe.getConcoctionName());
-                System.out.println("  Base: " + recipe.getBase().getName());
-                System.out.print("  Fruits: ");
-                ArrayList<Ingredient> fruits = recipe.getFruits();
-                for (int i = 0; i < fruits.size(); i++) {
-                    System.out.print(fruits.get(i).getName());
-                    if (i < fruits.size() - 1) {
-                        System.out.print(", ");
-                    }
-                }
-                System.out.println();
+                unlockedRecipes.add(recipe);
             }
         }
+        return unlockedRecipes;
     }
 }

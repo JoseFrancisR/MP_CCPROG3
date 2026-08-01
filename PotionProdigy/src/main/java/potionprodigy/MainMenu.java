@@ -94,7 +94,7 @@ public class MainMenu {
     				checkInventory();
     				break;
     			case 3:
-    				checkSpellbook();
+    				// checkSpellbook();
     				break;
     			case 4:
     			    visitMarket();
@@ -229,12 +229,6 @@ public class MainMenu {
         System.out.println("Unusable Cauldrons: " + currentPlayer.getInventory().countUnusableCauldrons());
     }
 
-    /** Displays all recipes currently unlocked by the player. */
-    public void checkSpellbook() {
-        displayBorder();
-        currentPlayer.getRecipeBook().displayUnlockedRecipes();
-    }
-
     /** Handles market refresh checks, buying, selling, and exit. */
     public void visitMarket() {
         boolean exit = false;
@@ -330,7 +324,6 @@ public class MainMenu {
     	boolean loop = true;
     	boolean playerBrew = true;
     	Recipe recipe = null;
-    	currentPlayer.getRecipeBook().displayUnlockedRecipes();
     	while(loop) {
             displayBorder();
     		System.out.println("Enter the ID of the (Enter -1 to back out) ");
