@@ -31,7 +31,22 @@ public class MarketItemCard extends JPanel {
     public MarketItemCard(Listing listing) {
         initComponents();
         
-        if (listing != null && listing.getIngredient() != null) {
+        if (listing != null) {
+            //First check if its a cauldron
+            if(listing.isCauldronListing()){
+                lblName.setText("Cauldron");
+                lblQuantity.setText("Qty: 1");
+                lblCost.setText(listing.getUnitPrice() + " Crystals");
+            
+                ImageIcon cauldronIcon = loadIcon("/images/cauldron.png", 80, 80);
+                if (cauldronIcon != null) {
+                    lblIcon.setIcon(cauldronIcon);
+                    lblIcon.setText("");
+                } else {
+                    lblIcon.setText("[ CAULDRON ]");
+                }
+            }
+        } else if(listing.getIngredient() != null) {
             lblName.setText(listing.getIngredient().getName());
             lblQuantity.setText("Qty: " + listing.getQuantity());
             lblCost.setText(listing.getUnitPrice() * listing.getQuantity() + " Crystals");
