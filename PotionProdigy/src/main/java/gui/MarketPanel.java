@@ -32,72 +32,160 @@ public class MarketPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel8 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        Header = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel14 = new javax.swing.JPanel();
+        radioBtnBuy = new javax.swing.JRadioButton();
+        radioBtnSell = new javax.swing.JRadioButton();
+        centerCardPanel = new javax.swing.JPanel();
+        butItemSlots = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        jPanel7 = new javax.swing.JPanel();
+        jPanel9 = new javax.swing.JPanel();
+        jPanel13 = new javax.swing.JPanel();
+        jPanel10 = new javax.swing.JPanel();
+        jPanel11 = new javax.swing.JPanel();
+        jPanel12 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jPanel2 = new javax.swing.JPanel();
+        Footer = new javax.swing.JPanel();
+        totalCostLabel = new javax.swing.JLabel();
+        bottomButtonsContainer = new javax.swing.JPanel();
         btnConfirm = new javax.swing.JButton();
-        RadioBtnBuy = new javax.swing.JRadioButton();
-        RadioBtnSell = new javax.swing.JRadioButton();
-        btnSell = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+
+        setLayout(new java.awt.BorderLayout());
+
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        Header.setPreferredSize(new java.awt.Dimension(242, 50));
+        Header.setLayout(new javax.swing.BoxLayout(Header, javax.swing.BoxLayout.Y_AXIS));
+
+        jLabel1.setText("Market");
+        jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jLabel1.setAlignmentX(0.5F);
+        Header.add(jLabel1);
+
+        radioBtnBuy.setText("Buy");
+        radioBtnBuy.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        radioBtnBuy.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        radioBtnBuy.addActionListener(this::radioBtnBuyActionPerformed);
+        jPanel14.add(radioBtnBuy);
+
+        radioBtnSell.setText("Sell");
+        radioBtnSell.addActionListener(this::radioBtnSellActionPerformed);
+        jPanel14.add(radioBtnSell);
+
+        Header.add(jPanel14);
+
+        jPanel1.add(Header, java.awt.BorderLayout.NORTH);
+
+        centerCardPanel.setLayout(new java.awt.CardLayout());
+
+        butItemSlots.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 20, 1, 20));
+        butItemSlots.setLayout(new java.awt.GridLayout(2, 4, 10, 10));
+
+        jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        butItemSlots.add(jPanel5);
+
+        jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        butItemSlots.add(jPanel6);
+
+        jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        butItemSlots.add(jPanel7);
+
+        jPanel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        butItemSlots.add(jPanel9);
+
+        jPanel13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        butItemSlots.add(jPanel13);
+
+        jPanel10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        butItemSlots.add(jPanel10);
+
+        jPanel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        butItemSlots.add(jPanel11);
+
+        jPanel12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        butItemSlots.add(jPanel12);
+
+        centerCardPanel.add(butItemSlots, "card2");
+
+        jPanel2.setLayout(new java.awt.GridLayout(2, 4, 10, 0));
+        jScrollPane1.setViewportView(jPanel2);
+
+        centerCardPanel.add(jScrollPane1, "card4");
+
+        jPanel1.add(centerCardPanel, java.awt.BorderLayout.CENTER);
+
+        Footer.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 20));
+        Footer.setPreferredSize(new java.awt.Dimension(200, 100));
+        Footer.setLayout(new java.awt.BorderLayout());
+
+        totalCostLabel.setText("Total:");
+        Footer.add(totalCostLabel, java.awt.BorderLayout.CENTER);
+
+        bottomButtonsContainer.setPreferredSize(new java.awt.Dimension(171, 33));
 
         btnConfirm.setText("Confirm");
         btnConfirm.addActionListener(this::btnConfirmActionPerformed);
+        bottomButtonsContainer.add(btnConfirm);
 
-        RadioBtnBuy.setText("Buy");
-        RadioBtnBuy.addActionListener(this::RadioBtnBuyActionPerformed);
+        jButton2.setText("Back");
+        jButton2.addActionListener(this::jButton2ActionPerformed);
+        bottomButtonsContainer.add(jButton2);
 
-        RadioBtnSell.setText("Sell");
+        Footer.add(bottomButtonsContainer, java.awt.BorderLayout.PAGE_END);
 
-        btnSell.setText("Sell");
-        btnSell.addActionListener(this::btnSellActionPerformed);
+        jPanel1.add(Footer, java.awt.BorderLayout.SOUTH);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(RadioBtnSell)
-                            .addComponent(RadioBtnBuy)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(107, 107, 107)
-                        .addComponent(btnConfirm)
-                        .addGap(66, 66, 66)
-                        .addComponent(btnSell)))
-                .addContainerGap(81, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addComponent(RadioBtnBuy)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(RadioBtnSell)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 165, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnConfirm)
-                    .addComponent(btnSell))
-                .addGap(16, 16, 16))
-        );
+        add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnConfirmActionPerformed
 
-    private void RadioBtnBuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RadioBtnBuyActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_RadioBtnBuyActionPerformed
+    }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void btnSellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSellActionPerformed
+    private void radioBtnBuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioBtnBuyActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnSellActionPerformed
+    }//GEN-LAST:event_radioBtnBuyActionPerformed
+
+    private void radioBtnSellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioBtnSellActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_radioBtnSellActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JRadioButton RadioBtnBuy;
-    private javax.swing.JRadioButton RadioBtnSell;
+    private javax.swing.JPanel Footer;
+    private javax.swing.JPanel Header;
+    private javax.swing.JPanel bottomButtonsContainer;
     private javax.swing.JButton btnConfirm;
-    private javax.swing.JButton btnSell;
+    private javax.swing.JPanel butItemSlots;
+    private javax.swing.JPanel centerCardPanel;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JRadioButton radioBtnBuy;
+    private javax.swing.JRadioButton radioBtnSell;
+    private javax.swing.JLabel totalCostLabel;
     // End of variables declaration//GEN-END:variables
 }
