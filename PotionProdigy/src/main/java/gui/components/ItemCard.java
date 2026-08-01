@@ -37,13 +37,6 @@ public class ItemCard extends JPanel {
         initializeCard();
     }
     
-    public ItemCard(Listing listing) {
-        this.itemStack = new ItemStack(listing.getIngredient(), listing.getQuantity());
-        this.selected = false;
-
-        initializeCard();
-    }
-    
     private void initializeCard() {
         setLayout(new BorderLayout(5, 5));
         setPreferredSize(new Dimension(140, 150));

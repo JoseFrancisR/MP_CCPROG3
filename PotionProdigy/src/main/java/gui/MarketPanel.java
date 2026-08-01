@@ -6,7 +6,7 @@ package gui;
 
 import controller.Controller;
 import javax.swing.ButtonGroup;
-import gui.components.ItemCard;
+import gui.components.MarketItemCard;
 
 /**
  *
@@ -55,7 +55,7 @@ public class MarketPanel extends javax.swing.JPanel {
                 if (i < listings.size()) {
                     potionprodigy.Listing listing = listings.get(i);
                     int slotNumber = listing.getSlotNumber();
-                    ItemCard card = new ItemCard(listing);
+                    MarketItemCard card = new MarketItemCard(listing);
                 
                     if (selectedSlotNumbers.contains(slotNumber)) {
                         card.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.GREEN, 3));

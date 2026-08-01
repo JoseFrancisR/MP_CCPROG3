@@ -54,6 +54,8 @@ public class MarketItemCard extends JPanel {
                 String iconPath;
                 if(listing.getIngredient().isFruit()) {
                     iconPath = "/images/fruits.png";
+                } else if (listing.isCauldronListing()){
+                    iconPath = "/images/cauldron.png";
                 } else {
                     iconPath = "/images/bases.png";
                 }
