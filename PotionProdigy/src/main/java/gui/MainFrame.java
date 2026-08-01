@@ -41,7 +41,7 @@ public class MainFrame extends javax.swing.JFrame {
         this.mainMenuPanel = new MainMenuPanel(this, controller);
         this.brewPanel = new BrewPanel(this, controller);
         this.inventoryPanel = new InventoryPanel(this, controller);
-        // this.spellbookPanel = new SpellbookPanel(this, controller);
+        this.spellbookPanel = new SpellbookPanel(this, controller);
         this.marketPanel = new MarketPanel(this, controller);
         this.creativePanel = new CreativePanel(this, controller);
         this.recipePanel = new RecipePanel(this, controller);
@@ -50,7 +50,7 @@ public class MainFrame extends javax.swing.JFrame {
         contentPanel.add(mainMenuPanel, "MENU");
         contentPanel.add(brewPanel, "BREW");
         contentPanel.add(inventoryPanel, "INVENTORY");
-        // contentPanel.add(spellbookPanel, "SPELLBOOK");
+        contentPanel.add(spellbookPanel, "SPELLBOOK");
         contentPanel.add(marketPanel, "MARKET");
         contentPanel.add(recipePanel, "RECIPE");
         contentPanel.add(creativePanel, "CREATIVE");
@@ -92,7 +92,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     public void showSpellbook() {
-        // spellbookPanel.refreshDisplay();
+        spellbookPanel.refreshDisplay();
         cardLayout.show(contentPanel, "SPELLBOOK");
     }
     
@@ -124,12 +124,24 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Potion Prodigy");
-        setMinimumSize(new java.awt.Dimension(900, 600));
-        setPreferredSize(new java.awt.Dimension(1000, 700));
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        setMinimumSize(new java.awt.Dimension(710, 550));
 
         contentPanel.setLayout(new java.awt.CardLayout());
-        getContentPane().add(contentPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 780, 480));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(contentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(603, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(contentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(484, Short.MAX_VALUE))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

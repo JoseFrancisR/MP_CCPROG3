@@ -10,6 +10,7 @@ import potionprodigy.Inventory;
 import potionprodigy.Player;
 import potionprodigy.ItemStack;
 import potionprodigy.Ingredient;
+import potionprodigy.Recipe;
 import controller.Controller;
 
 
@@ -22,7 +23,10 @@ public class CreativePanel extends javax.swing.JPanel {
     Controller controller;
     
     private Ingredient selectedBase = null;
+    private ItemCard selectedBaseCard = null;
+    
     private ArrayList<Ingredient> selectedFruits = new ArrayList<>();
+    private ArrayList<ItemCard> selectedFruitCards = new ArrayList<>();
     
     /**
      * Creates new form CreativePanel
@@ -79,29 +83,49 @@ public class CreativePanel extends javax.swing.JPanel {
     }
     
     private void handleFruitSelection(ItemCard card, Ingredient fruit) {
-        if (selectedFruits.contains(fruit)) {
+        int existingIndex = findSelectedFruitIndex(fruit);
+        
+        if (existingIndex >= 0) {
             selectedFruits.remove(fruit);
+            ItemCard removedCard = selectedFruitCards.remove(existingIndex);
+            removedCard.setSelectedCard(false);
             card.setSelectedCard(false);
         } else if (selectedFruits.size() >= 3) {
             javax.swing.JOptionPane.showMessageDialog(this, "You may only select up to three fruits.",
                 "Invalid Selection", javax.swing.JOptionPane.WARNING_MESSAGE);
         } else {
             selectedFruits.add(fruit);
+            selectedFruitCards.add(card);
             card.setSelectedCard(true);
         }
     }
     
     private void handleBaseSelection(ItemCard card, Ingredient base) {
         if (selectedBase == base) {
-            selectedBase = null;
             card.setSelectedCard(false);
-        } else if (selectedBase != null) {
-            javax.swing.JOptionPane.showMessageDialog(this, "You may only select one base.",
-                "Invalid Selection", javax.swing.JOptionPane.WARNING_MESSAGE);
+            selectedBase = null;
+            selectedBaseCard = null;
         } else {
+            if (selectedBaseCard != null) {
+                selectedBaseCard.setSelectedCard(false);
+            }
+            selectedBaseCard = card;
             selectedBase = base;
+            
             card.setSelectedCard(true);
+        } 
+    }
+    
+    private int findSelectedFruitIndex(Ingredient ingredient) {
+        int foundIndex = -1;
+        
+        for (int i = 0; i < selectedFruits.size() && foundIndex == -1; i++) {
+            if (selectedFruits.get(i).isEqual(ingredient)) {
+                foundIndex = i;
+            }
         }
+        
+        return foundIndex;
     }
 
     /**
@@ -173,7 +197,44 @@ public class CreativePanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnBrewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrewActionPerformed
-        // TODO add your handling code here:
+        Player player = controller.getCurrentPlayer();
+        boolean success = false;
+        Recipe recipe = null;
+        
+        if (player != null) {
+            if (player.getInventory().countUsableCauldrons() > 1) {
+                if (selectedBase != null) {
+                    if (!selectedFruits.isEmpty()) {
+                        ArrayList<Ingredient> fruits = new ArrayList<>(selectedFruits);
+                        recipe = player.getRecipeBook().findRecipe(selectedBase, fruits);
+                        
+                        success = controller.brewCreative(selectedBase, fruits);
+                    } else {
+                        javax.swing.JOptionPane.showMessageDialog(this, "Please select at least one fruit.", 
+                                "No Fruit Selected", javax.swing.JOptionPane.WARNING_MESSAGE);
+                    }
+                } else {
+                    javax.swing.JOptionPane.showMessageDialog(this, "Please select one concoction base.", 
+                            "No Base Selected", javax.swing.JOptionPane.WARNING_MESSAGE);
+                }
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, "Creative Mode requires more than one usable cauldron.", 
+                        "Not Enough Cauldrons", javax.swing.JOptionPane.WARNING_MESSAGE);
+            }
+        }
+        
+        if (success && recipe != null) {
+            javax.swing.JOptionPane.showMessageDialog(this, recipe.getConcoctionName() + " was successfully brewed!\n" + 
+                    "You earned " + recipe.getSaleValue() + " crystals.\n" + "The recipe is now unlocked!", 
+                    "Brewing Successful", javax.swing.JOptionPane.WARNING_MESSAGE);
+        } else if (recipe == null) {
+            javax.swing.JOptionPane.showMessageDialog(this, "The ingredients did not create a valid concoction.\n" + 
+                    "One usable cauldron was damaged. D:", 
+                    "Brewing Failed", javax.swing.JOptionPane.WARNING_MESSAGE);
+        } else if (!success) {
+            javax.swing.JOptionPane.showMessageDialog(this, "The concoction could not be brewed.", 
+                    "Brewing Failed", javax.swing.JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btnBrewActionPerformed
 
 

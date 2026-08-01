@@ -22,8 +22,16 @@ public class SpellbookPanel extends javax.swing.JPanel {
      */
     public SpellbookPanel() {
         initComponents();
+    }
+    
+    public SpellbookPanel(MainFrame mainFrame, Controller controller) {
+        initComponents();
+        
+        this.mainFrame = mainFrame;
+        this.controller = controller;
         
         recipeListPanel.setLayout(new javax.swing.BoxLayout(recipeListPanel, javax.swing.BoxLayout.Y_AXIS));
+        recipeScrollPane.getVerticalScrollBar().setUnitIncrement(15);
     }
     
     public void refreshDisplay() {
@@ -45,6 +53,10 @@ public class SpellbookPanel extends javax.swing.JPanel {
     
         recipeListPanel.revalidate();
         recipeListPanel.repaint();
+        
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            recipeScrollPane.getVerticalScrollBar().setValue(0);
+        });
     }
 
     /**
@@ -58,30 +70,45 @@ public class SpellbookPanel extends javax.swing.JPanel {
 
         recipeScrollPane = new javax.swing.JScrollPane();
         recipeListPanel = new javax.swing.JPanel();
+        btnBack = new javax.swing.JButton();
 
         recipeListPanel.setLayout(new javax.swing.BoxLayout(recipeListPanel, javax.swing.BoxLayout.LINE_AXIS));
         recipeScrollPane.setViewportView(recipeListPanel);
+
+        btnBack.setText("Back");
+        btnBack.addActionListener(this::btnBackActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(136, 136, 136)
-                .addComponent(recipeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(164, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(recipeScrollPane)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnBack)
+                        .addGap(0, 316, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(68, 68, 68)
-                .addComponent(recipeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(132, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(recipeScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnBack)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        mainFrame.showMainMenu();
+    }//GEN-LAST:event_btnBackActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBack;
     private javax.swing.JPanel recipeListPanel;
     private javax.swing.JScrollPane recipeScrollPane;
     // End of variables declaration//GEN-END:variables

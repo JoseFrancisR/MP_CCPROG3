@@ -11,6 +11,7 @@ import potionprodigy.Save;
 import potionprodigy.ItemStack;
 import potionprodigy.Ingredient;
 import potionprodigy.Listing;
+import potionprodigy.Recipe;
 import java.util.ArrayList;
 
 public class Controller {
@@ -105,6 +106,32 @@ public class Controller {
 
     public void resetMarketBrewCounter() {
         brewsSinceMarketVisit = 0;
+    }
+    
+    public boolean brewRecipe(Recipe recipe) {
+        boolean success = false;
+
+        if (currentPlayer != null && recipe != null) {
+            success = brew.brewRecipe(currentPlayer, recipe);
+            
+            if (success) {
+                brewsSinceMarketVisit++;
+            }
+        }
+
+        return success;
+    }
+    
+    public boolean brewCreative(Ingredient base, ArrayList<Ingredient> fruits) {
+        boolean success = false;
+        
+        if (currentPlayer != null && base != null && fruits != null) {
+            success = brew.brewCreative(currentPlayer, base, new ArrayList<>(fruits));
+            
+            brewsSinceMarketVisit++;
+        }
+        
+        return success;
     }
 
     public void generateMarket(){

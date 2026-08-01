@@ -3,6 +3,7 @@ package gui.components;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Dimension;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -59,7 +60,7 @@ public class RecipeCard extends JPanel {
 
         JPanel rightHeaderPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
-        craftableLabel = new JLabel(craftable ? "Craftable" : "Not Craftable");
+        craftableLabel = new JLabel(craftable ? "Craftable |" : "Not Craftable |");
 
         valueLabel = new JLabel(
                 recipe.getSaleValue() + " crystals"
@@ -90,16 +91,13 @@ public class RecipeCard extends JPanel {
         detailsPanel.removeAll();
 
         for (Ingredient ingredient : recipe.getRequiredIngredients()) {
-
             int required = recipe.getRequiredQuantity(ingredient);
 
             int owned = inventory.getQuantity(ingredient);
 
             JCheckBox ingredientCheckBox = new JCheckBox(ingredient.getName() + "    " + owned + "/" + required);
             
-            ingredientCheckBox.setSelected(
-                    owned >= required
-            );
+            ingredientCheckBox.setSelected(owned >= required);
             
             ingredientCheckBox.setEnabled(false);
 
@@ -110,15 +108,19 @@ public class RecipeCard extends JPanel {
     private void toggleDetails() {
         expanded = !expanded;
         detailsPanel.setVisible(expanded);
-
-        if (expanded) {
-            dropdownButton.setText("▼ " + String.format("#%03d ", recipe.getConcoctionId()) + recipe.getConcoctionName());
-        } else {
-            dropdownButton.setText("▶ " + String.format("#%03d ",recipe.getConcoctionId()) + recipe.getConcoctionName());
+        
+        String arrow = expanded ? "▼ " : "▶ ";
+        
+        dropdownButton.setText(arrow + String.format("#%03d ", recipe.getConcoctionId()) + recipe.getConcoctionName());
+        
+        this.revalidate();
+        
+        if (getParent() != null) {
+            getParent().revalidate();
+            getParent().repaint();
         }
 
-        revalidate();
-        repaint();
+        this.repaint();
     }
 
     public Recipe getRecipe() {
@@ -127,5 +129,12 @@ public class RecipeCard extends JPanel {
 
     public JRadioButton getRecipeRadioButton() {
         return recipeRadioButton;
+    }
+    
+    @Override
+    public Dimension getMaximumSize() {
+        Dimension preferred = getPreferredSize();
+        
+        return new Dimension(Integer.MAX_VALUE, preferred.height);
     }
 }

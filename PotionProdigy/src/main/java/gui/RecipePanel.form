@@ -21,7 +21,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jPanel1" alignment="0" pref="548" max="32767" attributes="0"/>
+                          <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="lblText" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
@@ -47,7 +47,7 @@
                   <Component id="lblCauldrons" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="recipeScrollPane" pref="345" max="32767" attributes="0"/>
+              <Component id="recipeScrollPane" max="32767" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -75,6 +75,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Brew a Concoction"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBrewActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

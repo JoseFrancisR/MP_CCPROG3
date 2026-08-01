@@ -49,9 +49,9 @@ public class MainMenuPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-        lblWelcome = new javax.swing.JLabel();
-        lblCrystals = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         btnBrew = new javax.swing.JButton();
         btnInventory = new javax.swing.JButton();
         btnSpellbook = new javax.swing.JButton();
@@ -59,72 +59,90 @@ public class MainMenuPanel extends javax.swing.JPanel {
         btnBlessCauldron = new javax.swing.JButton();
         btnLoginBonus = new javax.swing.JButton();
         btnSaveAndExit = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        lblWelcome = new javax.swing.JLabel();
+        lblCrystals = new javax.swing.JLabel();
 
-        lblWelcome.setText("Welcome");
-
-        lblCrystals.setText("Crystals");
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
         btnBrew.setText("Brew A Potion");
         btnBrew.addActionListener(this::btnBrewActionPerformed);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel1.add(btnBrew, gridBagConstraints);
 
         btnInventory.setText("Open Inventory");
         btnInventory.addActionListener(this::btnInventoryActionPerformed);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel1.add(btnInventory, gridBagConstraints);
 
         btnSpellbook.setText("Open Spellbook");
         btnSpellbook.addActionListener(this::btnSpellbookActionPerformed);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel1.add(btnSpellbook, gridBagConstraints);
 
         btnMarket.setText("Visit Market");
         btnMarket.addActionListener(this::btnMarketActionPerformed);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel1.add(btnMarket, gridBagConstraints);
 
         btnBlessCauldron.setText("Bless Cauldron");
-        btnBlessCauldron.addActionListener(this::btnBlessCauldronActionPerformed);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel1.add(btnBlessCauldron, gridBagConstraints);
 
         btnLoginBonus.setText("Login Bonus");
         btnLoginBonus.addActionListener(this::btnLoginBonusActionPerformed);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel1.add(btnLoginBonus, gridBagConstraints);
 
         btnSaveAndExit.setText("Save & Exit");
         btnSaveAndExit.addActionListener(this::btnSaveAndExitActionPerformed);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel1.add(btnSaveAndExit, gridBagConstraints);
+
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+
+        lblWelcome.setText("Welcome");
+        jPanel2.add(lblWelcome, new java.awt.GridBagConstraints());
+
+        lblCrystals.setText("Crystals");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        jPanel2.add(lblCrystals, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(70, 70, 70)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnSaveAndExit)
-                    .addComponent(btnLoginBonus)
-                    .addComponent(btnBlessCauldron)
-                    .addComponent(btnMarket)
-                    .addComponent(btnSpellbook)
-                    .addComponent(btnInventory)
-                    .addComponent(btnBrew)
-                    .addComponent(lblCrystals)
-                    .addComponent(lblWelcome))
-                .addContainerGap(488, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(65, 65, 65)
-                .addComponent(lblWelcome)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblCrystals)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnBrew)
-                .addGap(18, 18, 18)
-                .addComponent(btnInventory)
-                .addGap(18, 18, 18)
-                .addComponent(btnSpellbook)
-                .addGap(18, 18, 18)
-                .addComponent(btnMarket)
-                .addGap(18, 18, 18)
-                .addComponent(btnBlessCauldron)
-                .addGap(18, 18, 18)
-                .addComponent(btnLoginBonus)
-                .addGap(18, 18, 18)
-                .addComponent(btnSaveAndExit)
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -206,6 +224,8 @@ public class MainMenuPanel extends javax.swing.JPanel {
     private javax.swing.JButton btnMarket;
     private javax.swing.JButton btnSaveAndExit;
     private javax.swing.JButton btnSpellbook;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblCrystals;
     private javax.swing.JLabel lblWelcome;
     // End of variables declaration//GEN-END:variables

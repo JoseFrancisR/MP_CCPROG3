@@ -35,8 +35,7 @@ public class RecipePanel extends javax.swing.JPanel {
         this.mainFrame = mainFrame;
         this.controller = controller;
         
-        recipeListPanel.setLayout(new java.awt.GridLayout());
-        
+        recipeListPanel.setLayout(new javax.swing.BoxLayout(recipeListPanel, javax.swing.BoxLayout.Y_AXIS));
         recipeScrollPane.getVerticalScrollBar().setUnitIncrement(15);
     }
     
@@ -45,8 +44,39 @@ public class RecipePanel extends javax.swing.JPanel {
         
         selectedRecipe = null;
         recipeButtonGroup = new ButtonGroup();
+        btnBrew.setEnabled(false);
         
         Player player = controller.getCurrentPlayer();
+        
+        if (player != null) {
+            Inventory inventory = player.getInventory();
+            
+            lblCauldrons.setText("Usable Cauldrons: " + inventory.countUsableCauldrons());
+            
+            for (Recipe recipe : player.getRecipeBook().getUnlockedRecipes()) {
+                RecipeCard recipeCard = new RecipeCard(recipe, inventory, recipeButtonGroup, true);
+                
+                recipeCard.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, recipeCard.getPreferredSize().height));
+                
+                recipeCard.getRecipeRadioButton().
+                        addActionListener(event -> {
+                            selectedRecipe = recipeCard.getRecipe(); // gets recipe to store
+                            btnBrew.setEnabled(true); // btn to brew shows up
+                        });
+                
+                recipeListPanel.add(recipeCard);
+                recipeListPanel.add(javax.swing.Box.createVerticalStrut(8));
+            }
+        } else {
+            lblCauldrons.setText("Usable Cauldrons: 0");
+        }
+        
+        recipeListPanel.revalidate(); // remeasure size
+        recipeListPanel.repaint(); // redraw windows/component
+        
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            recipeScrollPane.getVerticalScrollBar().setValue(0); // reset scrollbar to top
+        }); 
     }
 
     /**
@@ -73,6 +103,7 @@ public class RecipePanel extends javax.swing.JPanel {
         jPanel1.add(btnBack);
 
         btnBrew.setText("Brew a Concoction");
+        btnBrew.addActionListener(this::btnBrewActionPerformed);
         jPanel1.add(btnBrew);
 
         lblText.setText("Select a recipe to brew.");
@@ -101,7 +132,7 @@ public class RecipePanel extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblText)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -119,7 +150,7 @@ public class RecipePanel extends javax.swing.JPanel {
                     .addComponent(lblText)
                     .addComponent(lblCauldrons))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(recipeScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
+                .addComponent(recipeScrollPane)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -129,6 +160,33 @@ public class RecipePanel extends javax.swing.JPanel {
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         mainFrame.showBrew();
     }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnBrewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrewActionPerformed
+        int earnedCrystals;
+        boolean success;
+        
+        if (this.selectedRecipe != null) {
+            earnedCrystals = selectedRecipe.getSaleValue();
+            success = controller.brewRecipe(selectedRecipe);
+            
+            if (success) {
+                javax.swing.JOptionPane.showMessageDialog(this, selectedRecipe.getConcoctionName() + 
+                        " was successfully brewed!\n" + "You earned " + earnedCrystals + 
+                        " crystals.", "Brewing Successful",javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                
+                refreshDisplay();
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, "The concoction could not be brewed.\n" + 
+                        "Check your ingredients and recipe status.", 
+                        "Brewing Failed",javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                
+                refreshDisplay();
+            }
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Please select a craftable recipe.", 
+                    "No Recipe Selected", javax.swing.JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnBrewActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
