@@ -318,7 +318,6 @@ public class MainMenu {
     	// Player selects base
     	while(loopBase) {
             displayBorder();
-            currentPlayer.getInventory().displayInventory();
             System.out.println();
     		System.out.println("Enter base from your inventory");
     		System.out.println("If you want to exit type 'BACK'");
@@ -352,7 +351,6 @@ public class MainMenu {
     	    System.out.println("If you're ready to brew type 'DONE'");
             while(loopFruit) {
                 displayBorder();
-                currentPlayer.getInventory().displayInventory();
                 System.out.println();
     	    	System.out.println("Enter a name of fruit " + ctr + " : ");
     	    	input = scanner.nextLine().trim();

@@ -187,21 +187,4 @@ public class Inventory {
         }
         return found;
     }
-
-    /** Displays the current inventory. */
-    public void displayInventory() {
-        Stack<String> baseIngredients = new Stack<>();
-        
-        System.out.println("Current Inventory:");
-        for (ItemStack stack : ingredientStacks) {
-            if (stack.getIngredient().getName().contains("BASE"))
-                baseIngredients.push(stack.getIngredient().getName() + " = " + stack.getQuantity());
-            else
-                System.out.println(stack.getIngredient().getName() + " = " + stack.getQuantity());
-        }
-        System.out.println();
-        while (!baseIngredients.isEmpty()) {
-            System.out.println(baseIngredients.pop());
-        }
-    }
 }
