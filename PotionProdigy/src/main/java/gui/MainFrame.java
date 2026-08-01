@@ -25,6 +25,9 @@ public class MainFrame extends javax.swing.JFrame {
     private SpellbookPanel spellbookPanel;
     private MarketPanel marketPanel;
     
+    private RecipePanel recipePanel;
+    private CreativePanel creativePanel;
+    
     /**
      * Creates new form MainFrame
      */
@@ -40,6 +43,8 @@ public class MainFrame extends javax.swing.JFrame {
         this.inventoryPanel = new InventoryPanel(this, controller);
         // this.spellbookPanel = new SpellbookPanel(this, controller);
         this.marketPanel = new MarketPanel(this, controller);
+        this.creativePanel = new CreativePanel(this, controller);
+        this.recipePanel = new RecipePanel(this, controller);
 
         contentPanel.add(startPanel, "START");
         contentPanel.add(mainMenuPanel, "MENU");
@@ -47,6 +52,8 @@ public class MainFrame extends javax.swing.JFrame {
         contentPanel.add(inventoryPanel, "INVENTORY");
         // contentPanel.add(spellbookPanel, "SPELLBOOK");
         contentPanel.add(marketPanel, "MARKET");
+        contentPanel.add(recipePanel, "RECIPE");
+        contentPanel.add(creativePanel, "CREATIVE");
         
         showStart();
 
@@ -55,7 +62,15 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     public Controller getController() {
-        return controller;
+        return this.controller;
+    }
+    
+    public javax.swing.JPanel getContentPanel() {
+        return this.contentPanel;
+    }
+    
+    public CardLayout getCardLayout() {
+        return this.cardLayout;
     }
     
     public void showStart() {
@@ -68,7 +83,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     public void showBrew() {
-        // brewPanel.refreshDisplay();
+        brewPanel.refreshDisplay();
         cardLayout.show(contentPanel, "BREW");
     }
     
@@ -83,8 +98,18 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     public void showMarket() {
-        // marketPanel.refreshDisplay();
+        marketPanel.refreshDisplay();
         cardLayout.show(contentPanel, "MARKET");
+    }
+    
+    public void showCreative() {
+        creativePanel.refreshDisplay();
+        cardLayout.show(creativePanel, "CREATIVE");
+    }
+    
+    public void showRecipe() {
+        recipePanel.refreshDisplay();
+        cardLayout.show(recipePanel, "RECIPE");
     }
 
     /**

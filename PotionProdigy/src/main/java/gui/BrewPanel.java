@@ -4,17 +4,31 @@
  */
 package gui;
 
+import controller.Controller;
+
 /**
  *
  * @author YJ
  */
 public class BrewPanel extends javax.swing.JPanel {
-
+    MainFrame mainFrame;
+    Controller controller;
     /**
      * Creates new form BrewPanel
      */
     public BrewPanel() {
         initComponents();
+    }
+    
+    public BrewPanel(MainFrame mainFrame, Controller controller) {
+        initComponents();
+        
+        this.mainFrame = mainFrame;
+        this.controller = controller;
+    }
+    
+    public void refreshDisplay() {
+        
     }
 
     /**
@@ -26,19 +40,78 @@ public class BrewPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        btnCreative = new javax.swing.JButton();
+        btnRecipe = new javax.swing.JButton();
+        btnBack = new javax.swing.JButton();
+
+        btnCreative.setText("Creative Mode");
+        btnCreative.addActionListener(this::btnCreativeActionPerformed);
+
+        btnRecipe.setText("Recipe Mode");
+        btnRecipe.addActionListener(this::btnRecipeActionPerformed);
+
+        btnBack.setText("Back");
+        btnBack.addActionListener(this::btnBackActionPerformed);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(80, Short.MAX_VALUE)
+                .addComponent(btnCreative)
+                .addGap(98, 98, 98)
+                .addComponent(btnRecipe)
+                .addContainerGap(80, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnBack)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(36, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCreative)
+                    .addComponent(btnRecipe))
+                .addGap(55, 55, 55)
+                .addComponent(btnBack))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(88, 88, 88)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(118, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        mainFrame.showMainMenu();
+    }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnCreativeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreativeActionPerformed
+        mainFrame.showCreative();
+    }//GEN-LAST:event_btnCreativeActionPerformed
+
+    private void btnRecipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecipeActionPerformed
+        mainFrame.showRecipe();
+    }//GEN-LAST:event_btnRecipeActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnCreative;
+    private javax.swing.JButton btnRecipe;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

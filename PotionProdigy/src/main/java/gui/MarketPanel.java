@@ -6,6 +6,7 @@ package gui;
 
 import controller.Controller;
 import javax.swing.ButtonGroup;
+import gui.components.ItemCard;
 
 /**
  *

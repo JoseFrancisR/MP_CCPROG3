@@ -126,12 +126,14 @@ public class CreativePanel extends javax.swing.JPanel {
 
         lblCauldrons.setText("Cauldrons");
 
-        jPanel1.setLayout(new java.awt.GridLayout());
+        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
         btnBack.setText("Back");
+        btnBack.addActionListener(this::btnBackActionPerformed);
         jPanel1.add(btnBack);
 
-        btnBrew.setText("Brew");
+        btnBrew.setText("Brew a Concoction");
+        btnBrew.addActionListener(this::btnBrewActionPerformed);
         jPanel1.add(btnBrew);
 
         lblText.setText("Select your ingredients and base.");
@@ -165,6 +167,14 @@ public class CreativePanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        mainFrame.showMainMenu();
+    }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnBrewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrewActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBrewActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

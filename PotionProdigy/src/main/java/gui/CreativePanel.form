@@ -78,11 +78,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Back"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBackActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnBrew">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Brew"/>
+            <Property name="text" type="java.lang.String" value="Brew a Concoction"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBrewActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

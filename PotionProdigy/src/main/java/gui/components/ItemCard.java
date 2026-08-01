@@ -18,6 +18,7 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 
 import potionprodigy.ItemStack;
+import potionprodigy.Listing;
 
 public class ItemCard extends JPanel {
 
@@ -31,6 +32,13 @@ public class ItemCard extends JPanel {
 
     public ItemCard(ItemStack itemStack) {
         this.itemStack = itemStack;
+        this.selected = false;
+
+        initializeCard();
+    }
+    
+    public ItemCard(Listing listing) {
+        this.itemStack = new ItemStack(listing.getIngredient(), listing.getQuantity());
         this.selected = false;
 
         initializeCard();

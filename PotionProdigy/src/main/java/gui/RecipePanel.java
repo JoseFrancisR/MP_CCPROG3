@@ -29,6 +29,17 @@ public class RecipePanel extends javax.swing.JPanel {
         initComponents();
     }
     
+    public RecipePanel(MainFrame mainFrame, Controller controller) {
+        initComponents();
+        
+        this.mainFrame = mainFrame;
+        this.controller = controller;
+        
+        recipeListPanel.setLayout(new java.awt.GridLayout());
+        
+        recipeScrollPane.getVerticalScrollBar().setUnitIncrement(15);
+    }
+    
     public void refreshDisplay() {
         recipeListPanel.removeAll();
         
@@ -47,63 +58,67 @@ public class RecipePanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jToggleButton1 = new javax.swing.JToggleButton();
-        recipeListPanel = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         btnBack = new javax.swing.JButton();
         btnBrew = new javax.swing.JButton();
         lblText = new javax.swing.JLabel();
         lblCauldrons = new javax.swing.JLabel();
+        recipeScrollPane = new javax.swing.JScrollPane();
+        recipeListPanel = new javax.swing.JPanel();
 
-        jToggleButton1.setText("jToggleButton1");
+        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
-        javax.swing.GroupLayout recipeListPanelLayout = new javax.swing.GroupLayout(recipeListPanel);
-        recipeListPanel.setLayout(recipeListPanelLayout);
-        recipeListPanelLayout.setHorizontalGroup(
-            recipeListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 411, Short.MAX_VALUE)
-        );
-        recipeListPanelLayout.setVerticalGroup(
-            recipeListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 332, Short.MAX_VALUE)
-        );
-
-        jPanel1.setLayout(new java.awt.GridLayout());
-
-        btnBack.setText("jButton1");
+        btnBack.setText("Back");
         jPanel1.add(btnBack);
 
-        btnBrew.setText("jButton2");
+        btnBrew.setText("Brew a Concoction");
         jPanel1.add(btnBrew);
 
         lblText.setText("Select a recipe to brew.");
 
         lblCauldrons.setText("Cauldrons");
 
+        javax.swing.GroupLayout recipeListPanelLayout = new javax.swing.GroupLayout(recipeListPanel);
+        recipeListPanel.setLayout(recipeListPanelLayout);
+        recipeListPanelLayout.setHorizontalGroup(
+            recipeListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 540, Short.MAX_VALUE)
+        );
+        recipeListPanelLayout.setVerticalGroup(
+            recipeListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 343, Short.MAX_VALUE)
+        );
+
+        recipeScrollPane.setViewportView(recipeListPanel);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(recipeListPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblText)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblCauldrons)))
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblText)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblCauldrons))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(recipeScrollPane)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(11, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblText)
                     .addComponent(lblCauldrons))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(recipeListPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(recipeScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -115,9 +130,9 @@ public class RecipePanel extends javax.swing.JPanel {
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnBrew;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JLabel lblCauldrons;
     private javax.swing.JLabel lblText;
     private javax.swing.JPanel recipeListPanel;
+    private javax.swing.JScrollPane recipeScrollPane;
     // End of variables declaration//GEN-END:variables
 }
