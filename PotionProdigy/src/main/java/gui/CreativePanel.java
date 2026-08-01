@@ -169,7 +169,7 @@ public class CreativePanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        mainFrame.showMainMenu();
+        mainFrame.showBrew();
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnBrewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrewActionPerformed

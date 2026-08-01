@@ -26,10 +26,6 @@ public class BrewPanel extends javax.swing.JPanel {
         this.mainFrame = mainFrame;
         this.controller = controller;
     }
-    
-    public void refreshDisplay() {
-        
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.

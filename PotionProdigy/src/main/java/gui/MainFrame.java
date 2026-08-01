@@ -104,12 +104,12 @@ public class MainFrame extends javax.swing.JFrame {
     
     public void showCreative() {
         creativePanel.refreshDisplay();
-        cardLayout.show(creativePanel, "CREATIVE");
+        cardLayout.show(contentPanel, "CREATIVE");
     }
     
     public void showRecipe() {
         recipePanel.refreshDisplay();
-        cardLayout.show(recipePanel, "RECIPE");
+        cardLayout.show(contentPanel, "RECIPE");
     }
 
     /**

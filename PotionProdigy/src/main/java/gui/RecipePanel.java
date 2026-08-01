@@ -69,6 +69,7 @@ public class RecipePanel extends javax.swing.JPanel {
         jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
         btnBack.setText("Back");
+        btnBack.addActionListener(this::btnBackActionPerformed);
         jPanel1.add(btnBack);
 
         btnBrew.setText("Brew a Concoction");
@@ -124,6 +125,10 @@ public class RecipePanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        mainFrame.showBrew();
+    }//GEN-LAST:event_btnBackActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
