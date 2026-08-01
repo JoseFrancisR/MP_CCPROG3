@@ -12,6 +12,11 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+
+import java.awt.Image;
+import java.net.URL;
+import javax.swing.ImageIcon;
+
 import potionprodigy.ItemStack;
 
 public class ItemCard extends JPanel {
@@ -36,46 +41,39 @@ public class ItemCard extends JPanel {
         setPreferredSize(new Dimension(140, 150));
         setBackground(Color.WHITE);
 
-        setBorder(
-                BorderFactory.createLineBorder(
-                        Color.GRAY,
-                        1
-                )
-        );
+        setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 
-        /*
-         * Quantity badge in the top-right corner.
-         */
-        lblQuantity = new JLabel(
-                String.valueOf(itemStack.getQuantity()),
-                SwingConstants.CENTER
-        );
+        lblQuantity = new JLabel(String.valueOf(itemStack.getQuantity()), SwingConstants.CENTER);
 
         lblQuantity.setOpaque(true);
         lblQuantity.setBackground(Color.LIGHT_GRAY);
-        lblQuantity.setPreferredSize(
-                new Dimension(30, 30)
-        );
+        lblQuantity.setPreferredSize(new Dimension(30, 30));
 
-        lblQuantity.setBorder(
-                BorderFactory.createLineBorder(Color.DARK_GRAY)
-        );
+        lblQuantity.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
 
-        JPanel quantityPanel = new JPanel(
-                new FlowLayout(FlowLayout.RIGHT, 5, 5)
-        );
+        JPanel quantityPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 5));
 
         quantityPanel.setOpaque(false);
         quantityPanel.add(lblQuantity);
 
-        /*
-         * Temporary icon placeholder.
-         */
-        lblIcon = new JLabel(
-                "[ ICON ]",
-                SwingConstants.CENTER
-        );
-        // iconLabel = new JLabel(new javax.swing.ImageIcon("path/to/image.png"));
+        lblIcon = new JLabel();
+        lblIcon.setHorizontalAlignment(SwingConstants.CENTER);
+        
+        String iconPath;
+        // check if fruit/base
+        if (itemStack.getIngredient().isFruit()) {
+            iconPath = "/images/fruits.png";
+        } else {
+            iconPath = "/images/bases.png";
+        }
+        
+        ImageIcon itemIcon = loadIcon(iconPath, 80, 80);
+        
+        if (itemIcon != null) {
+            lblIcon.setIcon(itemIcon);
+        } else {
+            lblIcon.setText("[ PLACEHOLDER ]");
+        }
 
         /*
          * Ingredient name.
@@ -102,27 +100,27 @@ public class ItemCard extends JPanel {
         this.selected = selected;
 
         if (selected) {
-            setBorder(
-                    BorderFactory.createLineBorder(
-                            Color.BLUE,
-                            3
-                    )
-            );
+            setBorder(BorderFactory.createLineBorder(Color.BLUE, 3));
 
-            setBackground(
-                    new Color(220, 235, 255)
-            );
+            setBackground(new Color(220, 235, 255));
         } else {
-            setBorder(
-                    BorderFactory.createLineBorder(
-                            Color.GRAY,
-                            1
-                    )
-            );
-
+            setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
             setBackground(Color.WHITE);
         }
 
         repaint();
+    }
+    
+    private ImageIcon loadIcon(String resourcePath, int width, int height) {
+        URL imageUrl = getClass().getResource(resourcePath);
+        Image scaledImage = null;
+    
+        if (imageUrl != null) {
+            Image originalImage = new ImageIcon(imageUrl).getImage();
+    
+            scaledImage = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        }
+    
+        return new ImageIcon(scaledImage);
     }
 }

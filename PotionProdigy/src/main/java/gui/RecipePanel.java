@@ -4,6 +4,7 @@
  */
 package gui;
 
+import controller.Controller;
 import javax.swing.ButtonGroup;
 import potionprodigy.Inventory;
 import potionprodigy.Player;
@@ -15,6 +16,9 @@ import gui.components.RecipeCard;
  * @author YJ
  */
 public class RecipePanel extends javax.swing.JPanel {
+    MainFrame mainFrame;
+    Controller controller;
+    
     private Recipe selectedRecipe;
     private ButtonGroup recipeButtonGroup;
     
@@ -43,19 +47,39 @@ public class RecipePanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        recipeListPanel = new javax.swing.JPanel();
+
+        javax.swing.GroupLayout recipeListPanelLayout = new javax.swing.GroupLayout(recipeListPanel);
+        recipeListPanel.setLayout(recipeListPanelLayout);
+        recipeListPanelLayout.setHorizontalGroup(
+            recipeListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        recipeListPanelLayout.setVerticalGroup(
+            recipeListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(130, 130, 130)
+                .addComponent(recipeListPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(170, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(82, 82, 82)
+                .addComponent(recipeListPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(118, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel recipeListPanel;
     // End of variables declaration//GEN-END:variables
 }
