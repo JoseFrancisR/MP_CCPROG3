@@ -37,7 +37,8 @@ public class MarketPanel extends javax.swing.JPanel {
         modeGroup.add(radioBtnBuy);
         modeGroup.add(radioBtnSell);
         radioBtnBuy.setSelected(true);
-
+        
+        jScrollPane1.getVerticalScrollBar().setUnitIncrement(15);
     }
 
     public void refreshDisplay() {
@@ -283,6 +284,8 @@ public class MarketPanel extends javax.swing.JPanel {
         btnConfirm = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
+        setMinimumSize(new java.awt.Dimension(0, 0));
+        setPreferredSize(new java.awt.Dimension(710, 550));
         setLayout(new java.awt.BorderLayout());
 
         jPanel1.setLayout(new java.awt.BorderLayout());
