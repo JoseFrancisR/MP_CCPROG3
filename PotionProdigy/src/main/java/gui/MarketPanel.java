@@ -5,6 +5,8 @@
 package gui;
 
 import controller.Controller;
+import javax.swing.ButtonGroup;
+
 /**
  *
  * @author YJ
@@ -12,7 +14,7 @@ import controller.Controller;
 public class MarketPanel extends javax.swing.JPanel {
     private MainFrame mainFrame;
     private Controller controller;
-
+    private java.util.List<Integer> selectedSlotNumbers = new java.util.ArrayList<>();
     
     /**
      * Creates new form MarketPanel
@@ -22,6 +24,71 @@ public class MarketPanel extends javax.swing.JPanel {
 
         this.mainFrame = mainFrame;
         this.controller = controller;
+
+        javax.swing.ButtonGroup modeGroup = new javax.swing.ButtonGroup();
+        modeGroup.add(radioBtnBuy);
+        modeGroup.add(radioBtnSell);
+        radioBtnBuy.setSelected(true);
+
+    }
+
+    public void refreshDisplay() {
+        if (radioBtnBuy.isSelected()) {
+            refreshBuyView();
+        } else {
+            refreshSellView();
+        }
+    }
+
+    public void refreshBuyView() {
+        int totalCost = 0;
+        int i =0;
+        if (controller != null && controller.getMarket() != null) {
+            java.util.ArrayList<potionprodigy.Listing> listings = controller.getAvailableListings();
+            javax.swing.JPanel[] buySlots = {buySlot1, buySlot2, buySlot3, buySlot4, buySlot5, buySlot6, buySlot7, buySlot8};
+
+            for (i = 0; i < buySlots.length; i++) {
+                buySlots[i].removeAll(); 
+                buySlots[i].setLayout(new java.awt.BorderLayout());
+
+                if (i < listings.size()) {
+                    potionprodigy.Listing listing = listings.get(i);
+                    int slotNumber = listing.getSlotNumber();
+                    ItemCard card = new ItemCard(listing);
+                
+                    if (selectedSlotNumbers.contains(slotNumber)) {
+                        card.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.GREEN, 3));
+                        totalCost += (listing.getUnitPrice() * listing.getQuantity());
+                    } else {
+                        card.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.BLACK, 1));
+                    }
+                
+                    card.addMouseListener(new java.awt.event.MouseAdapter() {
+                        @Override
+                        public void mouseClicked(java.awt.event.MouseEvent e) {
+                            toggleSlotSelection(slotNumber);
+                        }
+                    });
+                buySlots[i].add(card, java.awt.BorderLayout.CENTER);
+            }
+            buySlots[i].revalidate();
+            buySlots[i].repaint();
+        }
+            totalCostLabel.setText("Total: " + totalCost + " Crystals");
+        }
+    }
+
+    private void toggleSlotSelection(int slotNumber) {
+        if (selectedSlotNumbers.contains(slotNumber)) {
+            selectedSlotNumbers.remove(Integer.valueOf(slotNumber));
+        } else {
+            selectedSlotNumbers.add(slotNumber);
+        }
+        refreshBuyView();
+    }
+
+    public void refreshSellView() {
+        // WLAAAFDSHKLFSDHF
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -40,15 +107,15 @@ public class MarketPanel extends javax.swing.JPanel {
         radioBtnBuy = new javax.swing.JRadioButton();
         radioBtnSell = new javax.swing.JRadioButton();
         centerCardPanel = new javax.swing.JPanel();
-        butItemSlots = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
-        jPanel7 = new javax.swing.JPanel();
-        jPanel9 = new javax.swing.JPanel();
-        jPanel13 = new javax.swing.JPanel();
-        jPanel10 = new javax.swing.JPanel();
-        jPanel11 = new javax.swing.JPanel();
-        jPanel12 = new javax.swing.JPanel();
+        buyItemSlots = new javax.swing.JPanel();
+        buySlot1 = new javax.swing.JPanel();
+        buySlot2 = new javax.swing.JPanel();
+        buySlot3 = new javax.swing.JPanel();
+        buySlot4 = new javax.swing.JPanel();
+        buySlot5 = new javax.swing.JPanel();
+        buySlot6 = new javax.swing.JPanel();
+        buySlot7 = new javax.swing.JPanel();
+        buySlot8 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
         Footer = new javax.swing.JPanel();
@@ -85,34 +152,34 @@ public class MarketPanel extends javax.swing.JPanel {
 
         centerCardPanel.setLayout(new java.awt.CardLayout());
 
-        butItemSlots.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 20, 1, 20));
-        butItemSlots.setLayout(new java.awt.GridLayout(2, 4, 10, 10));
+        buyItemSlots.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 20, 1, 20));
+        buyItemSlots.setLayout(new java.awt.GridLayout(2, 4, 10, 10));
 
-        jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        butItemSlots.add(jPanel5);
+        buySlot1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        buyItemSlots.add(buySlot1);
 
-        jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        butItemSlots.add(jPanel6);
+        buySlot2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        buyItemSlots.add(buySlot2);
 
-        jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        butItemSlots.add(jPanel7);
+        buySlot3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        buyItemSlots.add(buySlot3);
 
-        jPanel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        butItemSlots.add(jPanel9);
+        buySlot4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        buyItemSlots.add(buySlot4);
 
-        jPanel13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        butItemSlots.add(jPanel13);
+        buySlot5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        buyItemSlots.add(buySlot5);
 
-        jPanel10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        butItemSlots.add(jPanel10);
+        buySlot6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        buyItemSlots.add(buySlot6);
 
-        jPanel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        butItemSlots.add(jPanel11);
+        buySlot7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        buyItemSlots.add(buySlot7);
 
-        jPanel12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        butItemSlots.add(jPanel12);
+        buySlot8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        buyItemSlots.add(buySlot8);
 
-        centerCardPanel.add(butItemSlots, "card2");
+        centerCardPanel.add(buyItemSlots, "card2");
 
         jPanel2.setLayout(new java.awt.GridLayout(2, 4, 10, 0));
         jScrollPane1.setViewportView(jPanel2);
@@ -150,15 +217,23 @@ public class MarketPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnConfirmActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        if (mainFrame != null) {
+            mainFrame.showMainMenu();
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void radioBtnBuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioBtnBuyActionPerformed
-        // TODO add your handling code here:
+        java.awt.CardLayout cl = (java.awt.CardLayout) centerCardPanel.getLayout();
+        cl.show(centerCardPanel, "card2"); // Opens Buy view
+    
+        refreshDisplay();
     }//GEN-LAST:event_radioBtnBuyActionPerformed
 
     private void radioBtnSellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioBtnSellActionPerformed
-        // TODO add your handling code here:
+        java.awt.CardLayout cl = (java.awt.CardLayout) centerCardPanel.getLayout();
+        cl.show(centerCardPanel, "card4"); // Opens Buy view
+    
+        refreshDisplay();
     }//GEN-LAST:event_radioBtnSellActionPerformed
 
 
@@ -167,22 +242,22 @@ public class MarketPanel extends javax.swing.JPanel {
     private javax.swing.JPanel Header;
     private javax.swing.JPanel bottomButtonsContainer;
     private javax.swing.JButton btnConfirm;
-    private javax.swing.JPanel butItemSlots;
+    private javax.swing.JPanel buyItemSlots;
+    private javax.swing.JPanel buySlot1;
+    private javax.swing.JPanel buySlot2;
+    private javax.swing.JPanel buySlot3;
+    private javax.swing.JPanel buySlot4;
+    private javax.swing.JPanel buySlot5;
+    private javax.swing.JPanel buySlot6;
+    private javax.swing.JPanel buySlot7;
+    private javax.swing.JPanel buySlot8;
     private javax.swing.JPanel centerCardPanel;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JRadioButton radioBtnBuy;
     private javax.swing.JRadioButton radioBtnSell;
