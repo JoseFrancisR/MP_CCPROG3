@@ -12,6 +12,7 @@ import potionprodigy.ItemStack;
 import potionprodigy.Ingredient;
 import potionprodigy.Recipe;
 import controller.Controller;
+import java.util.Stack;
 
 
 /**
@@ -44,12 +45,15 @@ public class CreativePanel extends javax.swing.JPanel {
     
     public void refreshDisplay() {
         inventoryItemsPanel.removeAll();
+        Stack<ItemStack> bases = new Stack<>();
 
         Player player = controller.getCurrentPlayer();
 
         if (player != null) {
             for (ItemStack stack : player.getInventory().getIngredientStacks()) {
-                if (stack.getQuantity() > 0) {
+                if (stack.getQuantity() > 0 && stack.getIngredient().getName().contains("BASE")) {
+                    bases.push(stack);
+                } else if (stack.getQuantity() > 0 && !stack.getIngredient().getName().contains("BASE")) {
                     ItemCard card = new ItemCard(stack);
 
                     card.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -61,6 +65,19 @@ public class CreativePanel extends javax.swing.JPanel {
                     
                     inventoryItemsPanel.add(card);
                 }
+            }
+            
+            for (ItemStack stack : bases) {
+                ItemCard card = new ItemCard(stack);
+                
+                card.addMouseListener(new java.awt.event.MouseAdapter() {
+                    @Override
+                    public void mouseClicked(java.awt.event.MouseEvent event) {
+                        handleItemSelection(card);
+                    }
+                });
+                
+                inventoryItemsPanel.add(card);
             }
         }
         Inventory inventory = player.getInventory();
@@ -209,6 +226,19 @@ public class CreativePanel extends javax.swing.JPanel {
                         recipe = player.getRecipeBook().findRecipe(selectedBase, fruits);
                         
                         success = controller.brewCreative(selectedBase, fruits);
+                        
+                        if (success && recipe != null) {
+                            javax.swing.JOptionPane.showMessageDialog(this, recipe.getConcoctionName() + " was successfully brewed!\n" + 
+                                    "You earned " + recipe.getSaleValue() + " crystals.\n" + "The recipe is now unlocked!", 
+                                    "Brewing Successful", javax.swing.JOptionPane.WARNING_MESSAGE);
+                        } else if (recipe == null) {
+                            javax.swing.JOptionPane.showMessageDialog(this, "The ingredients did not create a valid concoction.\n" + 
+                                    "One usable cauldron was damaged. D:", 
+                                    "Brewing Failed", javax.swing.JOptionPane.WARNING_MESSAGE);
+                        } else if (!success) {
+                            javax.swing.JOptionPane.showMessageDialog(this, "The concoction could not be brewed.", 
+                                    "Brewing Failed", javax.swing.JOptionPane.WARNING_MESSAGE);
+                        }
                     } else {
                         javax.swing.JOptionPane.showMessageDialog(this, "Please select at least one fruit.", 
                                 "No Fruit Selected", javax.swing.JOptionPane.WARNING_MESSAGE);
@@ -221,19 +251,6 @@ public class CreativePanel extends javax.swing.JPanel {
                 javax.swing.JOptionPane.showMessageDialog(this, "Creative Mode requires more than one usable cauldron.", 
                         "Not Enough Cauldrons", javax.swing.JOptionPane.WARNING_MESSAGE);
             }
-        }
-        
-        if (success && recipe != null) {
-            javax.swing.JOptionPane.showMessageDialog(this, recipe.getConcoctionName() + " was successfully brewed!\n" + 
-                    "You earned " + recipe.getSaleValue() + " crystals.\n" + "The recipe is now unlocked!", 
-                    "Brewing Successful", javax.swing.JOptionPane.WARNING_MESSAGE);
-        } else if (recipe == null) {
-            javax.swing.JOptionPane.showMessageDialog(this, "The ingredients did not create a valid concoction.\n" + 
-                    "One usable cauldron was damaged. D:", 
-                    "Brewing Failed", javax.swing.JOptionPane.WARNING_MESSAGE);
-        } else if (!success) {
-            javax.swing.JOptionPane.showMessageDialog(this, "The concoction could not be brewed.", 
-                    "Brewing Failed", javax.swing.JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnBrewActionPerformed
 
