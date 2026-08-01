@@ -10,6 +10,7 @@ import potionprodigy.Inventory;
 import potionprodigy.Player;
 import potionprodigy.Recipe;
 import gui.components.RecipeCard;
+import gui.components.Theme;
 
 /**
  *
@@ -55,6 +56,7 @@ public class RecipePanel extends javax.swing.JPanel {
             
             for (Recipe recipe : player.getRecipeBook().getUnlockedRecipes()) {
                 RecipeCard recipeCard = new RecipeCard(recipe, inventory, recipeButtonGroup, true);
+                Theme.apply(recipeCard);
                 
                 recipeCard.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, recipeCard.getPreferredSize().height));
                 

@@ -9,7 +9,7 @@ import controller.Controller;
 import javax.swing.ButtonGroup;
 import gui.components.MarketItemCard;
 import javax.swing.JOptionPane;
-import gui.components.ItemCard;
+import gui.components.Theme;
 import java.util.ArrayList;
 import gui.components.SellItemCard;
 import java.util.List;
@@ -66,13 +66,10 @@ public class MarketPanel extends javax.swing.JPanel {
 
                 if(slotIndex >= 0 && slotIndex < buySlots.length) {
                     MarketItemCard card = new MarketItemCard(listing);
+                    Theme.apply(card);
 
                     if(controller.isSlotAvailable(slotNumber)) {
-                        if(selectedSlotNumbers.contains(slotNumber)) {
-                            card.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.GREEN, 3));
-                        } else {
-                            card.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.BLACK, 1));
-                        }
+                        card.setSelectedCard(selectedSlotNumbers.contains(slotNumber));
 
                         card.addMouseListener(new java.awt.event.MouseAdapter() {
                             @Override
@@ -179,7 +176,8 @@ public class MarketPanel extends javax.swing.JPanel {
             if(player != null && player.getInventory() != null) {
                 for(potionprodigy.ItemStack stack : player.getInventory().getIngredientStacks()) {
                     if(stack.getQuantity() > 0) {
-                        gui.components.SellItemCard card = new gui.components.SellItemCard(stack);
+                        SellItemCard card = new gui.components.SellItemCard(stack);
+                        Theme.apply(card);
                         card.setQuantityChangeListener(() -> updateTotalSellEarnings());
                         sellCards.add(card);
                         jPanel2.add(card);
@@ -201,7 +199,7 @@ public class MarketPanel extends javax.swing.JPanel {
         java.util.ArrayList<potionprodigy.ItemStack> selectedStacks = new java.util.ArrayList<>();
 
             for(gui.components.SellItemCard card : sellCards) {
-                int qty= card.getSelectedQuantity();
+                int qty = card.getSelectedQuantity();
                 if(qty > 0) {
                     selectedStacks.add(new potionprodigy.ItemStack(card.getItemStack().getIngredient(), qty));
                 }

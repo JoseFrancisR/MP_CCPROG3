@@ -6,6 +6,7 @@ package gui;
 
 import controller.Controller;
 import java.awt.CardLayout;
+import gui.components.Theme;
 
 /**
  *
@@ -54,6 +55,8 @@ public class MainFrame extends javax.swing.JFrame {
         contentPanel.add(marketPanel, "MARKET");
         contentPanel.add(recipePanel, "RECIPE");
         contentPanel.add(creativePanel, "CREATIVE");
+        
+        Theme.apply(this);
         
         showStart();
 

@@ -6,6 +6,7 @@ package gui;
 
 import java.util.ArrayList;
 import gui.components.ItemCard;
+import gui.components.Theme;
 import potionprodigy.Inventory;
 import potionprodigy.Player;
 import potionprodigy.ItemStack;
@@ -34,6 +35,9 @@ public class CreativePanel extends javax.swing.JPanel {
      */
     public CreativePanel(MainFrame mainFrame, Controller controller) {
         initComponents();
+        inventoryItemsPanel.setLayout(new java.awt.GridLayout(0, 4, 12, 12));
+        inventoryItemsPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(12, 12, 12, 12));
+        inventoryScrollPane.getVerticalScrollBar().setUnitIncrement(15);
         
         this.mainFrame = mainFrame;
         this.controller = controller;
@@ -51,6 +55,7 @@ public class CreativePanel extends javax.swing.JPanel {
                     bases.push(stack);
                 } else if (stack.getQuantity() > 0 && !stack.getIngredient().getName().contains("BASE")) {
                     ItemCard card = new ItemCard(stack);
+                    Theme.apply(card);
 
                     card.addMouseListener(new java.awt.event.MouseAdapter() {
                         @Override
@@ -152,9 +157,6 @@ public class CreativePanel extends javax.swing.JPanel {
 
         inventoryScrollPane = new javax.swing.JScrollPane();
         inventoryItemsPanel = new javax.swing.JPanel();
-        inventoryItemsPanel.setLayout(new java.awt.GridLayout(0, 4, 12, 12));
-        inventoryItemsPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(12, 12, 12, 12));
-        inventoryScrollPane.getVerticalScrollBar().setUnitIncrement(15);
         lblCauldrons = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         btnBack = new javax.swing.JButton();

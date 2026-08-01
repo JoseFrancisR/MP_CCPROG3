@@ -39,15 +39,16 @@ public class ItemCard extends JPanel {
     
     private void initializeCard() {
         setLayout(new BorderLayout(5, 5));
-        setPreferredSize(new Dimension(140, 150));
-        setBackground(Color.WHITE);
-
-        setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+        setPreferredSize(new Dimension(140, 140));
+        setOpaque(true);
+        setBackground(Theme.SECONDARY);
+        setBorder(BorderFactory.createLineBorder(Theme.BORDER, 1));
 
         lblQuantity = new JLabel(String.valueOf(itemStack.getQuantity()), SwingConstants.CENTER);
 
         lblQuantity.setOpaque(true);
-        lblQuantity.setBackground(Color.LIGHT_GRAY);
+        lblQuantity.setBackground(Theme.DARK);
+        lblQuantity.setForeground(Theme.TEXT);
         lblQuantity.setPreferredSize(new Dimension(30, 30));
 
         lblQuantity.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
@@ -83,6 +84,7 @@ public class ItemCard extends JPanel {
                 itemStack.getIngredient().getName(),
                 SwingConstants.CENTER
         );
+        lblName.setForeground(Theme.TEXT);
 
         add(quantityPanel, BorderLayout.NORTH);
         add(lblIcon, BorderLayout.CENTER);
@@ -101,14 +103,14 @@ public class ItemCard extends JPanel {
         this.selected = selected;
 
         if (selected) {
-            setBorder(BorderFactory.createLineBorder(Color.BLUE, 3));
-
-            setBackground(new Color(220, 235, 255));
+            setBorder(BorderFactory.createLineBorder(Theme.ACCENT, 3));
+            setBackground(new Color(64, 68, 90));
         } else {
-            setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-            setBackground(Color.WHITE);
+            setBorder(BorderFactory.createLineBorder(Theme.BORDER, 1));
+            setBackground(Theme.SECONDARY);
         }
-
+        
+        revalidate();
         repaint();
     }
     

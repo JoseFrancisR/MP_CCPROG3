@@ -27,9 +27,15 @@ public class MarketItemCard extends JPanel {
     private JLabel lblName;
     private JLabel lblQuantity;
     private JLabel lblCost;
+    
+    private final Listing listing;
+    private boolean selected;
 
     public MarketItemCard(Listing listing) {
         initComponents();
+        
+        this.listing = listing;
+        this.selected = false;
         
         if (listing != null) {
             //First check if its a cauldron
@@ -54,8 +60,6 @@ public class MarketItemCard extends JPanel {
                 String iconPath;
                 if(listing.getIngredient().isFruit()) {
                     iconPath = "/images/fruits.png";
-                } else if (listing.isCauldronListing()){
-                    iconPath = "/images/cauldron.png";
                 } else {
                     iconPath = "/images/bases.png";
                 }
@@ -70,11 +74,35 @@ public class MarketItemCard extends JPanel {
             }
         } 
     }
+    
+    public Listing getListing() {
+        return listing;
+    }
 
+    public boolean isSelectedCard() {
+        return selected;
+    }
+    
+    public void setSelectedCard(boolean selected) {
+        this.selected = selected;
+    
+        if (selected) {
+            setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Theme.ACCENT, 3), BorderFactory.createEmptyBorder(8, 8, 8, 8)));
+            setBackground(Theme.SELECTED_BACKGROUND);
+        } else {
+            setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Theme.BORDER, 1), BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+            setBackground(Theme.SECONDARY);
+        }
+    
+        revalidate();
+        repaint();
+    }
+    
     private void initComponents() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        setBackground(new Color(245, 245, 245));
+        setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Theme.BORDER, 1), BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+        setOpaque(true);
+        setBackground(Theme.SECONDARY);
 
         lblIcon = new JLabel();
         lblIcon.setHorizontalAlignment(SwingConstants.CENTER);
@@ -82,10 +110,11 @@ public class MarketItemCard extends JPanel {
 
         lblName = new JLabel("Item Name");
         lblName.setFont(new Font("SansSerif", Font.BOLD, 12));
+        lblName.setForeground(Theme.TEXT);
         lblName.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         lblQuantity = new JLabel("Qty: 0");
-        lblQuantity.setFont(new Font("SansSerif", Font.PLAIN, 11));
+        lblQuantity.setForeground(Theme.MUTED_TEXT);
         lblQuantity.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         lblCost = new JLabel("0 Crystals");
