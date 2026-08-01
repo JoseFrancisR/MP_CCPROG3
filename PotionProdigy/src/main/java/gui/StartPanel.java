@@ -172,7 +172,7 @@ public class StartPanel extends javax.swing.JPanel {
                     "New game created for " + playerName + ".", "New Game", 
                     javax.swing.JOptionPane.INFORMATION_MESSAGE);
             
-            mainFrame.openMainMenu();
+            mainFrame.showMainMenu();
         }
     }//GEN-LAST:event_btnNewGameActionPerformed
 

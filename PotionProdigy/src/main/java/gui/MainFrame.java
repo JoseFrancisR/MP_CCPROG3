@@ -54,10 +54,6 @@ public class MainFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
 
-    public void openMainMenu() {
-        mainMenuPanel.refreshDisplay();
-    }
-
     public Controller getController() {
         return controller;
     }
