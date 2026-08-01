@@ -4,9 +4,17 @@
  */
 package gui;
 
+import gui.components.MarketItemCard;
 import controller.Controller;
 import javax.swing.ButtonGroup;
+<<<<<<< Updated upstream
 import gui.components.MarketItemCard;
+=======
+import javax.swing.JOptionPane;
+import gui.components.ItemCard;
+import java.util.ArrayList;
+import java.util.List;
+>>>>>>> Stashed changes
 
 /**
  *
@@ -42,39 +50,50 @@ public class MarketPanel extends javax.swing.JPanel {
     }
 
     public void refreshBuyView() {
-        int totalCost = 0;
-        int i =0;
         if (controller != null && controller.getMarket() != null) {
             java.util.ArrayList<potionprodigy.Listing> listings = controller.getAvailableListings();
             javax.swing.JPanel[] buySlots = {buySlot1, buySlot2, buySlot3, buySlot4, buySlot5, buySlot6, buySlot7, buySlot8};
 
-            for (i = 0; i < buySlots.length; i++) {
-                buySlots[i].removeAll(); 
+            //Clear the slots first
+            for (int i = 0; i < buySlots.length; i++) {
+                buySlots[i].removeAll();
                 buySlots[i].setLayout(new java.awt.BorderLayout());
-
-                if (i < listings.size()) {
-                    potionprodigy.Listing listing = listings.get(i);
-                    int slotNumber = listing.getSlotNumber();
-                    MarketItemCard card = new MarketItemCard(listing);
-                
-                    if (selectedSlotNumbers.contains(slotNumber)) {
-                        card.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.GREEN, 3));
-                        totalCost += (listing.getUnitPrice() * listing.getQuantity());
-                    } else {
-                        card.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.BLACK, 1));
-                    }
-                
-                    card.addMouseListener(new java.awt.event.MouseAdapter() {
-                        @Override
-                        public void mouseClicked(java.awt.event.MouseEvent e) {
-                            toggleSlotSelection(slotNumber);
-                        }
-                    });
-                buySlots[i].add(card, java.awt.BorderLayout.CENTER);
             }
-            buySlots[i].revalidate();
-            buySlots[i].repaint();
-        }
+
+            for (potionprodigy.Listing listing : listings) {
+                int slotNumber = listing.getSlotNumber(); 
+                int slotIndex = slotNumber - 1;           
+
+                if(slotIndex >= 0 && slotIndex < buySlots.length) {
+                    MarketItemCard card = new MarketItemCard(listing);
+
+                    if(controller.isSlotAvailable(slotNumber)) {
+                        if(selectedSlotNumbers.contains(slotNumber)) {
+                            card.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.GREEN, 3));
+                        } else {
+                            card.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.BLACK, 1));
+                        }
+
+                        card.addMouseListener(new java.awt.event.MouseAdapter() {
+                            @Override
+                            public void mouseClicked(java.awt.event.MouseEvent e) {
+                                toggleSlotSelection(slotNumber);
+                            }
+                        });
+                    } else { // when the slot isn't available
+                        card.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.LIGHT_GRAY, 1));
+                    }
+                    buySlots[slotIndex].add(card, java.awt.BorderLayout.CENTER);
+                }
+            }
+
+            // Revalidate and repaint all slot panels
+            for (int i = 0; i < buySlots.length; i++) {
+                buySlots[i].revalidate();
+                buySlots[i].repaint();
+            }
+
+            int totalCost = controller.calculateTotalCost(new ArrayList<>(selectedSlotNumbers));
             totalCostLabel.setText("Total: " + totalCost + " Crystals");
         }
     }
@@ -85,7 +104,55 @@ public class MarketPanel extends javax.swing.JPanel {
         } else {
             selectedSlotNumbers.add(slotNumber);
         }
-        refreshBuyView();
+        refreshDisplay();
+    }
+
+    private void handleConfirmPurchase() {
+        if(!selectedSlotNumbers.isEmpty()) {
+            ArrayList<Integer> selectedSlots = new ArrayList<>(selectedSlotNumbers);
+            ArrayList<Integer> results = controller.buyItems(selectedSlots);
+
+            boolean allSucceeded = true;
+            boolean insufficientCrystals = false;
+
+            for(int status : results) {
+                if(status == -3) {
+                    insufficientCrystals = true;
+                    allSucceeded = false;
+                } else if(status != 1) {
+                    allSucceeded = false;
+                }
+            }
+
+            if(allSucceeded) {
+                JOptionPane.showMessageDialog(this, 
+                    "Successfully purchased all selected items!", 
+                    "Purchase Successful", 
+                    JOptionPane.INFORMATION_MESSAGE);
+                selectedSlotNumbers.clear();
+                refreshDisplay();
+            } else if(insufficientCrystals) {
+                int totalCost = controller.calculateTotalCost(selectedSlots);
+                int currentCrystals = controller.getCurrentPlayer().getCrystals();
+            
+                JOptionPane.showMessageDialog(this, 
+                    "Transaction failed! Total cost is " + totalCost + " crystals, but you only have " + currentCrystals + " crystals.", 
+                    "Insufficient Crystals", 
+                    JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, 
+                    "Transaction failed. One or more items are no longer available.", 
+                    "Purchase Failed", 
+                    JOptionPane.ERROR_MESSAGE);
+                selectedSlotNumbers.clear();
+                refreshDisplay();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, 
+                "Please select at least one item to purchase.", 
+                "No Items Selected", 
+                JOptionPane.WARNING_MESSAGE);
+        }
     }
 
     public void refreshSellView() {
@@ -214,7 +281,7 @@ public class MarketPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
-        // TODO add your handling code here:
+        handleConfirmPurchase();
     }//GEN-LAST:event_btnConfirmActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

@@ -78,6 +78,14 @@ public class Listing {
         return status;
     }
 
+    /** @return Gets the total price including its quantity*/
+    public int getTotalPrice() {
+        if (isCauldron) {
+            return unitPrice;
+        }
+        return unitPrice * quantity;
+    }
+
     /** Marks the slot as unavailable after purchase. */
     public void markSold() {
         this.available = false;
