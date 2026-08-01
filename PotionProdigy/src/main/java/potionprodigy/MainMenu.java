@@ -88,10 +88,10 @@ public class MainMenu {
     		scanner.nextLine();
     		switch(input) {
     			case 1:
-    				 brewConcoction();
-    		         break;
+    				// brewConcoction();
+    		        break;
     			case 2:
-    				checkInventory();
+    				// checkInventory();
     				break;
     			case 3:
     				// checkSpellbook();
@@ -166,67 +166,6 @@ public class MainMenu {
         System.out.println("7. Exit game");
         System.out.println("-----------------------------");
         System.out.print("Choice: ");
-    }
-
-    /** Handles recipe-mode or creative-mode brewing. */
-    public void brewConcoction() {
-    	boolean loop = true;
-    	int input;
-        currentPlayer.getInventory().displayInventory();
-        if(currentPlayer.getInventory().countUsableCauldrons()>1) {
-        	while(loop) {
-                displayBorder();
-        		System.out.println("1. Recipe Mode");
-        		System.out.println("2. Creative Mode");
-        		System.out.println("3. Back");
-        		System.out.print("Enter which mode (1-3): ");
-        		input = scanner.nextInt();
-        		scanner.nextLine();
-        		switch(input) {
-        			case 1:
-        				recipeMode();
-        				break;
-        			case 2: 
-        				creativeMode();
-        				break;
-        			case 3:
-        				loop = false;
-        				break;
-        			default:
-        				System.out.println("Enter a value from 1-3");
-        				break;
-        		}
-        	}
-        } else {
-        	while(loop) {
-                displayBorder();
-        		System.out.println("1. Recipe Mode");
-        		System.out.println("2. Back");
-        		System.out.print("Enter which mode (1-2): ");
-        		input = scanner.nextInt();
-        		scanner.nextLine();
-        		switch(input) {
-        			case 1:
-        				recipeMode();
-        				break;
-        			case 2: 
-        				loop = false;
-        				break;
-        			default:
-        				System.out.println("Enter a value from 1-3");
-        				break;
-        		}
-        	}
-        }
-    }
-
-    /** Displays all ingredient quantities and cauldron counts. */
-    public void checkInventory() {
-        displayBorder();
-        currentPlayer.getInventory().displayInventory();
-        System.out.println();
-        System.out.println("Usable Cauldrons: " + currentPlayer.getInventory().countUsableCauldrons());
-        System.out.println("Unusable Cauldrons: " + currentPlayer.getInventory().countUnusableCauldrons());
     }
 
     /** Handles market refresh checks, buying, selling, and exit. */

@@ -4,17 +4,34 @@
  */
 package gui;
 
+import javax.swing.ButtonGroup;
+import potionprodigy.Inventory;
+import potionprodigy.Player;
+import potionprodigy.Recipe;
+import gui.components.RecipeCard;
+
 /**
  *
  * @author YJ
  */
 public class RecipePanel extends javax.swing.JPanel {
-
+    private Recipe selectedRecipe;
+    private ButtonGroup recipeButtonGroup;
+    
     /**
      * Creates new form RecipePanel
      */
     public RecipePanel() {
         initComponents();
+    }
+    
+    public void refreshDisplay() {
+        recipeListPanel.removeAll();
+        
+        selectedRecipe = null;
+        recipeButtonGroup = new ButtonGroup();
+        
+        Player player = controller.getCurrentPlayer();
     }
 
     /**
