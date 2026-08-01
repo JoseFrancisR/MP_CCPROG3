@@ -46,26 +46,27 @@ public class MarketItemCard extends JPanel {
                     lblIcon.setText("[ CAULDRON ]");
                 }
             }
-        } else if(listing.getIngredient() != null) {
-            lblName.setText(listing.getIngredient().getName());
-            lblQuantity.setText("Qty: " + listing.getQuantity());
-            lblCost.setText(listing.getUnitPrice() * listing.getQuantity() + " Crystals");
+            else if(listing.getIngredient() != null) {
+                lblName.setText(listing.getIngredient().getName());
+                lblQuantity.setText("Qty: " + listing.getQuantity());
+                lblCost.setText(listing.getUnitPrice() * listing.getQuantity() + " Crystals");
 
-            String iconPath;
-            if (listing.getIngredient().isFruit()) {
-                iconPath = "/images/fruits.png";
-            } else {
-                iconPath = "/images/bases.png";
-            }
+                String iconPath;
+                if(listing.getIngredient().isFruit()) {
+                    iconPath = "/images/fruits.png";
+                } else {
+                    iconPath = "/images/bases.png";
+                }
 
-            ImageIcon itemIcon = loadIcon(iconPath, 80, 80);
-            if (itemIcon != null) {
-                lblIcon.setIcon(itemIcon);
-                lblIcon.setText("");
-            } else { //When cant load the icon
-                lblIcon.setText("[ PLACEHOLDER ]");
+                ImageIcon itemIcon = loadIcon(iconPath, 80, 80);
+                if (itemIcon != null) {
+                    lblIcon.setIcon(itemIcon);
+                    lblIcon.setText("");
+                } else { //When cant load the icon
+                    lblIcon.setText("[ PLACEHOLDER ]");
+                }
             }
-        }
+        } 
     }
 
     private void initComponents() {
