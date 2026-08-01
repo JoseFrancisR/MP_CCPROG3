@@ -9,6 +9,9 @@ import potionprodigy.Market;
 import potionprodigy.Player;
 import potionprodigy.Save;
 import potionprodigy.ItemStack;
+import potionprodigy.Ingredient;
+import potionprodigy.Listing;
+import java.util.ArrayList;
 
 public class Controller {
 
@@ -104,10 +107,33 @@ public class Controller {
         brewsSinceMarketVisit = 0;
     }
 
+    public void generateMarket(){
+        if (!market.hasBeenGenerated()) {
+            market.generateListings(Ingredient.loadIngredients());
+        } else if (getBrewsSinceMarketVisit() >= 3) {
+            market.refresh();
+            resetMarketBrewCounter();
+        }
+    }
+
+    public ArrayList<Listing> getAvailableListings(){
+        return market.getAvailableListings();
+    }
+
+    public ArrayList<Integer> buyItems(ArrayList<Integer> slotNumbers){
+        return market.buyMultiple(currentPlayer, slotNumbers);
+    }
+
+    public int buyListing(Listing listing) {
+        return listing.purchase(currentPlayer);
+    }
+
+
     public int blessCauldronPay() {
         int status = 0;
         if (currentPlayer.getCrystals() >= 1000 && (currentPlayer.getInventory().countUsableCauldrons() < currentPlayer.getInventory().countTotalCauldrons())) {
             currentPlayer.spendCrystals(1000);
+            currentPlayer.getInventory().blessCauldron();
             status = 1;
         } else if (currentPlayer.getCrystals() < 1000) {
             status = 0;
@@ -132,5 +158,7 @@ public class Controller {
         }
         return status;
     }
+
+
 
 }

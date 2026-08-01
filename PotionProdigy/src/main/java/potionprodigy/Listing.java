@@ -46,28 +46,36 @@ public class Listing {
      * Attempts to purchase this listing.
      *
      * @param player purchasing player
-     * @return true when the transaction succeeds
+     * @return int on the status of the purchase
      */
-    public boolean purchase(Player player) {
-        boolean flag = false;
-        if (available) {
+    public int purchase(Player player) {
+        int status = 0;
+        int cost;
+        if (!available) {
+            status = -1;
+        } else {
             if (isCauldron) {
-                if (player.getCrystals() >= unitPrice) {
-                    player.getInventory().addCauldron();
-                    player.spendCrystals(unitPrice);
-                    markSold();
-                    flag = true;
-                }
+                cost = unitPrice;
             } else {
-                if (player.getCrystals() >= unitPrice * quantity) {
+                cost = unitPrice * quantity;
+            }
+
+            if(player.getCrystals()< cost){
+                status = 0;
+            } else {
+                if(isCauldron){
+                    player.getInventory().addCauldron();
+                } else {
                     player.getInventory().addItemStack(ingredient, quantity);
-                    player.spendCrystals(unitPrice * quantity);
-                    markSold();
-                    flag = true;
                 }
+                player.spendCrystals(cost);
+                markSold();
+                status = 1;
             }
         }
-        return flag;
+            
+        
+        return status;
     }
 
     /** Marks the slot as unavailable after purchase. */

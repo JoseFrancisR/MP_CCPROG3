@@ -258,7 +258,6 @@ public class MainMenu {
             
             switch (choice) {
                 case "1":
-                    buyFromMarket();
                     break;
                 case "2":
                     sellToMarket();
@@ -483,64 +482,6 @@ public class MainMenu {
         save.savePlayer(currentPlayer);
         System.out.println("Game saved. Goodbye!");
         return true;
-    }
-
-    /**
-     * buying from market
-     * 
-     * @param player
-     */
-    private void buyFromMarket() {
-        ArrayList<Listing> listings = market.getAvailableListings();
-
-        if (listings.isEmpty()) {
-            displayBorder();
-            System.out.println("No listings available in the market.");
-        } else {
-            displayBorder();
-            market.displayAvailableListings();
-            System.out.println();
-            System.out.println("Enter the slot numbers to buy (comma-separated), or enter 0 to cancel:");
-            System.out.print("Selected items: ");
-
-            String input = scanner.nextLine().trim();
-             if (input.equals("0")) {
-            	System.out.println("Exiting market buying.");
-            } else {
-            	ArrayList<Integer> selectedSlots = parseSelectedSlots(input);
-                if (selectedSlots.isEmpty()) {
-                    System.out.println("No valid slot numbers selected. Exiting market buying.");
-                } else {
-                	int total = 0, purchases = 0;
-
-                    for (Integer slot : selectedSlots) {
-                        Listing listing = findAvailableListing(slot);
-
-                        if (listing == null) {
-                            System.out.println("Invalid slot number: " + slot + ". Skipping.");
-                        } else {
-                            String itemName = listing.isCauldronListing() ? "Cauldron" : listing.getIngredient().getName();
-                            int cost = listing.getUnitPrice() * listing.getQuantity();
-
-                            if (listing.purchase(currentPlayer)){
-                                purchases++;
-                                total += cost;
-                                System.out.println("Purchased " + listing.getQuantity() + "x " + itemName + " for " + cost + " crystals.");
-                                System.out.println("Remaining Crystals: " + currentPlayer.getCrystals());
-                            } else {
-                                System.out.println("Failed to purchase " + listing.getQuantity() + "x " + itemName + ". Not enough crystals/item unavailable.");
-                            }
-                        }
-                    }
-
-                    if (purchases > 0) {
-                        System.out.println("Total spent: " + total + " crystals.");
-                    } else {
-                        System.out.println("No purchases were made.");
-                    }
-                 }
-             }
-        }
     }
 
     /**
