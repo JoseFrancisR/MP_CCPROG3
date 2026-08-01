@@ -9,6 +9,7 @@ import potionprodigy.Player;
 import potionprodigy.ItemStack;
 import potionprodigy.Inventory;
 import gui.components.ItemCard;
+import java.util.Stack;
 
 /**
  *
@@ -43,16 +44,23 @@ public class InventoryPanel extends javax.swing.JPanel {
     
     public void refreshDisplay() {
         inventoryItemsPanel.removeAll();
+        Stack<ItemStack> bases = new Stack<>();
 
         Player player = controller.getCurrentPlayer();
 
         if (player != null) {
             for (ItemStack stack : player.getInventory().getIngredientStacks()) {
-                if (stack.getQuantity() > 0) {
+                if (stack.getQuantity() > 0 && stack.getIngredient().getName().contains("BASE")) {
+                    bases.push(stack);
+                } else if (stack.getQuantity() > 0 && !stack.getIngredient().getName().contains("BASE")) {
                     ItemCard card = new ItemCard(stack);
-                    
                     inventoryItemsPanel.add(card);
                 }
+            }
+            
+            for (ItemStack stack : bases) {
+                ItemCard card = new ItemCard(stack);
+                inventoryItemsPanel.add(card);
             }
         }
 
