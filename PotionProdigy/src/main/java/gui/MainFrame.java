@@ -36,14 +36,14 @@ public class MainFrame extends javax.swing.JFrame {
 
         this.startPanel = new StartPanel(this, controller);
         this.mainMenuPanel = new MainMenuPanel(this, controller);
-        // this.brewPanel = new BrewPanel(this, controller);
+        this.brewPanel = new BrewPanel(this, controller);
         this.inventoryPanel = new InventoryPanel(this, controller);
         // this.spellbookPanel = new SpellbookPanel(this, controller);
         this.marketPanel = new MarketPanel(this, controller);
 
         contentPanel.add(startPanel, "START");
         contentPanel.add(mainMenuPanel, "MENU");
-        // contentPanel.add(brewPanel, "BREW");
+        contentPanel.add(brewPanel, "BREW");
         contentPanel.add(inventoryPanel, "INVENTORY");
         // contentPanel.add(spellbookPanel, "SPELLBOOK");
         contentPanel.add(marketPanel, "MARKET");
