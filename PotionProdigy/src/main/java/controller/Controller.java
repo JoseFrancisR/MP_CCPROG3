@@ -147,14 +147,76 @@ public class Controller {
         return market.getAvailableListings();
     }
 
-    public ArrayList<Integer> buyItems(ArrayList<Integer> slotNumbers){
-        return market.buyMultiple(currentPlayer, slotNumbers);
-    }
-
     public int buyListing(Listing listing) {
         return listing.purchase(currentPlayer);
     }
 
+    public void sellItems(ArrayList<ItemStack> items){
+        if (currentPlayer != null && items != null) {
+            market.sellMultiple(currentPlayer, items);
+        }
+    }
+
+
+    public int calculateTotalCost(ArrayList<Integer> slotNumbers) {
+        int totalCost = 0;
+        if (slotNumbers != null) {
+            for (Integer slot : slotNumbers) {
+                for (Listing listing : market.getAvailableListings()) {
+                    if (listing.getSlotNumber() == slot) {
+                        totalCost += listing.getTotalPrice();
+                    }
+                }
+            }
+        }
+        return totalCost;
+    }
+
+    public int calculateTotalSellValue(ArrayList<ItemStack> items) {
+        int total = 0;
+        if(items != null) {
+            for(ItemStack stack : items) {
+                if (stack.getIngredient() != null) {
+                    total += stack.getIngredient().getSellingPrice() * stack.getQuantity();
+                }
+            }
+        }
+        return total;
+    }
+
+    public boolean isSlotAvailable(int slotNumber) {
+        boolean available = false;
+        int i = 0;
+        if (market != null) {
+            ArrayList<Listing> availableListings = market.getAvailableListings();
+        
+
+            while (i < availableListings.size() && !available) {
+                if (availableListings.get(i).getSlotNumber() == slotNumber) {
+                    available = true;
+                }
+                i++;
+            }
+        }
+
+        return available;
+    }
+    
+
+
+    public ArrayList<Integer> buyItems(ArrayList<Integer> slotNumbers) {
+        ArrayList<Integer> results = new ArrayList<>();
+        int totalCost = calculateTotalCost(slotNumbers);
+
+        if (currentPlayer != null && currentPlayer.getCrystals() >= totalCost) {
+            results = market.buyMultiple(currentPlayer, slotNumbers);
+        } else { //when the player cant afford the selected items
+            for (int i = 0; i < slotNumbers.size(); i++) {
+                results.add(-3);
+            }
+        }
+        return results;
+    }
 
     public int blessCauldronPay() {
         int status = 0;

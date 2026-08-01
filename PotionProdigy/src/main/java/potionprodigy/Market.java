@@ -65,15 +65,26 @@ public class Market {
      */
     public ArrayList<Integer> buyMultiple(Player player, ArrayList<Integer> slotNumbers) {
         ArrayList<Integer> results = new ArrayList<>();
-        int status;
+        int status, i;
+        boolean found;
+        Listing targetListing;
         for (Integer slot : slotNumbers) {
-            if (slot >= 1 && slot <= listings.size()) {
-                Listing listing = listings.get(slot - 1);
-                status = listing.purchase(player);
-                results.add(status);
-            } else{
+            found = false;
+            targetListing = null;
+            // search through the listing and check the slot number
+            for(i =0; i < listings.size() && !found; i++){
+                Listing listing = listings.get(i);
+                if(listing.getSlotNumber() == slot){
+                    targetListing = listing;
+                    found = true;
+                }
+            }
+            if(targetListing != null){ 
+                status = targetListing.purchase(player);
+                results.add(status); // individually shows the player whether the purchase for a specific listing is succesful
+            } else{ //invalid slot number
                 results.add(-2);
-            } // else invalid slot number, do nothing
+            } 
         }
         return results;
     }
