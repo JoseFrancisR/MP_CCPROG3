@@ -83,7 +83,6 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     public void showBrew() {
-        brewPanel.refreshDisplay();
         cardLayout.show(contentPanel, "BREW");
     }
     
