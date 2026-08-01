@@ -54,6 +54,9 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
         <Container class="javax.swing.JPanel" name="inventoryItemsPanel">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JPanel();&#xd;&#xa;inventoryItemsPanel.setLayout(new java.awt.GridLayout(0, 4, 12, 12));&#xd;&#xa;inventoryItemsPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(12, 12, 12, 12));&#xd;&#xa;inventoryScrollPane.getVerticalScrollBar().setUnitIncrement(15);"/>
+          </AuxValues>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
             <Property name="columns" type="int" value="0"/>
@@ -68,6 +71,9 @@
       </Properties>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanel1">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JPanel()"/>
+      </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
         <Property name="columns" type="int" value="0"/>

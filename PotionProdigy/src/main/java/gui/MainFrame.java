@@ -124,7 +124,8 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Potion Prodigy");
-        setMinimumSize(new java.awt.Dimension(710, 550));
+        setMinimumSize(new java.awt.Dimension(720, 600));
+        setPreferredSize(new java.awt.Dimension(720, 600));
 
         contentPanel.setLayout(new java.awt.CardLayout());
 

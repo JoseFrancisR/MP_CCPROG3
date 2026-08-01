@@ -19,27 +19,11 @@ public class InventoryPanel extends javax.swing.JPanel {
     MainFrame mainFrame;
     Controller controller;
     
-    /**
-     * Creates new form InventoryPanel
-     */
-    public InventoryPanel() {
-        initComponents();
-    }
-    
     public InventoryPanel(MainFrame mainFrame, Controller controller) {
         initComponents();
         
-        inventoryItemsPanel.setLayout(new java.awt.GridLayout(0, 4, 10, 10));
-
-        inventoryScrollPane.getVerticalScrollBar().setUnitIncrement(15);
-
         this.mainFrame = mainFrame;
         this.controller = controller;
-
-        // num of row, cols; px gap h, v
-        inventoryItemsPanel.setLayout(new java.awt.GridLayout(0, 4, 12, 12));
-
-        inventoryItemsPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(12, 12, 12, 12));
     }
     
     public void refreshDisplay() {
@@ -85,6 +69,9 @@ public class InventoryPanel extends javax.swing.JPanel {
         lblTitle = new javax.swing.JLabel();
         inventoryScrollPane = new javax.swing.JScrollPane();
         inventoryItemsPanel = new javax.swing.JPanel();
+        inventoryItemsPanel.setLayout(new java.awt.GridLayout(0, 4, 12, 12));
+        inventoryItemsPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(12, 12, 12, 12));
+        inventoryScrollPane.getVerticalScrollBar().setUnitIncrement(15);
         lblCauldrons = new javax.swing.JLabel();
         btnBack = new javax.swing.JButton();
 

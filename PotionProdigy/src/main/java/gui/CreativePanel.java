@@ -37,10 +37,6 @@ public class CreativePanel extends javax.swing.JPanel {
         
         this.mainFrame = mainFrame;
         this.controller = controller;
-        
-        inventoryItemsPanel.setLayout(new java.awt.GridLayout(0, 4, 10, 10));
-
-        inventoryScrollPane.getVerticalScrollBar().setUnitIncrement(15);
     }
     
     public void refreshDisplay() {
@@ -156,6 +152,9 @@ public class CreativePanel extends javax.swing.JPanel {
 
         inventoryScrollPane = new javax.swing.JScrollPane();
         inventoryItemsPanel = new javax.swing.JPanel();
+        inventoryItemsPanel.setLayout(new java.awt.GridLayout(0, 4, 12, 12));
+        inventoryItemsPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(12, 12, 12, 12));
+        inventoryScrollPane.getVerticalScrollBar().setUnitIncrement(15);
         lblCauldrons = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         btnBack = new javax.swing.JButton();
