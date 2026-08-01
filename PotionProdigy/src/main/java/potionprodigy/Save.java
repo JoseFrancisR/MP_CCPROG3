@@ -236,51 +236,21 @@ public class Save {
     }
 
     /**
-     * Returns a random item stack no duplicates in inventory loaded from list of
-     * ingredients at a random quantity between 1 and 5.
+     * Returns a random Ingredient
+     * 
      * 
      * @param inventory the inventory to get the random item stack from
-     * @return a random item stack from the inventory
+     * @return a random ingredient
      */
-    public ItemStack randItem(Inventory inventory) {
+    public Ingredient randItem(Inventory inventory) {
         ArrayList<Ingredient> ingredients = Ingredient.loadIngredients();
-        ArrayList<Ingredient> inventoryIngredients = new ArrayList<>();
-        ItemStack random = null;
-
-        for (ItemStack stack : inventory.getIngredientStacks()) {
-            inventoryIngredients.add(stack.getIngredient());
+        Ingredient randomIngredient =null;
+        int index;
+        if(!ingredients.isEmpty()){
+            index = (int)(Math.random()*ingredients.size());
+            randomIngredient = ingredients.get(index);
         }
-
-        // filters existing/owned
-        ArrayList<Ingredient> filtered = new ArrayList<>();
-
-        for (Ingredient ingredient : ingredients) {
-            boolean owned = false;
-
-            for (Ingredient inventoryIngredient : inventoryIngredients) {
-                if (owned == false) {
-                    if (ingredient.isEqual(inventoryIngredient)) {
-                        owned = true;
-                    }
-                }
-            }
-
-            if (owned == false) {
-                filtered.add(ingredient);
-            }
-        }
-
-        ingredients = filtered;
-
-        if (!ingredients.isEmpty()) {
-            int randomIndex = (int) (Math.random() * ingredients.size());
-            Ingredient randomIngredient = ingredients.get(randomIndex);
-            int randomQuantity = (int) (Math.random() * 5) + 1; // Random quantity between 1 and 5
-            
-            random = new ItemStack(randomIngredient, randomQuantity);
-        }
-        
-        return random;
+        return randomIngredient;
     }
     
     /**

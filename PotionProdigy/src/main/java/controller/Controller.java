@@ -236,11 +236,11 @@ public class Controller {
 
     	int status = 0;
         if(!loginBonusClaimed) {
-            ItemStack bonus = save.randItem(currentPlayer.getInventory());
+            Ingredient bonus = save.randItem(currentPlayer.getInventory());
             if (bonus == null){
                 status = -1;
             } else {
-                currentPlayer.getInventory().addItemStack(bonus.getIngredient(), 1);
+                currentPlayer.getInventory().addItemStack(bonus, 1);
                 loginBonusClaimed = true;
                 status = 1;
             }

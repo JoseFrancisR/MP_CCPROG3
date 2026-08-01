@@ -100,10 +100,10 @@ public class MainMenu {
     			    visitMarket();
     	            break;
     	        case 5:
-    	            blessCauldronPay();
+    	            //blessCauldronPay();
     	            break;
     	        case 6:
-    	            claimLoginBonus();
+    	            //claimLoginBonus();
     	            break;
     	        case 7:
     	        	System.out.println("Exitting the game");
@@ -232,7 +232,7 @@ public class MainMenu {
      * Gives one random ingredient once per game session.
      *
      * @return true when the bonus is claimed
-     */
+     
     public boolean claimLoginBonus() {
     	boolean claimed = false; 
         if (loginBonusClaimed) {
@@ -240,7 +240,7 @@ public class MainMenu {
             System.out.println("Login Bonus has already been claimed!");
         } else {
             displayBorder();
-        	ItemStack bonus = save.randItem(currentPlayer.getInventory());
+        	//ItemStack bonus = save.randItem(currentPlayer.getInventory());
             if (bonus == null){
                 System.out.println("Bonus item not generated");
             } else {
@@ -252,7 +252,7 @@ public class MainMenu {
         }
 
         return claimed;
-    }
+    }*/
     
     /** Displays the text when player picks recipeMode
      * 
