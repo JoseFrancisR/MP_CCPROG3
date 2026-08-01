@@ -63,13 +63,19 @@ public class Market {
      * @param player      purchasing player
      * @param slotNumbers selected slot numbers
      */
-    public void buyMultiple(Player player, ArrayList<Integer> slotNumbers) {
+    public ArrayList<Integer> buyMultiple(Player player, ArrayList<Integer> slotNumbers) {
+        ArrayList<Integer> results = new ArrayList<>();
+        int status;
         for (Integer slot : slotNumbers) {
             if (slot >= 1 && slot <= listings.size()) {
                 Listing listing = listings.get(slot - 1);
-                listing.purchase(player);
+                status = listing.purchase(player);
+                results.add(status);
+            } else{
+                results.add(-2);
             } // else invalid slot number, do nothing
         }
+        return results;
     }
 
     /**

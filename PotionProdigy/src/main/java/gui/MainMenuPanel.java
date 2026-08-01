@@ -167,6 +167,7 @@ public class MainMenuPanel extends javax.swing.JPanel {
     }// GEN-LAST:event_btnSpellbookActionPerformed
 
     private void btnMarketActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMarketActionPerformed
+        controller.generateMarket();
         mainFrame.showMarket();
     }// GEN-LAST:event_btnMarketActionPerformed
 

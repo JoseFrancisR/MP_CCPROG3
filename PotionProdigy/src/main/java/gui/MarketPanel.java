@@ -32,13 +32,13 @@ public class MarketPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
+        btnConfirm = new javax.swing.JButton();
         RadioBtnBuy = new javax.swing.JRadioButton();
         RadioBtnSell = new javax.swing.JRadioButton();
         btnSell = new javax.swing.JButton();
 
-        jButton1.setText("Confirm");
-        jButton1.addActionListener(this::jButton1ActionPerformed);
+        btnConfirm.setText("Confirm");
+        btnConfirm.addActionListener(this::btnConfirmActionPerformed);
 
         RadioBtnBuy.setText("Buy");
         RadioBtnBuy.addActionListener(this::RadioBtnBuyActionPerformed);
@@ -61,7 +61,7 @@ public class MarketPanel extends javax.swing.JPanel {
                             .addComponent(RadioBtnBuy)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(107, 107, 107)
-                        .addComponent(jButton1)
+                        .addComponent(btnConfirm)
                         .addGap(66, 66, 66)
                         .addComponent(btnSell)))
                 .addContainerGap(81, Short.MAX_VALUE))
@@ -75,15 +75,15 @@ public class MarketPanel extends javax.swing.JPanel {
                 .addComponent(RadioBtnSell)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 165, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(btnConfirm)
                     .addComponent(btnSell))
                 .addGap(16, 16, 16))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnConfirmActionPerformed
 
     private void RadioBtnBuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RadioBtnBuyActionPerformed
         // TODO add your handling code here:
@@ -97,7 +97,7 @@ public class MarketPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton RadioBtnBuy;
     private javax.swing.JRadioButton RadioBtnSell;
+    private javax.swing.JButton btnConfirm;
     private javax.swing.JButton btnSell;
-    private javax.swing.JButton jButton1;
     // End of variables declaration//GEN-END:variables
 }
