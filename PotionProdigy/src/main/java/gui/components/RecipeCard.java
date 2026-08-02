@@ -1,7 +1,6 @@
 package gui.components;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Dimension;
 import javax.swing.BorderFactory;
@@ -17,7 +16,6 @@ import potionprodigy.Inventory;
 import potionprodigy.Recipe;
 
 public class RecipeCard extends JPanel {
-
     private final Recipe recipe;
     private final Inventory inventory;
 
@@ -28,15 +26,19 @@ public class RecipeCard extends JPanel {
     private final JPanel detailsPanel;
 
     private boolean expanded;
+    private boolean selected;
 
     public RecipeCard(Recipe recipe, Inventory inventory, ButtonGroup recipeGroup, boolean selectable) {
 
         this.recipe = recipe;
         this.inventory = inventory;
         this.expanded = false;
+        this.selected = false;
 
         setLayout(new BorderLayout());
-        setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        setOpaque(true);
+        setBackground(Theme.SECONDARY);
+        setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Theme.BORDER, 1), BorderFactory.createEmptyBorder(2, 2, 2, 2)));
 
         boolean craftable = inventory.hasIngredients(recipe);
         
@@ -47,6 +49,12 @@ public class RecipeCard extends JPanel {
         recipeRadioButton.setVisible(selectable);
         recipeRadioButton.setEnabled(craftable);
 
+        recipeRadioButton.addItemListener(event -> {
+            setSelectedCard(
+                recipeRadioButton.isSelected()
+            );
+        });
+        
         if (recipeGroup != null) {
             recipeGroup.add(recipeRadioButton);
         }
@@ -71,13 +79,29 @@ public class RecipeCard extends JPanel {
 
         headerPanel.add(leftHeaderPanel, BorderLayout.CENTER);
         headerPanel.add(rightHeaderPanel, BorderLayout.EAST);
-
+        
+        // allowing selection to be anywhere on the recipe card
+        if (selectable && craftable) {
+            addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent event) {
+                    recipeRadioButton.setSelected(true);
+                }
+            });
+        }
+        
+        headerPanel.setOpaque(false);
+        leftHeaderPanel.setOpaque(false);
+        rightHeaderPanel.setOpaque(false);
+        
+        recipeRadioButton.setOpaque(false);
+        
         detailsPanel = new JPanel();
         detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
         detailsPanel.setBorder(BorderFactory.createEmptyBorder(5, 35, 10, 10));
 
         createIngredientCheckboxes();
         detailsPanel.setVisible(false);
+        detailsPanel.setOpaque(false);
 
         dropdownButton.addActionListener(event -> {
             toggleDetails();}
@@ -124,11 +148,29 @@ public class RecipeCard extends JPanel {
     }
 
     public Recipe getRecipe() {
-        return recipe;
+        return this.recipe;
     }
 
     public JRadioButton getRecipeRadioButton() {
-        return recipeRadioButton;
+        return this.recipeRadioButton;
+    }
+    
+    public boolean isSelectedCard() {
+        return this.selected;
+    }
+    
+    public void setSelectedCard(boolean selected) {
+        this.selected = selected;
+        
+        if (selected) {
+            setBorder(BorderFactory.createLineBorder(Theme.ACCENT, 3));
+        } else {
+            setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Theme.BORDER, 1), BorderFactory.createEmptyBorder(2, 2, 2, 2)));
+            setBackground(Theme.SECONDARY);
+        }
+        
+        revalidate();
+        repaint();
     }
     
     @Override
