@@ -44,6 +44,11 @@ public class CreativePanel extends javax.swing.JPanel {
     }
     
     public void refreshDisplay() {
+        selectedBase = null;
+        selectedBaseCard = null;
+        selectedFruits.clear();
+        selectedFruitCards.clear();
+        
         inventoryItemsPanel.removeAll();
         Stack<ItemStack> bases = new Stack<>();
 
