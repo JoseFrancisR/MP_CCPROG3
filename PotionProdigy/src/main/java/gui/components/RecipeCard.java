@@ -137,14 +137,8 @@ public class RecipeCard extends JPanel {
         
         dropdownButton.setText(arrow + String.format("#%03d ", recipe.getConcoctionId()) + recipe.getConcoctionName());
         
-        this.revalidate();
-        
-        if (getParent() != null) {
-            getParent().revalidate();
-            getParent().repaint();
-        }
-
-        this.repaint();
+        revalidate();
+        repaint();
     }
 
     public Recipe getRecipe() {
