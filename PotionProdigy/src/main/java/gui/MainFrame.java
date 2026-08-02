@@ -35,6 +35,13 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
         
+        getContentPane().removeAll();
+        getContentPane().setLayout(new java.awt.BorderLayout());
+        getContentPane().add(contentPanel, java.awt.BorderLayout.CENTER);
+        
+        setMinimumSize(new java.awt.Dimension(720, 600));
+        setSize(new java.awt.Dimension(720, 600));
+        
         this.controller = new Controller();
         this.cardLayout = (CardLayout)contentPanel.getLayout();
 
