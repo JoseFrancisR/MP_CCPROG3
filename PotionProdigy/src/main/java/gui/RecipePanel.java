@@ -112,15 +112,17 @@ public class RecipePanel extends javax.swing.JPanel {
 
         lblCauldrons.setText("Cauldrons");
 
+        recipeScrollPane.setBorder(null);
+
         javax.swing.GroupLayout recipeListPanelLayout = new javax.swing.GroupLayout(recipeListPanel);
         recipeListPanel.setLayout(recipeListPanelLayout);
         recipeListPanelLayout.setHorizontalGroup(
             recipeListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 540, Short.MAX_VALUE)
+            .addGap(0, 542, Short.MAX_VALUE)
         );
         recipeListPanelLayout.setVerticalGroup(
             recipeListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 343, Short.MAX_VALUE)
+            .addGap(0, 345, Short.MAX_VALUE)
         );
 
         recipeScrollPane.setViewportView(recipeListPanel);

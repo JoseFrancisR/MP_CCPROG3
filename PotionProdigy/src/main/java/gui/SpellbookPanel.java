@@ -74,6 +74,8 @@ public class SpellbookPanel extends javax.swing.JPanel {
         recipeListPanel = new javax.swing.JPanel();
         btnBack = new javax.swing.JButton();
 
+        recipeScrollPane.setBorder(null);
+
         recipeListPanel.setLayout(new javax.swing.BoxLayout(recipeListPanel, javax.swing.BoxLayout.LINE_AXIS));
         recipeScrollPane.setViewportView(recipeListPanel);
 

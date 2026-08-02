@@ -163,6 +163,8 @@ public class CreativePanel extends javax.swing.JPanel {
         btnBrew = new javax.swing.JButton();
         lblText = new javax.swing.JLabel();
 
+        inventoryScrollPane.setBorder(null);
+
         inventoryItemsPanel.setLayout(new java.awt.GridLayout(1, 0));
         inventoryScrollPane.setViewportView(inventoryItemsPanel);
 

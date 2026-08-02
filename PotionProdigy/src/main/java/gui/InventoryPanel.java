@@ -80,6 +80,8 @@ public class InventoryPanel extends javax.swing.JPanel {
 
         lblTitle.setText("Inventory:");
 
+        inventoryScrollPane.setBorder(null);
+
         inventoryItemsPanel.setLayout(new java.awt.GridLayout(10, 0, 4, 10));
         inventoryScrollPane.setViewportView(inventoryItemsPanel);
 
