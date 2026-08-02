@@ -52,7 +52,8 @@ public class RecipePanel extends javax.swing.JPanel {
         if (player != null) {
             Inventory inventory = player.getInventory();
             
-            lblCauldrons.setText("Usable Cauldrons: " + inventory.countUsableCauldrons());
+            lblCauldrons.setText("Cauldrons: " + inventory.countUsableCauldrons()
+                + " usable / " + inventory.countUnusableCauldrons() + " unusable");
             
             for (Recipe recipe : player.getRecipeBook().getUnlockedRecipes()) {
                 RecipeCard recipeCard = new RecipeCard(recipe, inventory, recipeButtonGroup, true);
