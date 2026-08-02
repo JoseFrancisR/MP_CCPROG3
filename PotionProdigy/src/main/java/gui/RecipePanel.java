@@ -178,31 +178,32 @@ public class RecipePanel extends javax.swing.JPanel {
      * @param evt generated button action event
      */
     private void btnBrewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrewActionPerformed
-        int earnedCrystals;
+        int earnedCrystals, confirmation;
         boolean success;
         
         if (this.selectedRecipe != null) {
-            earnedCrystals = selectedRecipe.getSaleValue();
-            success = controller.brewRecipe(selectedRecipe);
+            confirmation = javax.swing.JOptionPane.showConfirmDialog(this, "Brew " + selectedRecipe.getConcoctionName() + 
+                    "?\n\n" + "Sale value: " + selectedRecipe.getSaleValue() + " crystals.", "Confirm Brewing", 
+                    javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE);
             
-            if (success) {
-                javax.swing.JOptionPane.showMessageDialog(this, selectedRecipe.getConcoctionName() + 
-                        " was successfully brewed!\n" + "You earned " + earnedCrystals + 
-                        " crystals.", "Brewing Successful",javax.swing.JOptionPane.INFORMATION_MESSAGE);
-                
-                refreshDisplay();
-            } else {
-                javax.swing.JOptionPane.showMessageDialog(this, "The concoction could not be brewed.\n" + 
-                        "Check your ingredients and recipe status.", 
-                        "Brewing Failed",javax.swing.JOptionPane.INFORMATION_MESSAGE);
-                
+            if (confirmation == javax.swing.JOptionPane.YES_OPTION) {
+                earnedCrystals = selectedRecipe.getSaleValue();
+                success = controller.brewRecipe(selectedRecipe);
+                if (success) {
+                    javax.swing.JOptionPane.showMessageDialog(this, selectedRecipe.getConcoctionName() + 
+                            " was successfully brewed!\n" + "You earned " + earnedCrystals + 
+                            " crystals.", "Brewing Successful",javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    javax.swing.JOptionPane.showMessageDialog(this, "The concoction could not be brewed.\n" + 
+                            "Check your ingredients and recipe status.", 
+                            "Brewing Failed",javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                }
                 refreshDisplay();
             }
         } else {
             javax.swing.JOptionPane.showMessageDialog(this, "Please select a craftable recipe.", 
                     "No Recipe Selected", javax.swing.JOptionPane.WARNING_MESSAGE);
         }
-        refreshDisplay();
     }//GEN-LAST:event_btnBrewActionPerformed
 
 

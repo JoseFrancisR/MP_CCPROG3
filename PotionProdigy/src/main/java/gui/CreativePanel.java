@@ -256,28 +256,44 @@ public class CreativePanel extends javax.swing.JPanel {
         Player player = controller.getCurrentPlayer();
         boolean success = false;
         Recipe recipe = null;
+        int confirmation;
         
         if (player != null) {
             if (player.getInventory().countUsableCauldrons() > 1) {
                 if (selectedBase != null) {
                     if (!selectedFruits.isEmpty()) {
                         ArrayList<Ingredient> fruits = new ArrayList<>(selectedFruits);
-                        recipe = player.getRecipeBook().findRecipe(selectedBase, fruits);
+                        StringBuilder fruitNames = new StringBuilder();
                         
-                        success = controller.brewCreative(selectedBase, fruits);
-                        
-                        if (success && recipe != null) {
-                            javax.swing.JOptionPane.showMessageDialog(this, recipe.getConcoctionName() + " was successfully brewed!\n" + 
-                                    "You earned " + recipe.getSaleValue() + " crystals.\n" + "The recipe is now unlocked!", 
-                                    "Brewing Successful", javax.swing.JOptionPane.WARNING_MESSAGE);
-                        } else if (recipe == null) {
-                            javax.swing.JOptionPane.showMessageDialog(this, "The ingredients did not create a valid concoction.\n" + 
-                                    "One usable cauldron was damaged. D:", 
-                                    "Brewing Failed", javax.swing.JOptionPane.WARNING_MESSAGE);
-                        } else if (!success) {
-                            javax.swing.JOptionPane.showMessageDialog(this, "The concoction could not be brewed.", 
-                                    "Brewing Failed", javax.swing.JOptionPane.WARNING_MESSAGE);
+                        for (int i = 0; i < fruits.size(); i++) {
+                            if (i > 0) {
+                                fruitNames.append(", ");
+                            }
+                            fruitNames.append(fruits.get(i).getName());
                         }
+                        
+                        confirmation = javax.swing.JOptionPane.showConfirmDialog(this, "Continue with this experiment?\n\n" + "Base: " 
+                                + selectedBase.getName() + "\nFruits: " + fruitNames + "\n\nAn invalid combination will damage a cauldron.",
+                                "Confirm Brewing", javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE);
+                        
+                        if (confirmation == javax.swing.JOptionPane.YES_OPTION) {
+                            recipe = player.getRecipeBook().findRecipe(selectedBase, fruits);
+                            success = controller.brewCreative(selectedBase, fruits);
+
+                            if (success && recipe != null) {
+                                javax.swing.JOptionPane.showMessageDialog(this, recipe.getConcoctionName() + " was successfully brewed!\n" + 
+                                        "You earned " + recipe.getSaleValue() + " crystals.\n" + "The recipe is now unlocked!", 
+                                        "Brewing Successful", javax.swing.JOptionPane.WARNING_MESSAGE);
+                            } else if (recipe == null) {
+                                javax.swing.JOptionPane.showMessageDialog(this, "The ingredients did not create a valid concoction.\n" + 
+                                        "One usable cauldron was damaged. D:", 
+                                        "Brewing Failed", javax.swing.JOptionPane.WARNING_MESSAGE);
+                            } else if (!success) {
+                                javax.swing.JOptionPane.showMessageDialog(this, "The concoction could not be brewed.", 
+                                        "Brewing Failed", javax.swing.JOptionPane.WARNING_MESSAGE);
+                            }
+                        }
+                        refreshDisplay();
                     } else {
                         javax.swing.JOptionPane.showMessageDialog(this, "Please select at least one fruit.", 
                                 "No Fruit Selected", javax.swing.JOptionPane.WARNING_MESSAGE);
@@ -291,7 +307,6 @@ public class CreativePanel extends javax.swing.JPanel {
                         "Not Enough Cauldrons", javax.swing.JOptionPane.WARNING_MESSAGE);
             }
         }
-        refreshDisplay();
     }//GEN-LAST:event_btnBrewActionPerformed
 
 
