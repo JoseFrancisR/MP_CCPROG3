@@ -193,6 +193,7 @@ public class RecipePanel extends javax.swing.JPanel {
             javax.swing.JOptionPane.showMessageDialog(this, "Please select a craftable recipe.", 
                     "No Recipe Selected", javax.swing.JOptionPane.WARNING_MESSAGE);
         }
+        refreshDisplay();
     }//GEN-LAST:event_btnBrewActionPerformed
 
 
