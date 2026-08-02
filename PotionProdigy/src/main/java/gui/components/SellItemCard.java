@@ -44,15 +44,16 @@ public class SellItemCard extends JPanel {
         setLayout(new BorderLayout(5, 5));
         setPreferredSize(new Dimension(140, 180));
 
-        setBackground(Color.WHITE);
-        setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+        setOpaque(true);
+        setBackground(Theme.SECONDARY);
+        setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Theme.BORDER, 1), BorderFactory.createEmptyBorder(2, 2, 2, 2)));
 
         int unitPrice = itemStack.getIngredient().getSellingPrice();
         lblPrice = new JLabel(unitPrice + " Crystals per unit", SwingConstants.CENTER);
         lblPrice.setOpaque(true);
-    
-        lblPrice.setBackground(Color.LIGHT_GRAY); 
-        lblPrice.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+        lblPrice.setBackground(Theme.DARK);
+        lblPrice.setForeground(Theme.TEXT);
+        lblPrice.setBorder(BorderFactory.createLineBorder(Theme.BORDER));
         
         JPanel pricePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
         pricePanel.setOpaque(false);
@@ -79,6 +80,7 @@ public class SellItemCard extends JPanel {
         }
 
         lblName = new JLabel(itemStack.getIngredient().getName(), SwingConstants.CENTER);
+        lblName.setForeground(Theme.TEXT);
 
         centerPanel.add(lblIcon, BorderLayout.CENTER);
         centerPanel.add(lblName, BorderLayout.SOUTH);
@@ -96,6 +98,7 @@ public class SellItemCard extends JPanel {
 
         lblSelectedQty = new JLabel("0/" + itemStack.getQuantity(), SwingConstants.CENTER);
         lblSelectedQty.setPreferredSize(new Dimension(45, 22));
+        lblSelectedQty.setForeground(Theme.TEXT);
 
         btnMinus.addActionListener(e -> updateQuantity(-1));
         btnPlus.addActionListener(e -> updateQuantity(1));
@@ -114,18 +117,12 @@ public class SellItemCard extends JPanel {
         if (newQty >= 0 && newQty <= itemStack.getQuantity()) {
             selectedQuantity = newQty;
             lblSelectedQty.setText(selectedQuantity + "/" + itemStack.getQuantity());
-            if (selectedQuantity > 0) {
-                setBorder(BorderFactory.createLineBorder(Color.BLUE, 3));
-                setBackground(new Color(220, 235, 255));
-            } else {
-                setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-                setBackground(Color.WHITE);
-            }
+            
+            setSelectedCard(selectedQuantity > 0);
 
             if (quantityChangeListener != null) {
                 quantityChangeListener.run();
             }
-            repaint();
         }
     }
 
@@ -149,5 +146,18 @@ public class SellItemCard extends JPanel {
             return new ImageIcon(scaledImage);
         }
         return null;
+    }
+    
+    public void setSelectedCard(boolean selected) {
+        if (selected) {
+            setBorder(BorderFactory.createLineBorder(Theme.ACCENT, 3));
+            setBackground(Theme.SELECTED_BACKGROUND);
+        } else {
+            setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Theme.BORDER, 1), BorderFactory.createEmptyBorder(2, 2, 2, 2)));
+            setBackground(Theme.SECONDARY);
+        }
+        
+        revalidate();
+        repaint();
     }
 }

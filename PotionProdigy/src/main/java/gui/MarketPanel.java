@@ -341,6 +341,8 @@ public class MarketPanel extends javax.swing.JPanel {
 
         centerCardPanel.add(buyItemSlots, "card2");
 
+        jScrollPane1.setBorder(null);
+
         jPanel2.setLayout(new java.awt.GridLayout(2, 4, 10, 0));
         jScrollPane1.setViewportView(jPanel2);
 
