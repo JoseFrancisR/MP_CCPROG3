@@ -14,7 +14,9 @@ import javax.swing.JRadioButton;
 import potionprodigy.Ingredient;
 import potionprodigy.Inventory;
 import potionprodigy.Recipe;
-
+/**
+ * Expandable visual card representing a recipe and whether the player owns its required ingredients.
+ */
 public class RecipeCard extends JPanel {
     private final Recipe RECIPE;
     private final Inventory INVENTORY;
@@ -27,7 +29,14 @@ public class RecipeCard extends JPanel {
 
     private boolean expanded;
     private boolean selected;
-
+    /**
+     * Creates a recipe card.
+     *
+     * @param recipe recipe displayed by the card
+     * @param inventory inventory used to check ingredient availability
+     * @param recipeGroup group used to enforce single recipe selection
+     * @param selectable whether the recipe may be selected for brewing
+     */
     public RecipeCard(Recipe RECIPE, Inventory INVENTORY, ButtonGroup recipeGroup, boolean selectable) {
 
         this.RECIPE = RECIPE;
@@ -110,7 +119,9 @@ public class RecipeCard extends JPanel {
         add(headerPanel, BorderLayout.NORTH);
         add(DETAILS_PANEL, BorderLayout.CENTER);
     }
-
+    /**
+     * Rebuilds the disabled ingredient checkboxes and displays the owned and required quantities for each ingredient.
+     */
     private void createIngredientCheckboxes() {
         DETAILS_PANEL.removeAll();
 
@@ -128,7 +139,9 @@ public class RecipeCard extends JPanel {
             DETAILS_PANEL.add(ingredientCheckBox);
         }
     }
-
+    /**
+     * Expands or collapses the ingredient-details area.
+     */
     private void toggleDetails() {
         expanded = !expanded;
         DETAILS_PANEL.setVisible(expanded);
@@ -140,19 +153,35 @@ public class RecipeCard extends JPanel {
         revalidate();
         repaint();
     }
-
+    /**
+     * Returns the recipe represented by this card.
+     *
+     * @return displayed recipe
+     */
     public Recipe getRecipe() {
         return this.RECIPE;
     }
-
+    /**
+     * Returns the radio button used to select this recipe.
+     *
+     * @return recipe-selection radio button
+     */
     public JRadioButton getRecipeRadioButton() {
         return this.RECIPE_RADIO_BUTTON;
     }
-    
+    /**
+     * Determines whether this recipe card is visually selected.
+     *
+     * @return true when selected
+    */
     public boolean isSelectedCard() {
         return this.selected;
     }
-    
+    /**
+     * Updates the recipe card's selection state and appearance.
+     *
+     * @param selected true to display the selected style
+     */
     public void setSelectedCard(boolean selected) {
         this.selected = selected;
         
@@ -166,7 +195,12 @@ public class RecipeCard extends JPanel {
         revalidate();
         repaint();
     }
-    
+    /**
+     * Allows the card to expand horizontally while preserving its preferred
+     * height in a vertical list.
+     *
+     * @return maximum size used by the parent layout
+     */
     @Override
     public Dimension getMaximumSize() {
         Dimension preferred = getPreferredSize();

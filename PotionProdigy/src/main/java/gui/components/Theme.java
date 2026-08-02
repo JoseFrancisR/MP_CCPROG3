@@ -16,7 +16,9 @@ import javax.swing.AbstractButton;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.JViewport;
-
+/**
+ * Defines the application's shared colors and applies consistent styling to Swing components.
+ */
 public class Theme {
     public static final Color BACKGROUND = new Color(49, 51, 56);
     public static final Color SECONDARY = new Color(43, 45, 49);
@@ -27,7 +29,9 @@ public class Theme {
     public static final Color INPUT = new Color(30, 31, 34);
     public static final Color BORDER = new Color(64, 66, 73);
     public static final Color SELECTED_BACKGROUND = new Color(64, 68, 90);
-    
+    /**
+     * Configures Swing's default colors before application components are created
+     */
     public static void configureDefaults() {
         UIManager.put("Panel.background", BACKGROUND);
 
@@ -48,7 +52,11 @@ public class Theme {
         UIManager.put("OptionPane.foreground", TEXT);
         UIManager.put("OptionPane.messageForeground", TEXT);
     }
-    
+    /**
+     * Applies the application theme to the specified component.
+     *
+     * @param component component to style
+     */
     public static void apply(Component component) {
         boolean customCard =
             component instanceof gui.components.ItemCard
@@ -77,7 +85,11 @@ public class Theme {
             viewport.setBackground(BACKGROUND);
         }
     }
-    
+    /**
+     * Applies the standard appearance to an ordinary button.
+     *
+     * @param button button to style
+     */
     private static void styleButton(JButton button) {
         button.setBackground(SECONDARY);
         button.setForeground(TEXT);
@@ -85,7 +97,11 @@ public class Theme {
         button.setOpaque(true);
         button.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(BORDER), BorderFactory.createEmptyBorder(7, 12, 7, 12)));
     }
-    
+    /**
+     * Applies the standard appearance to a radio button or checkbox.
+     *
+     * @param button toggle component to style
+     */
     private static void styleToggleButton(AbstractButton button) { // abstract button = interface for all buttons
         button.setBackground(BACKGROUND);
         button.setForeground(TEXT);

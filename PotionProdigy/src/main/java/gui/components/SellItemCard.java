@@ -20,7 +20,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import potionprodigy.ItemStack;
-
+/**
+ * Visual card used to select how many units of an ingredient will be sold.
+ */
 public class SellItemCard extends JPanel {
 
     private final ItemStack ITEM_STACK;
@@ -33,12 +35,18 @@ public class SellItemCard extends JPanel {
     private JLabel lblSelectedQty;
     private JButton btnMinus;
     private JButton btnPlus;
-
+    /**
+     * Creates a selling card for an inventory stack.
+     *
+     * @param itemStack inventory stack available for sale
+     */
     public SellItemCard(ItemStack ITEM_STACK) {
         this.ITEM_STACK = ITEM_STACK;
         initializeCard();
     }
-
+    /**
+     * Creates and arranges the selling controls, labels, price, and icon.
+     */
     private void initializeCard() {
         setLayout(new BorderLayout(5, 5));
         setPreferredSize(new Dimension(140, 180));
@@ -110,7 +118,12 @@ public class SellItemCard extends JPanel {
         add(centerPanel, BorderLayout.CENTER);
         add(controlPanel, BorderLayout.SOUTH);
     }
-
+    /**
+     * Increases or decreases the selected quantity while enforcing its valid
+     * range.
+     *
+     * @param change quantity adjustment, normally {@code -1} or {@code 1}
+     */
     private void updateQuantity(int change) {
         int newQty = selectedQuantity + change;
         if (newQty >= 0 && newQty <= ITEM_STACK.getQuantity()) {
@@ -124,15 +137,27 @@ public class SellItemCard extends JPanel {
             }
         }
     }
-
+    /**
+     * Returns the quantity currently selected for sale.
+     *
+     * @return selected selling quantity
+     */
     public int getSelectedQuantity() {
         return selectedQuantity;
     }
-
+    /**
+     * Returns the inventory stack represented by this card.
+     *
+     * @return represented item stack
+     */
     public ItemStack getItemStack() {
         return ITEM_STACK;
     }
-    
+    /**
+     * Registers a callback that runs whenever the selected quantity changes.
+     *
+     * @param listener callback used to update the market's total earnings
+     */
     public void setQuantityChangeListener(Runnable listener) {
         this.quantityChangeListener = listener;
     }
@@ -146,7 +171,11 @@ public class SellItemCard extends JPanel {
         }
         return null;
     }
-    
+    /**
+     * Updates the card's appearance according to whether at least one unit is selected.
+     *
+     * @param selected {@code true} to display the selected style
+     */
     public void setSelectedCard(boolean selected) {
         if (selected) {
             setBorder(BorderFactory.createLineBorder(Theme.ACCENT, 3));

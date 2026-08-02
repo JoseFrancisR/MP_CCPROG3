@@ -19,6 +19,9 @@ import javax.swing.ImageIcon;
 
 import potionprodigy.ItemStack;
 
+/**
+ * Visual card representing one ingredient stack in the inventory or creative brewing interface
+ */
 public class ItemCard extends JPanel {
 
     private final ItemStack ITEM_STACK;
@@ -28,7 +31,11 @@ public class ItemCard extends JPanel {
     private JLabel lblQuantity;
     
     private boolean selected;
-
+    /**
+     * Creates a card for an ingredient stack.
+     *
+     * @param ITEM_STACK stack displayed by the card
+     */
     public ItemCard(ItemStack ITEM_STACK) {
         this.ITEM_STACK = ITEM_STACK;
         this.selected = false;
@@ -36,6 +43,9 @@ public class ItemCard extends JPanel {
         initializeCard();
     }
     
+    /**
+     * Creates and arranges the card's labels, icon, quantity, colors, and border.
+     */
     private void initializeCard() {
         setLayout(new BorderLayout(5, 5));
         setPreferredSize(new Dimension(140, 140));
@@ -89,15 +99,27 @@ public class ItemCard extends JPanel {
         add(lblIcon, BorderLayout.CENTER);
         add(lblName, BorderLayout.SOUTH);
     }
-    
+    /**
+     * Returns the ingredient stack displayed by this card.
+     *
+     * @return displayed ingredient stack
+     */
     public ItemStack getItemStack() {
         return ITEM_STACK;
     }
-
+    /**
+     * Determines whether the card is visually selected.
+     *
+     * @return true when the card is selected
+     */
     public boolean isSelectedCard() {
         return selected;
     }
-    
+    /**
+     * Updates the card's selection state and appearance.
+     *
+     * @param selected true to display the selected style
+     */
     public void setSelectedCard(boolean selected) {
         this.selected = selected;
 
@@ -112,7 +134,14 @@ public class ItemCard extends JPanel {
         revalidate();
         repaint();
     }
-    
+    /**
+     * Loads and scales an icon from the application resources.
+     *
+     * @param resourcePath classpath location of the image
+     * @param width requested icon width
+     * @param height requested icon height
+     * @return scaled image, or an empty icon when the resource is unavailable
+     */
     private ImageIcon loadIcon(String resourcePath, int width, int height) {
         URL imageUrl = getClass().getResource(resourcePath);
         Image scaledImage = null;

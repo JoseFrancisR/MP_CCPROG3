@@ -18,8 +18,7 @@ import java.awt.Component;
 import java.awt.Image;
 import java.net.URL;
 /**
- *
- * @author ikoyg
+ * Visual card representing one ingredient or cauldron listing in the market.
  */
 public class MarketItemCard extends JPanel {
 
@@ -30,7 +29,11 @@ public class MarketItemCard extends JPanel {
     
     private final Listing LISTING;
     private boolean selected;
-
+    /**
+     * Creates a card containing the listing's name, quantity, price, and icon.
+     *
+     * @param LISTING market listing displayed by the card
+     */
     public MarketItemCard(Listing LISTING) {
         initComponents();
         
@@ -74,15 +77,27 @@ public class MarketItemCard extends JPanel {
             }
         } 
     }
-    
+    /**
+     * Returns the listing represented by this card.
+     *
+     * @return displayed market listing
+     */
     public Listing getListing() {
         return LISTING;
     }
-
+    /**
+     * Determines whether the listing card is visually selected.
+     *
+     * @return true when selected
+     */
     public boolean isSelectedCard() {
         return selected;
     }
-    
+    /**
+     * Updates the listing card's selection state and appearance.
+     *
+     * @param selected true to display the selected style
+     */
     public void setSelectedCard(boolean selected) {
         this.selected = selected;
     
@@ -97,7 +112,9 @@ public class MarketItemCard extends JPanel {
         revalidate();
         repaint();
     }
-    
+    /**
+     * Creates and arranges the card's visual components.
+     */
     private void initComponents() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Theme.BORDER, 1), BorderFactory.createEmptyBorder(10, 10, 10, 10)));
