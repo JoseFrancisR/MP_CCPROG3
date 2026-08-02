@@ -232,17 +232,17 @@ public class Controller {
         return status;
     }
 
-    public int claimLoginBonus() {
+    public String claimLoginBonus() {
 
-    	int status = 0;
+    	String status = "claimed";
         if(!loginBonusClaimed) {
             Ingredient bonus = save.randItem(currentPlayer.getInventory());
             if (bonus == null){
-                status = -1;
+                status = "error";
             } else {
                 currentPlayer.getInventory().addItemStack(bonus, 1);
                 loginBonusClaimed = true;
-                status = 1;
+                status = bonus.getName();
             }
         }
         return status;
