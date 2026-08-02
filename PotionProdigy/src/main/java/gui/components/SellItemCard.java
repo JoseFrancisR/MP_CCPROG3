@@ -53,7 +53,8 @@ public class SellItemCard extends JPanel {
     
         lblPrice.setBackground(Color.LIGHT_GRAY); 
         lblPrice.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
-        
+        lblPrice.setForeground(Color.BLACK);
+
         JPanel pricePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
         pricePanel.setOpaque(false);
         pricePanel.add(lblPrice);
@@ -79,6 +80,7 @@ public class SellItemCard extends JPanel {
         }
 
         lblName = new JLabel(itemStack.getIngredient().getName(), SwingConstants.CENTER);
+        lblName.setForeground(Color.BLACK);
 
         centerPanel.add(lblIcon, BorderLayout.CENTER);
         centerPanel.add(lblName, BorderLayout.SOUTH);
@@ -96,6 +98,7 @@ public class SellItemCard extends JPanel {
 
         lblSelectedQty = new JLabel("0/" + itemStack.getQuantity(), SwingConstants.CENTER);
         lblSelectedQty.setPreferredSize(new Dimension(45, 22));
+        lblSelectedQty.setForeground(Color.BLACK);
 
         btnMinus.addActionListener(e -> updateQuantity(-1));
         btnPlus.addActionListener(e -> updateQuantity(1));
