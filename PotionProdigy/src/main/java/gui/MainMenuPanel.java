@@ -175,7 +175,7 @@ public class MainMenuPanel extends javax.swing.JPanel {
         if(confirm == JOptionPane.YES_OPTION){
             if (controller.saveGame()) {
                 JOptionPane.showMessageDialog(this, "Game saved successfully!!!", "Saved game",JOptionPane.INFORMATION_MESSAGE);
-                System.exit(0);
+                mainFrame.showStart();
             } else {
                 JOptionPane.showMessageDialog(this,"Failed to save the game.","Save Error", JOptionPane.ERROR_MESSAGE);
             }
