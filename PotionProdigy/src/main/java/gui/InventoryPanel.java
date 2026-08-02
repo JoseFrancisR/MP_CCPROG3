@@ -13,13 +13,19 @@ import gui.components.Theme;
 import java.util.Stack;
 
 /**
- *
- * @author YJ
+ * Displays the player's ingredient quantities and usable and unusable
+ * cauldron counts.
  */
 public class InventoryPanel extends javax.swing.JPanel {
     private MainFrame mainFrame;
     private Controller controller;
     
+    /**
+     * Creates an inventory panel connected to the application.
+     *
+     * @param mainFrame application window used for navigation
+     * @param controller controller providing the current player
+     */
     public InventoryPanel(MainFrame mainFrame, Controller controller) {
         initComponents();
         inventoryItemsPanel.setLayout(new java.awt.GridLayout(0, 4, 12, 12));
@@ -29,7 +35,9 @@ public class InventoryPanel extends javax.swing.JPanel {
         this.mainFrame = mainFrame;
         this.controller = controller;
     }
-    
+    /**
+     * Rebuilds the inventory card list using the current player's latest data.
+     */
     public void refreshDisplay() {
         inventoryItemsPanel.removeAll();
         Stack<ItemStack> bases = new Stack<>();
@@ -128,7 +136,11 @@ public class InventoryPanel extends javax.swing.JPanel {
                 .addGap(17, 17, 17))
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Returns to the main menu.
+     *
+     * @param evt generated button action event
+     */
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         mainFrame.showMainMenu();
     }//GEN-LAST:event_btnBackActionPerformed

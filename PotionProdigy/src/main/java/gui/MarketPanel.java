@@ -15,8 +15,7 @@ import gui.components.SellItemCard;
 import java.util.List;
 
 /**
- *
- * @author YJ
+ * Displays the market's buying and selling interfaces and manages the user's temporary market selections.
  */
 public class MarketPanel extends javax.swing.JPanel {
     private MainFrame mainFrame;
@@ -25,7 +24,10 @@ public class MarketPanel extends javax.swing.JPanel {
     private ArrayList<SellItemCard> sellCards = new ArrayList<>();
     
     /**
-     * Creates new form MarketPanel
+     * Creates a market panel connected to the application.
+     *
+     * @param mainFrame application window used for navigation
+     * @param controller controller used for market transactions
      */
     public MarketPanel(MainFrame mainFrame, Controller controller) {
         initComponents();
@@ -40,7 +42,9 @@ public class MarketPanel extends javax.swing.JPanel {
         
         jScrollPane1.getVerticalScrollBar().setUnitIncrement(15);
     }
-
+    /**
+     * Refreshes either the buying or selling interface according to the selected market mode
+     */
     public void refreshDisplay() {
         if (radioBtnBuy.isSelected()) {
             refreshBuyView();
@@ -48,7 +52,9 @@ public class MarketPanel extends javax.swing.JPanel {
             refreshSellView();
         }
     }
-
+    /**
+     * Rebuilds the available market listings and restores their selection states
+     */
     public void refreshBuyView() {
         if (controller != null && controller.getMarket() != null) {
             java.util.ArrayList<potionprodigy.Listing> listings = controller.getAvailableListings();
@@ -94,7 +100,11 @@ public class MarketPanel extends javax.swing.JPanel {
             totalCostLabel.setText("Total: " + totalCost + " Crystals");
         }
     }
-
+    /**
+     * Selects or deselects a market slot.
+     *
+     * @param slotNumber one-based slot number to toggle
+     */
     private void toggleSlotSelection(int slotNumber) {
         if (selectedSlotNumbers.contains(slotNumber)) {
             selectedSlotNumbers.remove(Integer.valueOf(slotNumber));
@@ -103,7 +113,9 @@ public class MarketPanel extends javax.swing.JPanel {
         }
         refreshDisplay();
     }
-
+    /**
+     * Validates and processes the currently selected purchases.
+     */
     private void handleConfirmPurchase() {
         int totalCost, currentCrystals;
         if(!selectedSlotNumbers.isEmpty()) {
@@ -161,7 +173,9 @@ public class MarketPanel extends javax.swing.JPanel {
                     JOptionPane.WARNING_MESSAGE);
         }
     }
-
+    /**
+     * Rebuilds the selling interface using the player's current inventory
+     */
     public void refreshSellView() {
         jPanel2.removeAll();
 
@@ -191,7 +205,9 @@ public class MarketPanel extends javax.swing.JPanel {
         jPanel2.repaint();
     }
 
-
+    /**
+     * Recalculates and displays the total value of all selected sell quantities
+     */
     private void updateTotalSellEarnings() {
         int totalEarnings = 0;
 
@@ -209,7 +225,9 @@ public class MarketPanel extends javax.swing.JPanel {
 
         totalCostLabel.setText("Total Earnings: " + totalEarnings + " Crystals");
     }
-
+    /**
+     * Validates and processes the items selected for sale.
+     */
     private void handleConfirmSell() {
         int qty, earnings;
         ArrayList<potionprodigy.ItemStack> itemsToSell = new ArrayList<>();
@@ -373,7 +391,11 @@ public class MarketPanel extends javax.swing.JPanel {
 
         add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Processes the current buying or selling confirmation
+     *
+     * @param evt generated button action event
+     */
     private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
         if (radioBtnBuy.isSelected()) {
             handleConfirmPurchase();
@@ -381,20 +403,32 @@ public class MarketPanel extends javax.swing.JPanel {
             handleConfirmSell();
         }
     }//GEN-LAST:event_btnConfirmActionPerformed
-
+    /**
+     * Returns to the main menu and clears temporary market selections
+     *
+     * @param evt generated button action event
+     */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if (mainFrame != null) {
             mainFrame.showMainMenu();
         }
     }//GEN-LAST:event_jButton2ActionPerformed
-
+    /**
+     * Switches the market interface to buying mode
+     *
+     * @param evt generated radio-button action event
+     */
     private void radioBtnBuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioBtnBuyActionPerformed
         java.awt.CardLayout cl = (java.awt.CardLayout) centerCardPanel.getLayout();
         cl.show(centerCardPanel, "card2"); // Opens Buy view
     
         refreshDisplay();
     }//GEN-LAST:event_radioBtnBuyActionPerformed
-
+    /**
+     * Switches the market interface to selling mode
+     *
+     * @param evt generated radio-button action event
+     */
     private void radioBtnSellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioBtnSellActionPerformed
         java.awt.CardLayout cl = (java.awt.CardLayout) centerCardPanel.getLayout();
         cl.show(centerCardPanel, "card4"); // Opens Buy view

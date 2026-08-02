@@ -9,8 +9,8 @@ import java.awt.CardLayout;
 import gui.components.Theme;
 
 /**
- *
- * @author YJ
+ * main application window. The frame owns the controller
+ * and uses a CardLayout to display the different game screens.
  */
 public class MainFrame extends javax.swing.JFrame {
     
@@ -30,7 +30,7 @@ public class MainFrame extends javax.swing.JFrame {
     private CreativePanel creativePanel;
     
     /**
-     * Creates new form MainFrame
+     * creates the application window, controller, and all navigatable screen panels
      */
     public MainFrame() {
         initComponents();
@@ -74,52 +74,64 @@ public class MainFrame extends javax.swing.JFrame {
         
         setLocationRelativeTo(null);
     }
-
+    /**
+     * Returns the controller shared by all screens.
+     *
+     * @return application controller
+     */
     public Controller getController() {
         return this.CONTROLLER;
     }
-    
+    /**
+     * Returns the panel containing all screens managed by the card layout.
+     *
+     * @return main content panel
+     */
     public javax.swing.JPanel getContentPanel() {
         return this.contentPanel;
     }
-    
+    /**
+     * Returns the layout used to switch between screens.
+     *
+     * @return card layout of the main content panel
+     */
     public CardLayout getCardLayout() {
         return this.CARD_LAYOUT;
     }
-    
+    /** Displays the new-game and load-game screen. */
     public void showStart() {
         CARD_LAYOUT.show(contentPanel, "START");
     }
-    
+    /** Refreshes and displays the main-menu screen. */
     public void showMainMenu() {
         mainMenuPanel.refreshDisplay();
         CARD_LAYOUT.show(contentPanel, "MENU");
     }
-    
+    /** Displays the brewing-mode selection screen. */
     public void showBrew() {
         CARD_LAYOUT.show(contentPanel, "BREW");
     }
-    
+    /** Refreshes and displays the inventory screen. */
     public void showInventory() {
         inventoryPanel.refreshDisplay();
         CARD_LAYOUT.show(contentPanel, "INVENTORY");
     }
-    
+    /** Refreshes and displays the player's spellbook. */
     public void showSpellbook() {
         spellbookPanel.refreshDisplay();
         CARD_LAYOUT.show(contentPanel, "SPELLBOOK");
     }
-    
+    /** Refreshes and displays the market screen. */
     public void showMarket() {
         marketPanel.refreshDisplay();
         CARD_LAYOUT.show(contentPanel, "MARKET");
     }
-    
+    /** Refreshes and displays the creative brewing screen. */
     public void showCreative() {
         creativePanel.refreshDisplay();
         CARD_LAYOUT.show(contentPanel, "CREATIVE");
     }
-    
+    /** Refreshes and displays the recipe brewing screen. */
     public void showRecipe() {
         recipePanel.refreshDisplay();
         CARD_LAYOUT.show(contentPanel, "RECIPE");

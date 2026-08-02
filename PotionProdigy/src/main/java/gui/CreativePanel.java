@@ -17,8 +17,7 @@ import java.util.Stack;
 
 
 /**
- *
- * @author YJ
+ * Allows the player to select one concoction base and one to three unique fruits for an experimental brew.
  */
 public class CreativePanel extends javax.swing.JPanel {
     private MainFrame mainFrame;
@@ -31,7 +30,10 @@ public class CreativePanel extends javax.swing.JPanel {
     private ArrayList<ItemCard> selectedFruitCards = new ArrayList<>();
     
     /**
-     * Creates new form CreativePanel
+     * Creates a creative-mode panel connected to the application.
+     *
+     * @param mainFrame application window used for navigation
+     * @param controller controller used for creative brewing
      */
     public CreativePanel(MainFrame mainFrame, Controller controller) {
         initComponents();
@@ -42,7 +44,9 @@ public class CreativePanel extends javax.swing.JPanel {
         this.mainFrame = mainFrame;
         this.controller = controller;
     }
-    
+    /**
+     * Clears previous selections and rebuilds the selectable ingredient cards using the current player's inventory.
+     */
     public void refreshDisplay() {
         selectedBase = null;
         selectedBaseCard = null;
@@ -94,7 +98,11 @@ public class CreativePanel extends javax.swing.JPanel {
         inventoryItemsPanel.revalidate();
         inventoryItemsPanel.repaint();
     }
-    
+    /**
+     * Routes a clicked card to either base-selection or fruit-selection logic.
+     *
+     * @param card ingredient card clicked by the player
+     */
     private void handleItemSelection(ItemCard card) {
         Ingredient ingredient = card.getItemStack().getIngredient();
     
@@ -104,7 +112,12 @@ public class CreativePanel extends javax.swing.JPanel {
             handleFruitSelection(card, ingredient);
         }
     }
-    
+    /**
+     * Selects or deselects a fruit while enforcing the three-fruit limit.
+     *
+     * @param card card representing the selected fruit
+     * @param fruit fruit represented by the card
+     */
     private void handleFruitSelection(ItemCard card, Ingredient fruit) {
         int existingIndex = findSelectedFruitIndex(fruit);
         
@@ -122,7 +135,12 @@ public class CreativePanel extends javax.swing.JPanel {
             card.setSelectedCard(true);
         }
     }
-    
+    /**
+     * Selects a base or clears the currently selected base.
+     *
+     * @param card card representing the selected base
+     * @param base base represented by the card
+     */
     private void handleBaseSelection(ItemCard card, Ingredient base) {
         if (selectedBase == base) {
             card.setSelectedCard(false);
@@ -138,7 +156,12 @@ public class CreativePanel extends javax.swing.JPanel {
             card.setSelectedCard(true);
         } 
     }
-    
+    /**
+     * Finds the selected-fruit index corresponding to an ingredient.
+     *
+     * @param ingredient ingredient to locate
+     * @return selected-fruit index, or {@code -1} when not selected
+     */
     private int findSelectedFruitIndex(Ingredient ingredient) {
         int foundIndex = -1;
         
@@ -216,11 +239,19 @@ public class CreativePanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Returns to the brewing-mode selection screen.
+     *
+     * @param evt generated button action event
+     */
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         mainFrame.showBrew();
     }//GEN-LAST:event_btnBackActionPerformed
-
+    /**
+     * Validates the selected ingredients and attempts an experimental brew.
+     *
+     * @param evt generated button action event
+     */
     private void btnBrewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrewActionPerformed
         Player player = controller.getCurrentPlayer();
         boolean success = false;

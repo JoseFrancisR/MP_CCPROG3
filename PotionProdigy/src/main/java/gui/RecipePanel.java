@@ -13,8 +13,7 @@ import gui.components.RecipeCard;
 import gui.components.Theme;
 
 /**
- *
- * @author YJ
+ * displays unlocked recipes that may be selected and brewed using the player's current inventory
  */
 public class RecipePanel extends javax.swing.JPanel {
     private MainFrame mainFrame;
@@ -24,12 +23,11 @@ public class RecipePanel extends javax.swing.JPanel {
     private ButtonGroup recipeButtonGroup;
     
     /**
-     * Creates new form RecipePanel
+     * Creates a recipe panel connected to the application.
+     *
+     * @param mainFrame application window used for navigation
+     * @param controller controller used to perform brewing operations
      */
-    public RecipePanel() {
-        initComponents();
-    }
-    
     public RecipePanel(MainFrame mainFrame, Controller controller) {
         initComponents();
         
@@ -39,7 +37,10 @@ public class RecipePanel extends javax.swing.JPanel {
         recipeListPanel.setLayout(new javax.swing.BoxLayout(recipeListPanel, javax.swing.BoxLayout.Y_AXIS));
         recipeScrollPane.getVerticalScrollBar().setUnitIncrement(15);
     }
-    
+    /**
+     * Rebuilds the recipe list, clears the previous selection, and updates the
+     * displayed usable-cauldron count.
+     */
     public void refreshDisplay() {
         recipeListPanel.removeAll();
         
@@ -163,11 +164,19 @@ public class RecipePanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Returns to the brewing-mode selection screen.
+     *
+     * @param evt generated button action event
+     */
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         mainFrame.showBrew();
     }//GEN-LAST:event_btnBackActionPerformed
-
+    /**
+     * Attempts to brew the currently selected recipe.
+     *
+     * @param evt generated button action event
+     */
     private void btnBrewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrewActionPerformed
         int earnedCrystals;
         boolean success;

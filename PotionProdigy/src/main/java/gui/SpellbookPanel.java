@@ -12,19 +12,17 @@ import potionprodigy.Inventory;
 import potionprodigy.Recipe;
 
 /**
- *
- * @author YJ
+ * displays all recipes that the current player has unlocked
  */
 public class SpellbookPanel extends javax.swing.JPanel {
     private MainFrame mainFrame;
     private Controller controller;
     /**
-     * Creates new form SpellbookPanel
+     * Creates a spellbook panel connected to the application.
+     *
+     * @param mainFrame application window used for navigation
+     * @param controller controller providing player and recipe information
      */
-    public SpellbookPanel() {
-        initComponents();
-    }
-    
     public SpellbookPanel(MainFrame mainFrame, Controller controller) {
         initComponents();
         
@@ -34,7 +32,9 @@ public class SpellbookPanel extends javax.swing.JPanel {
         recipeListPanel.setLayout(new javax.swing.BoxLayout(recipeListPanel, javax.swing.BoxLayout.Y_AXIS));
         recipeScrollPane.getVerticalScrollBar().setUnitIncrement(15);
     }
-    
+    /**
+     * Rebuilds the list of unlocked recipe cards.
+     */
     public void refreshDisplay() {
         recipeListPanel.removeAll();
     
@@ -105,7 +105,11 @@ public class SpellbookPanel extends javax.swing.JPanel {
                 .addGap(17, 17, 17))
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Returns to the main menu.
+     *
+     * @param evt generated button action event
+     */
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         mainFrame.showMainMenu();
     }//GEN-LAST:event_btnBackActionPerformed

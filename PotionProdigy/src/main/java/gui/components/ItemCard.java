@@ -12,13 +12,12 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-
+// image handling
 import java.awt.Image;
 import java.net.URL;
 import javax.swing.ImageIcon;
 
 import potionprodigy.ItemStack;
-import potionprodigy.Listing;
 
 public class ItemCard extends JPanel {
 

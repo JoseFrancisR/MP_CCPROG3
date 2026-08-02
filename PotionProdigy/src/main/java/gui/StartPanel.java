@@ -7,8 +7,7 @@ package gui;
 import controller.Controller;
 
 /**
- *
- * @author YJ
+ * starting screen used to create a new game or load an existing player save
  */
 public class StartPanel extends javax.swing.JPanel {
     
@@ -16,12 +15,11 @@ public class StartPanel extends javax.swing.JPanel {
     private Controller controller;
     
     /**
-     * Creates new form StartPanel
+     * creates a start panel connected to the main frame and controller
+     *
+     * @param mainFrame application window used for navigation
+     * @param controller controller used for creating and loading players
      */
-    public StartPanel() {
-        initComponents();
-    }
-    
     public StartPanel(MainFrame mainFrame, Controller controller) {
         initComponents();
 
@@ -137,11 +135,19 @@ public class StartPanel extends javax.swing.JPanel {
                 .addGap(168, 168, 168))
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Handles Enter-key actions from the player-name text field.
+     *
+     * @param evt generated text-field action event
+     */
     private void txtPlayerNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPlayerNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPlayerNameActionPerformed
-
+    /**
+     * Validates the entered name and creates a new saved game.
+     *
+     * @param evt generated button action event
+     */
     private void btnNewGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewGameActionPerformed
         String playerName = txtPlayerName.getText().trim();
         boolean createGame = false;
@@ -174,7 +180,11 @@ public class StartPanel extends javax.swing.JPanel {
             mainFrame.showMainMenu();
         }
     }//GEN-LAST:event_btnNewGameActionPerformed
-
+    /**
+     * Attempts to load the save associated with the entered player name.
+     *
+     * @param evt generated button action event
+     */
     private void btnLoadGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadGameActionPerformed
         String playerName = txtPlayerName.getText().trim();
         

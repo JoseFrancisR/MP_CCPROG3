@@ -7,19 +7,17 @@ package gui;
 import controller.Controller;
 
 /**
- *
- * @author YJ
+ * allows the player to select either recipe mode or creative brewing mode
  */
 public class BrewPanel extends javax.swing.JPanel {
     private MainFrame mainFrame;
     private Controller controller;
     /**
-     * Creates new form BrewPanel
+     * Creates a brewing-mode panel connected to the application.
+     *
+     * @param mainFrame application window used for navigation
+     * @param controller controller used for game operations
      */
-    public BrewPanel() {
-        initComponents();
-    }
-    
     public BrewPanel(MainFrame mainFrame, Controller controller) {
         initComponents();
         
@@ -91,15 +89,27 @@ public class BrewPanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Returns to the main menu.
+     *
+     * @param evt generated button action event
+     */
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         mainFrame.showMainMenu();
     }//GEN-LAST:event_btnBackActionPerformed
-
+    /**
+     * Opens creative brewing mode.
+     *
+     * @param evt generated button action event
+     */
     private void btnCreativeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreativeActionPerformed
         mainFrame.showCreative();
     }//GEN-LAST:event_btnCreativeActionPerformed
-
+    /**
+     * Opens recipe brewing mode.
+     *
+     * @param evt generated button action event
+     */
     private void btnRecipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecipeActionPerformed
         mainFrame.showRecipe();
     }//GEN-LAST:event_btnRecipeActionPerformed

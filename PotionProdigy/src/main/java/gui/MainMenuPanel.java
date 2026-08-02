@@ -9,8 +9,8 @@ import potionprodigy.Player;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author YJ
+ * Displays the primary game menu, current player information, and buttons for
+ * accessing everything in the game
  */
 public class MainMenuPanel extends javax.swing.JPanel {
 
@@ -18,9 +18,11 @@ public class MainMenuPanel extends javax.swing.JPanel {
     private Controller controller;
 
     /**
-     * Creates new form MainMenuPanel
+     * Creates a main-menu panel connected to the application.
+     *
+     * @param mainFrame application window used for navigation
+     * @param controller controller used for player and game operations
      */
-
     public MainMenuPanel(MainFrame mainFrame, Controller controller) {
         initComponents();
 
@@ -29,7 +31,9 @@ public class MainMenuPanel extends javax.swing.JPanel {
         btnBlessCauldron.addActionListener(this::btnBlessCauldronActionPerformed);
     }
 
-    // refresh method to update mainmenu
+    /**
+     * Updates all displayed player values and button states.
+     */
     public void refreshDisplay() {
         Player player = controller.getCurrentPlayer();
 
@@ -149,7 +153,11 @@ public class MainMenuPanel extends javax.swing.JPanel {
                 .addContainerGap(39, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Attempts to award the once-per-session login bonus.
+     *
+     * @param evt generated button action event
+     */
     private void btnLoginBonusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginBonusActionPerformed
         String status = controller.claimLoginBonus();
         if("error".equals(status)){
@@ -159,11 +167,12 @@ public class MainMenuPanel extends javax.swing.JPanel {
         } else {
             JOptionPane.showMessageDialog(this, "Login bonus successfully claimed. You gained 1x " + status, "Login Bonus",JOptionPane.INFORMATION_MESSAGE);
         }
-
-                
-        
     }//GEN-LAST:event_btnLoginBonusActionPerformed
-
+    /**
+     * Saves the current player before closing the application.
+     *
+     * @param evt generated button action event
+     */
     private void btnSaveAndExitActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSaveAndExitActionPerformed
         int confirm = JOptionPane.showConfirmDialog(
             this,
@@ -182,24 +191,44 @@ public class MainMenuPanel extends javax.swing.JPanel {
         }
         
     }// GEN-LAST:event_btnSaveAndExitActionPerformed
-
+    /**
+     * Opens the brewing-mode selection screen.
+     *
+     * @param evt generated button action event
+     */
     private void btnBrewActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnBrewActionPerformed
         mainFrame.showBrew();
     }// GEN-LAST:event_btnBrewActionPerformed
-
+    /**
+     * Opens the inventory screen.
+     *
+     * @param evt generated button action event
+     */
     private void btnInventoryActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnInventoryActionPerformed
         mainFrame.showInventory();
     }// GEN-LAST:event_btnInventoryActionPerformed
-
+    /**
+     * Opens the spellbook screen.
+     *
+     * @param evt generated button action event
+     */
     private void btnSpellbookActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSpellbookActionPerformed
         mainFrame.showSpellbook();
     }// GEN-LAST:event_btnSpellbookActionPerformed
-
+    /**
+     * Generates or refreshes the market and opens its screen.
+     *
+     * @param evt generated button action event
+     */
     private void btnMarketActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMarketActionPerformed
         controller.generateMarket();
         mainFrame.showMarket();
     }// GEN-LAST:event_btnMarketActionPerformed
-
+    /**
+     * Attempts to restore one unusable cauldron.
+     *
+     * @param evt generated button action event
+     */
     private void btnBlessCauldronActionPerformed(java.awt.event.ActionEvent evt) {
         if (controller != null) {
             int result = controller.blessCauldronPay();
