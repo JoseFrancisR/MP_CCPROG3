@@ -231,27 +231,36 @@ public class MainMenuPanel extends javax.swing.JPanel {
      */
     private void btnBlessCauldronActionPerformed(java.awt.event.ActionEvent evt) {
         if (controller != null) {
-            int result = controller.blessCauldronPay();
-            switch(result) {
-                case -1:
-                    JOptionPane.showMessageDialog(this, "Blessing failed: There are no blessable cauldrons all are usable.",
+            int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "Blessing a cauldron costs 1,000 crystals. Would you like to proceed?",
+                "Confirm Cauldron Blessing",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE
+            );
+            if(confirm == JOptionPane.YES_OPTION){
+                int result = controller.blessCauldronPay();
+                switch(result) {
+                    case -1:
+                        JOptionPane.showMessageDialog(this, "Blessing failed: There are no blessable cauldrons all are usable.",
                         "Bless Cauldron", JOptionPane.WARNING_MESSAGE);
-                    break;
-                case 0:
-                    JOptionPane.showMessageDialog(this,
+                        break;
+                    case 0:
+                        JOptionPane.showMessageDialog(this,
                         "Blessing failed: You don't have enough crystals(Requires 1000 crystals)", "Bless Cauldron",
                         JOptionPane.WARNING_MESSAGE);
-                    break;
-                case 1:
-                    JOptionPane.showMessageDialog(this, "Cauldron blessed! You now have "
+                        break;
+                    case 1:
+                        JOptionPane.showMessageDialog(this, "Cauldron blessed! You now have "
                         + controller.getCurrentPlayer().getInventory().countUsableCauldrons() + " usable cauldrons.",
                         "Bless Cauldron", JOptionPane.INFORMATION_MESSAGE);
-                    refreshDisplay();
-                    break;
-                default:
-                    JOptionPane.showMessageDialog(this, "Unable to bless cauldron.", "Bless Cauldron",
+                        refreshDisplay();
+                        break;
+                    default:
+                        JOptionPane.showMessageDialog(this, "Unable to bless cauldron.", "Bless Cauldron",
                         JOptionPane.ERROR_MESSAGE);
-                    break;
+                        break;
+                }
             }
         }
     }
