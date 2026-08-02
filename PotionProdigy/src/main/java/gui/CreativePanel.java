@@ -253,6 +253,7 @@ public class CreativePanel extends javax.swing.JPanel {
                         "Not Enough Cauldrons", javax.swing.JOptionPane.WARNING_MESSAGE);
             }
         }
+        refreshDisplay();
     }//GEN-LAST:event_btnBrewActionPerformed
 
 

@@ -26,6 +26,7 @@ public class MainMenuPanel extends javax.swing.JPanel {
 
         this.mainFrame = mainFrame;
         this.controller = controller;
+        btnBlessCauldron.addActionListener(this::btnBlessCauldronActionPerformed);
     }
 
     // refresh method to update mainmenu
@@ -148,29 +149,36 @@ public class MainMenuPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginBonusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginBonusActionPerformed
-        int status = controller.claimLoginBonus();
-        switch(status){
-            case -1: 
-                JOptionPane.showMessageDialog(this, "Login bonus couldn't be generated", "Login Bonus",JOptionPane.ERROR_MESSAGE);
-                break;
-            case 0:
-                JOptionPane.showMessageDialog(this, "Login bonus already claimed", "Login Bonus",JOptionPane.INFORMATION_MESSAGE);
-                break;
-            case 1:
-                JOptionPane.showMessageDialog(this, "Login bonus successfully claimed", "Login Bonus",JOptionPane.INFORMATION_MESSAGE);
-                break;
+        String status = controller.claimLoginBonus();
+        if("error".equals(status)){
+            JOptionPane.showMessageDialog(this, "Login bonus couldn't be generated", "Login Bonus",JOptionPane.ERROR_MESSAGE);
+        } else if("claimed".equals(status)){
+            JOptionPane.showMessageDialog(this, "Login bonus already claimed", "Login Bonus",JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Login bonus successfully claimed. You gained 1x " + status, "Login Bonus",JOptionPane.INFORMATION_MESSAGE);
         }
+
+                
+        
     }//GEN-LAST:event_btnLoginBonusActionPerformed
 
     private void btnSaveAndExitActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSaveAndExitActionPerformed
-
-        if (controller.saveGame()) {
-            JOptionPane.showMessageDialog(this, "Game saved successfully!!!", "Saved game",JOptionPane.INFORMATION_MESSAGE);
-
-            System.exit(0);
-        } else {
-            JOptionPane.showMessageDialog(this,"Failed to save the game.","Save Error", JOptionPane.ERROR_MESSAGE);
+        int confirm = JOptionPane.showConfirmDialog(
+            this,
+            "Are you sure you want to save and exit the game?",
+            "Confirm Save & Exit",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE
+        );
+        if(confirm == JOptionPane.YES_OPTION){
+            if (controller.saveGame()) {
+                JOptionPane.showMessageDialog(this, "Game saved successfully!!!", "Saved game",JOptionPane.INFORMATION_MESSAGE);
+                System.exit(0);
+            } else {
+                JOptionPane.showMessageDialog(this,"Failed to save the game.","Save Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
+        
     }// GEN-LAST:event_btnSaveAndExitActionPerformed
 
     private void btnBrewActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnBrewActionPerformed
@@ -195,7 +203,7 @@ public class MainMenuPanel extends javax.swing.JPanel {
             int result = controller.blessCauldronPay();
             switch(result) {
                 case -1:
-                    JOptionPane.showMessageDialog(this, "Blessing failed: There are no blessable cauldrons",
+                    JOptionPane.showMessageDialog(this, "Blessing failed: There are no blessable cauldrons all are usable.",
                         "Bless Cauldron", JOptionPane.WARNING_MESSAGE);
                     break;
                 case 0:
