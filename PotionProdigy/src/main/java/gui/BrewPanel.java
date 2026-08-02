@@ -11,8 +11,8 @@ import controller.Controller;
  * @author YJ
  */
 public class BrewPanel extends javax.swing.JPanel {
-    MainFrame mainFrame;
-    Controller controller;
+    private MainFrame mainFrame;
+    private Controller controller;
     /**
      * Creates new form BrewPanel
      */

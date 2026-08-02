@@ -22,7 +22,7 @@ import potionprodigy.Listing;
 
 public class ItemCard extends JPanel {
 
-    private final ItemStack itemStack;
+    private final ItemStack ITEM_STACK;
     
     private JLabel lblIcon;
     private JLabel lblName;
@@ -30,8 +30,8 @@ public class ItemCard extends JPanel {
     
     private boolean selected;
 
-    public ItemCard(ItemStack itemStack) {
-        this.itemStack = itemStack;
+    public ItemCard(ItemStack ITEM_STACK) {
+        this.ITEM_STACK = ITEM_STACK;
         this.selected = false;
 
         initializeCard();
@@ -44,7 +44,7 @@ public class ItemCard extends JPanel {
         setBackground(Theme.SECONDARY);
         setBorder(BorderFactory.createLineBorder(Theme.BORDER, 1));
 
-        lblQuantity = new JLabel(String.valueOf(itemStack.getQuantity()), SwingConstants.CENTER);
+        lblQuantity = new JLabel(String.valueOf(ITEM_STACK.getQuantity()), SwingConstants.CENTER);
 
         lblQuantity.setOpaque(true);
         lblQuantity.setBackground(Theme.DARK);
@@ -63,7 +63,7 @@ public class ItemCard extends JPanel {
         
         String iconPath;
         // check if fruit/base
-        if (itemStack.getIngredient().isFruit()) {
+        if (ITEM_STACK.getIngredient().isFruit()) {
             iconPath = "/images/fruits.png";
         } else {
             iconPath = "/images/bases.png";
@@ -81,7 +81,7 @@ public class ItemCard extends JPanel {
          * Ingredient name.
          */
         lblName = new JLabel(
-                itemStack.getIngredient().getName(),
+                ITEM_STACK.getIngredient().getName(),
                 SwingConstants.CENTER
         );
         lblName.setForeground(Theme.TEXT);
@@ -92,7 +92,7 @@ public class ItemCard extends JPanel {
     }
     
     public ItemStack getItemStack() {
-        return itemStack;
+        return ITEM_STACK;
     }
 
     public boolean isSelectedCard() {

@@ -16,22 +16,22 @@ import potionprodigy.Inventory;
 import potionprodigy.Recipe;
 
 public class RecipeCard extends JPanel {
-    private final Recipe recipe;
-    private final Inventory inventory;
+    private final Recipe RECIPE;
+    private final Inventory INVENTORY;
 
-    private final JRadioButton recipeRadioButton;
-    private final JButton dropdownButton;
-    private final JLabel craftableLabel;
-    private final JLabel valueLabel;
-    private final JPanel detailsPanel;
+    private final JRadioButton RECIPE_RADIO_BUTTON;
+    private final JButton DROPDOWN_BUTTON;
+    private final JLabel CRAFTABLE_LABEL;
+    private final JLabel VALUE_LABEL;
+    private final JPanel DETAILS_PANEL;
 
     private boolean expanded;
     private boolean selected;
 
-    public RecipeCard(Recipe recipe, Inventory inventory, ButtonGroup recipeGroup, boolean selectable) {
+    public RecipeCard(Recipe RECIPE, Inventory INVENTORY, ButtonGroup recipeGroup, boolean selectable) {
 
-        this.recipe = recipe;
-        this.inventory = inventory;
+        this.RECIPE = RECIPE;
+        this.INVENTORY = INVENTORY;
         this.expanded = false;
         this.selected = false;
 
@@ -40,42 +40,42 @@ public class RecipeCard extends JPanel {
         setBackground(Theme.SECONDARY);
         setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Theme.BORDER, 1), BorderFactory.createEmptyBorder(2, 2, 2, 2)));
 
-        boolean craftable = inventory.hasIngredients(recipe);
+        boolean craftable = INVENTORY.hasIngredients(RECIPE);
         
         JPanel headerPanel = new JPanel(new BorderLayout());
         JPanel leftHeaderPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        recipeRadioButton = new JRadioButton();
-        recipeRadioButton.setVisible(selectable);
-        recipeRadioButton.setEnabled(craftable);
+        RECIPE_RADIO_BUTTON = new JRadioButton();
+        RECIPE_RADIO_BUTTON.setVisible(selectable);
+        RECIPE_RADIO_BUTTON.setEnabled(craftable);
 
-        recipeRadioButton.addItemListener(event -> {
+        RECIPE_RADIO_BUTTON.addItemListener(event -> {
             setSelectedCard(
-                recipeRadioButton.isSelected()
+                RECIPE_RADIO_BUTTON.isSelected()
             );
         });
         
         if (recipeGroup != null) {
-            recipeGroup.add(recipeRadioButton);
+            recipeGroup.add(RECIPE_RADIO_BUTTON);
         }
 
-        dropdownButton = new JButton("▶ " + String.format("#%03d ", recipe.getConcoctionId()) + recipe.getConcoctionName());
+        DROPDOWN_BUTTON = new JButton("▶ " + String.format("#%03d ", RECIPE.getConcoctionId()) + RECIPE.getConcoctionName());
 
-        dropdownButton.setHorizontalAlignment(JButton.LEFT);
+        DROPDOWN_BUTTON.setHorizontalAlignment(JButton.LEFT);
 
-        leftHeaderPanel.add(recipeRadioButton);
-        leftHeaderPanel.add(dropdownButton);
+        leftHeaderPanel.add(RECIPE_RADIO_BUTTON);
+        leftHeaderPanel.add(DROPDOWN_BUTTON);
 
         JPanel rightHeaderPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
-        craftableLabel = new JLabel(craftable ? "Craftable |" : "Not Craftable |");
+        CRAFTABLE_LABEL = new JLabel(craftable ? "Craftable |" : "Not Craftable |");
 
-        valueLabel = new JLabel(
-                recipe.getSaleValue() + " crystals"
+        VALUE_LABEL = new JLabel(
+                RECIPE.getSaleValue() + " crystals"
         );
 
-        rightHeaderPanel.add(craftableLabel);
-        rightHeaderPanel.add(valueLabel);
+        rightHeaderPanel.add(CRAFTABLE_LABEL);
+        rightHeaderPanel.add(VALUE_LABEL);
 
         headerPanel.add(leftHeaderPanel, BorderLayout.CENTER);
         headerPanel.add(rightHeaderPanel, BorderLayout.EAST);
@@ -84,7 +84,7 @@ public class RecipeCard extends JPanel {
         if (selectable && craftable) {
             addMouseListener(new java.awt.event.MouseAdapter() {
                 public void mouseClicked(java.awt.event.MouseEvent event) {
-                    recipeRadioButton.setSelected(true);
+                    RECIPE_RADIO_BUTTON.setSelected(true);
                 }
             });
         }
@@ -93,31 +93,31 @@ public class RecipeCard extends JPanel {
         leftHeaderPanel.setOpaque(false);
         rightHeaderPanel.setOpaque(false);
         
-        recipeRadioButton.setOpaque(false);
+        RECIPE_RADIO_BUTTON.setOpaque(false);
         
-        detailsPanel = new JPanel();
-        detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
-        detailsPanel.setBorder(BorderFactory.createEmptyBorder(5, 35, 10, 10));
+        DETAILS_PANEL = new JPanel();
+        DETAILS_PANEL.setLayout(new BoxLayout(DETAILS_PANEL, BoxLayout.Y_AXIS));
+        DETAILS_PANEL.setBorder(BorderFactory.createEmptyBorder(5, 35, 10, 10));
 
         createIngredientCheckboxes();
-        detailsPanel.setVisible(false);
-        detailsPanel.setOpaque(false);
+        DETAILS_PANEL.setVisible(false);
+        DETAILS_PANEL.setOpaque(false);
 
-        dropdownButton.addActionListener(event -> {
+        DROPDOWN_BUTTON.addActionListener(event -> {
             toggleDetails();}
         );
 
         add(headerPanel, BorderLayout.NORTH);
-        add(detailsPanel, BorderLayout.CENTER);
+        add(DETAILS_PANEL, BorderLayout.CENTER);
     }
 
     private void createIngredientCheckboxes() {
-        detailsPanel.removeAll();
+        DETAILS_PANEL.removeAll();
 
-        for (Ingredient ingredient : recipe.getRequiredIngredients()) {
-            int required = recipe.getRequiredQuantity(ingredient);
+        for (Ingredient ingredient : RECIPE.getRequiredIngredients()) {
+            int required = RECIPE.getRequiredQuantity(ingredient);
 
-            int owned = inventory.getQuantity(ingredient);
+            int owned = INVENTORY.getQuantity(ingredient);
 
             JCheckBox ingredientCheckBox = new JCheckBox(ingredient.getName() + "    " + owned + "/" + required);
             
@@ -125,28 +125,28 @@ public class RecipeCard extends JPanel {
             
             ingredientCheckBox.setEnabled(false);
 
-            detailsPanel.add(ingredientCheckBox);
+            DETAILS_PANEL.add(ingredientCheckBox);
         }
     }
 
     private void toggleDetails() {
         expanded = !expanded;
-        detailsPanel.setVisible(expanded);
+        DETAILS_PANEL.setVisible(expanded);
         
         String arrow = expanded ? "▼ " : "▶ ";
         
-        dropdownButton.setText(arrow + String.format("#%03d ", recipe.getConcoctionId()) + recipe.getConcoctionName());
+        DROPDOWN_BUTTON.setText(arrow + String.format("#%03d ", RECIPE.getConcoctionId()) + RECIPE.getConcoctionName());
         
         revalidate();
         repaint();
     }
 
     public Recipe getRecipe() {
-        return this.recipe;
+        return this.RECIPE;
     }
 
     public JRadioButton getRecipeRadioButton() {
-        return this.recipeRadioButton;
+        return this.RECIPE_RADIO_BUTTON;
     }
     
     public boolean isSelectedCard() {

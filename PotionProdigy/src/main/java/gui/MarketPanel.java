@@ -21,8 +21,8 @@ import java.util.List;
 public class MarketPanel extends javax.swing.JPanel {
     private MainFrame mainFrame;
     private Controller controller;
-    private List<Integer> selectedSlotNumbers = new ArrayList<>();
-    private List<SellItemCard> sellCards = new ArrayList<>();
+    private ArrayList<Integer> selectedSlotNumbers = new ArrayList<>();
+    private ArrayList<SellItemCard> sellCards = new ArrayList<>();
     
     /**
      * Creates new form MarketPanel

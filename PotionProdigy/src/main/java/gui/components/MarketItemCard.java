@@ -28,21 +28,21 @@ public class MarketItemCard extends JPanel {
     private JLabel lblQuantity;
     private JLabel lblCost;
     
-    private final Listing listing;
+    private final Listing LISTING;
     private boolean selected;
 
-    public MarketItemCard(Listing listing) {
+    public MarketItemCard(Listing LISTING) {
         initComponents();
         
-        this.listing = listing;
+        this.LISTING = LISTING;
         this.selected = false;
         
-        if (listing != null) {
+        if (LISTING != null) {
             //First check if its a cauldron
-            if(listing.isCauldronListing()){
+            if(LISTING.isCauldronListing()){
                 lblName.setText("Cauldron");
                 lblQuantity.setText("Qty: 1");
-                lblCost.setText(listing.getUnitPrice() + " Crystals");
+                lblCost.setText(LISTING.getUnitPrice() + " Crystals");
             
                 ImageIcon cauldronIcon = loadIcon("/images/cauldron.png", 80, 80);
                 if (cauldronIcon != null) {
@@ -52,13 +52,13 @@ public class MarketItemCard extends JPanel {
                     lblIcon.setText("[ CAULDRON ]");
                 }
             }
-            else if(listing.getIngredient() != null) {
-                lblName.setText(listing.getIngredient().getName());
-                lblQuantity.setText("Qty: " + listing.getQuantity());
-                lblCost.setText(listing.getUnitPrice() * listing.getQuantity() + " Crystals");
+            else if(LISTING.getIngredient() != null) {
+                lblName.setText(LISTING.getIngredient().getName());
+                lblQuantity.setText("Qty: " + LISTING.getQuantity());
+                lblCost.setText(LISTING.getUnitPrice() * LISTING.getQuantity() + " Crystals");
 
                 String iconPath;
-                if(listing.getIngredient().isFruit()) {
+                if(LISTING.getIngredient().isFruit()) {
                     iconPath = "/images/fruits.png";
                 } else {
                     iconPath = "/images/bases.png";
@@ -76,7 +76,7 @@ public class MarketItemCard extends JPanel {
     }
     
     public Listing getListing() {
-        return listing;
+        return LISTING;
     }
 
     public boolean isSelectedCard() {

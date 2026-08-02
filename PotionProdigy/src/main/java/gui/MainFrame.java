@@ -16,8 +16,8 @@ public class MainFrame extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainFrame.class.getName());
 
-    private final Controller controller;
-    private final CardLayout cardLayout;
+    private final Controller CONTROLLER;
+    private final CardLayout CARD_LAYOUT;
     
     private StartPanel startPanel;
     private MainMenuPanel mainMenuPanel;
@@ -42,17 +42,17 @@ public class MainFrame extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(720, 600));
         setSize(new java.awt.Dimension(720, 600));
         
-        this.controller = new Controller();
-        this.cardLayout = (CardLayout)contentPanel.getLayout();
+        this.CONTROLLER = new Controller();
+        this.CARD_LAYOUT = (CardLayout)contentPanel.getLayout();
 
-        this.startPanel = new StartPanel(this, controller);
-        this.mainMenuPanel = new MainMenuPanel(this, controller);
-        this.brewPanel = new BrewPanel(this, controller);
-        this.inventoryPanel = new InventoryPanel(this, controller);
-        this.spellbookPanel = new SpellbookPanel(this, controller);
-        this.marketPanel = new MarketPanel(this, controller);
-        this.creativePanel = new CreativePanel(this, controller);
-        this.recipePanel = new RecipePanel(this, controller);
+        this.startPanel = new StartPanel(this, CONTROLLER);
+        this.mainMenuPanel = new MainMenuPanel(this, CONTROLLER);
+        this.brewPanel = new BrewPanel(this, CONTROLLER);
+        this.inventoryPanel = new InventoryPanel(this, CONTROLLER);
+        this.spellbookPanel = new SpellbookPanel(this, CONTROLLER);
+        this.marketPanel = new MarketPanel(this, CONTROLLER);
+        this.creativePanel = new CreativePanel(this, CONTROLLER);
+        this.recipePanel = new RecipePanel(this, CONTROLLER);
 
         contentPanel.add(startPanel, "START");
         contentPanel.add(mainMenuPanel, "MENU");
@@ -76,7 +76,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     public Controller getController() {
-        return this.controller;
+        return this.CONTROLLER;
     }
     
     public javax.swing.JPanel getContentPanel() {
@@ -84,45 +84,45 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     public CardLayout getCardLayout() {
-        return this.cardLayout;
+        return this.CARD_LAYOUT;
     }
     
     public void showStart() {
-        cardLayout.show(contentPanel, "START");
+        CARD_LAYOUT.show(contentPanel, "START");
     }
     
     public void showMainMenu() {
         mainMenuPanel.refreshDisplay();
-        cardLayout.show(contentPanel, "MENU");
+        CARD_LAYOUT.show(contentPanel, "MENU");
     }
     
     public void showBrew() {
-        cardLayout.show(contentPanel, "BREW");
+        CARD_LAYOUT.show(contentPanel, "BREW");
     }
     
     public void showInventory() {
         inventoryPanel.refreshDisplay();
-        cardLayout.show(contentPanel, "INVENTORY");
+        CARD_LAYOUT.show(contentPanel, "INVENTORY");
     }
     
     public void showSpellbook() {
         spellbookPanel.refreshDisplay();
-        cardLayout.show(contentPanel, "SPELLBOOK");
+        CARD_LAYOUT.show(contentPanel, "SPELLBOOK");
     }
     
     public void showMarket() {
         marketPanel.refreshDisplay();
-        cardLayout.show(contentPanel, "MARKET");
+        CARD_LAYOUT.show(contentPanel, "MARKET");
     }
     
     public void showCreative() {
         creativePanel.refreshDisplay();
-        cardLayout.show(contentPanel, "CREATIVE");
+        CARD_LAYOUT.show(contentPanel, "CREATIVE");
     }
     
     public void showRecipe() {
         recipePanel.refreshDisplay();
-        cardLayout.show(contentPanel, "RECIPE");
+        CARD_LAYOUT.show(contentPanel, "RECIPE");
     }
 
     /**
