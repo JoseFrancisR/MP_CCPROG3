@@ -17,8 +17,8 @@ import gui.components.Theme;
  * @author YJ
  */
 public class RecipePanel extends javax.swing.JPanel {
-    MainFrame mainFrame;
-    Controller controller;
+    private MainFrame mainFrame;
+    private Controller controller;
     
     private Recipe selectedRecipe;
     private ButtonGroup recipeButtonGroup;

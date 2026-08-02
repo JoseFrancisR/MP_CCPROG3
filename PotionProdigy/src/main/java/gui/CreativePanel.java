@@ -21,8 +21,8 @@ import java.util.Stack;
  * @author YJ
  */
 public class CreativePanel extends javax.swing.JPanel {
-    MainFrame mainFrame;
-    Controller controller;
+    private MainFrame mainFrame;
+    private Controller controller;
     
     private Ingredient selectedBase = null;
     private ItemCard selectedBaseCard = null;

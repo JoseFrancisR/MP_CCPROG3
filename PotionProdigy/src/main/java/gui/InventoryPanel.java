@@ -17,8 +17,8 @@ import java.util.Stack;
  * @author YJ
  */
 public class InventoryPanel extends javax.swing.JPanel {
-    MainFrame mainFrame;
-    Controller controller;
+    private MainFrame mainFrame;
+    private Controller controller;
     
     public InventoryPanel(MainFrame mainFrame, Controller controller) {
         initComponents();

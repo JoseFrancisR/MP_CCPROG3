@@ -16,8 +16,8 @@ import potionprodigy.Recipe;
  * @author YJ
  */
 public class SpellbookPanel extends javax.swing.JPanel {
-    MainFrame mainFrame;
-    Controller controller;
+    private MainFrame mainFrame;
+    private Controller controller;
     /**
      * Creates new form SpellbookPanel
      */

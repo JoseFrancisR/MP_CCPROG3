@@ -24,7 +24,7 @@ import potionprodigy.ItemStack;
 
 public class SellItemCard extends JPanel {
 
-    private final ItemStack itemStack;
+    private final ItemStack ITEM_STACK;
     private Runnable quantityChangeListener;
     private int selectedQuantity = 0;
 
@@ -35,8 +35,8 @@ public class SellItemCard extends JPanel {
     private JButton btnMinus;
     private JButton btnPlus;
 
-    public SellItemCard(ItemStack itemStack) {
-        this.itemStack = itemStack;
+    public SellItemCard(ItemStack ITEM_STACK) {
+        this.ITEM_STACK = ITEM_STACK;
         initializeCard();
     }
 
@@ -48,7 +48,7 @@ public class SellItemCard extends JPanel {
         setBackground(Theme.SECONDARY);
         setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Theme.BORDER, 1), BorderFactory.createEmptyBorder(2, 2, 2, 2)));
 
-        int unitPrice = itemStack.getIngredient().getSellingPrice();
+        int unitPrice = ITEM_STACK.getIngredient().getSellingPrice();
         lblPrice = new JLabel(unitPrice + " Crystals per unit", SwingConstants.CENTER);
         lblPrice.setOpaque(true);
         lblPrice.setBackground(Theme.DARK);
@@ -66,7 +66,7 @@ public class SellItemCard extends JPanel {
         lblIcon.setHorizontalAlignment(SwingConstants.CENTER);
         
         String iconPath;
-        if (itemStack.getIngredient().isFruit()) {
+        if (ITEM_STACK.getIngredient().isFruit()) {
             iconPath = "/images/fruits.png";
         } else {
             iconPath = "/images/bases.png";
@@ -79,7 +79,7 @@ public class SellItemCard extends JPanel {
             lblIcon.setText("[ PLACEHOLDER ]");
         }
 
-        lblName = new JLabel(itemStack.getIngredient().getName(), SwingConstants.CENTER);
+        lblName = new JLabel(ITEM_STACK.getIngredient().getName(), SwingConstants.CENTER);
         lblName.setForeground(Theme.TEXT);
 
         centerPanel.add(lblIcon, BorderLayout.CENTER);
@@ -96,7 +96,7 @@ public class SellItemCard extends JPanel {
         btnMinus.setPreferredSize(new Dimension(38, 22)); //[cite: 9]
         btnPlus.setPreferredSize(new Dimension(38, 22));
 
-        lblSelectedQty = new JLabel("0/" + itemStack.getQuantity(), SwingConstants.CENTER);
+        lblSelectedQty = new JLabel("0/" + ITEM_STACK.getQuantity(), SwingConstants.CENTER);
         lblSelectedQty.setPreferredSize(new Dimension(45, 22));
         lblSelectedQty.setForeground(Theme.TEXT);
 
@@ -114,9 +114,9 @@ public class SellItemCard extends JPanel {
 
     private void updateQuantity(int change) {
         int newQty = selectedQuantity + change;
-        if (newQty >= 0 && newQty <= itemStack.getQuantity()) {
+        if (newQty >= 0 && newQty <= ITEM_STACK.getQuantity()) {
             selectedQuantity = newQty;
-            lblSelectedQty.setText(selectedQuantity + "/" + itemStack.getQuantity());
+            lblSelectedQty.setText(selectedQuantity + "/" + ITEM_STACK.getQuantity());
             
             setSelectedCard(selectedQuantity > 0);
 
@@ -131,7 +131,7 @@ public class SellItemCard extends JPanel {
     }
 
     public ItemStack getItemStack() {
-        return itemStack;
+        return ITEM_STACK;
     }
     
     public void setQuantityChangeListener(Runnable listener) {
