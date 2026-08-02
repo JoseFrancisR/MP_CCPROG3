@@ -61,9 +61,11 @@ public class RecipePanel extends javax.swing.JPanel {
                 recipeCard.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, recipeCard.getPreferredSize().height));
                 
                 recipeCard.getRecipeRadioButton().
-                        addActionListener(event -> {
-                            selectedRecipe = recipeCard.getRecipe(); // gets recipe to store
-                            btnBrew.setEnabled(true); // btn to brew shows up
+                        addItemListener(event -> {
+                            if (event.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
+                                selectedRecipe = recipeCard.getRecipe();
+                                btnBrew.setEnabled(true);
+                            }
                         });
                 
                 recipeListPanel.add(recipeCard);

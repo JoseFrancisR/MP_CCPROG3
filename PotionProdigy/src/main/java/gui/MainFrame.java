@@ -66,8 +66,12 @@ public class MainFrame extends javax.swing.JFrame {
         Theme.apply(this);
         
         showStart();
-
+        
         setTitle("Potion Prodigy");
+
+        contentPanel.revalidate();
+        contentPanel.repaint();
+        
         setLocationRelativeTo(null);
     }
 
